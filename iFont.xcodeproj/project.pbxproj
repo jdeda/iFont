@@ -7,19 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		973B894928230DD700A2AB72 /* iFontApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B894828230DD700A2AB72 /* iFontApp.swift */; };
-		973B894B28230DD700A2AB72 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B894A28230DD700A2AB72 /* ContentView.swift */; };
+		973B894928230DD700A2AB72 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B894828230DD700A2AB72 /* Main.swift */; };
+		973B894B28230DD700A2AB72 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B894A28230DD700A2AB72 /* AppView.swift */; };
 		973B894D28230DD800A2AB72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 973B894C28230DD800A2AB72 /* Assets.xcassets */; };
 		973B895028230DD800A2AB72 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 973B894F28230DD800A2AB72 /* Preview Assets.xcassets */; };
+		973B895828230F3D00A2AB72 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B895728230F3D00A2AB72 /* AppState.swift */; };
+		973B895B28230F7C00A2AB72 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 973B895A28230F7C00A2AB72 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		973B894528230DD700A2AB72 /* iFont.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iFont.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		973B894828230DD700A2AB72 /* iFontApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iFontApp.swift; sourceTree = "<group>"; };
-		973B894A28230DD700A2AB72 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		973B894828230DD700A2AB72 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+		973B894A28230DD700A2AB72 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		973B894C28230DD800A2AB72 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		973B894F28230DD800A2AB72 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		973B895128230DD800A2AB72 /* iFont.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iFont.entitlements; sourceTree = "<group>"; };
+		973B895728230F3D00A2AB72 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				973B895B28230F7C00A2AB72 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,8 +56,9 @@
 		973B894728230DD700A2AB72 /* iFont */ = {
 			isa = PBXGroup;
 			children = (
-				973B894828230DD700A2AB72 /* iFontApp.swift */,
-				973B894A28230DD700A2AB72 /* ContentView.swift */,
+				973B894828230DD700A2AB72 /* Main.swift */,
+				973B894A28230DD700A2AB72 /* AppView.swift */,
+				973B895728230F3D00A2AB72 /* AppState.swift */,
 				973B894C28230DD800A2AB72 /* Assets.xcassets */,
 				973B895128230DD800A2AB72 /* iFont.entitlements */,
 				973B894E28230DD800A2AB72 /* Preview Content */,
@@ -85,6 +90,9 @@
 			dependencies = (
 			);
 			name = iFont;
+			packageProductDependencies = (
+				973B895A28230F7C00A2AB72 /* ComposableArchitecture */,
+			);
 			productName = iFont;
 			productReference = 973B894528230DD700A2AB72 /* iFont.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +121,9 @@
 				Base,
 			);
 			mainGroup = 973B893C28230DD700A2AB72;
+			packageReferences = (
+				973B895928230F7C00A2AB72 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = 973B894628230DD700A2AB72 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -139,8 +150,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				973B894B28230DD700A2AB72 /* ContentView.swift in Sources */,
-				973B894928230DD700A2AB72 /* iFontApp.swift in Sources */,
+				973B895828230F3D00A2AB72 /* AppState.swift in Sources */,
+				973B894B28230DD700A2AB72 /* AppView.swift in Sources */,
+				973B894928230DD700A2AB72 /* Main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +348,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		973B895928230F7C00A2AB72 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		973B895A28230F7C00A2AB72 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 973B895928230F7C00A2AB72 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 973B893D28230DD700A2AB72 /* Project object */;
 }
