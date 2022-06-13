@@ -15,6 +15,8 @@
 		97D0E26528414F9E00F4BA77 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26428414F9E00F4BA77 /* AppView.swift */; };
 		97D0E26728414FA400F4BA77 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26628414FA400F4BA77 /* AppState.swift */; };
 		97D0E26C284152D500F4BA77 /* AppState+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26B284152D500F4BA77 /* AppState+Model.swift */; };
+		FB294A9E28577DB700C8F8D9 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB294A9D28577DB700C8F8D9 /* Logger.swift */; };
+		FB294AA028577DD800C8F8D9 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB294A9F28577DD800C8F8D9 /* String+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		97D0E26428414F9E00F4BA77 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		97D0E26628414FA400F4BA77 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		97D0E26B284152D500F4BA77 /* AppState+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppState+Model.swift"; sourceTree = "<group>"; };
+		FB294A9D28577DB700C8F8D9 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		FB294A9F28577DD800C8F8D9 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				973B894828230DD700A2AB72 /* Main.swift */,
+				FB294A9C28577DB700C8F8D9 /* Common */,
 				97D0E26328414F9100F4BA77 /* AppFeature */,
 				973B894C28230DD800A2AB72 /* Assets.xcassets */,
 				973B895128230DD800A2AB72 /* iFont.entitlements */,
@@ -86,6 +91,15 @@
 				975B792F284912DA0012C273 /* FontClient.swift */,
 			);
 			path = AppFeature;
+			sourceTree = "<group>";
+		};
+		FB294A9C28577DB700C8F8D9 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				FB294A9D28577DB700C8F8D9 /* Logger.swift */,
+				FB294A9F28577DD800C8F8D9 /* String+Extensions.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,6 +179,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				975B7930284912DA0012C273 /* FontClient.swift in Sources */,
+				FB294AA028577DD800C8F8D9 /* String+Extensions.swift in Sources */,
+				FB294A9E28577DB700C8F8D9 /* Logger.swift in Sources */,
 				97D0E26728414FA400F4BA77 /* AppState.swift in Sources */,
 				97D0E26528414F9E00F4BA77 /* AppView.swift in Sources */,
 				973B894928230DD700A2AB72 /* Main.swift in Sources */,
@@ -294,13 +310,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iFont/iFont.entitlements;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iFont/Preview Content\"";
 				DEVELOPMENT_TEAM = ME637H7ZM9;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -322,13 +335,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iFont/iFont.entitlements;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iFont/Preview Content\"";
 				DEVELOPMENT_TEAM = ME637H7ZM9;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
