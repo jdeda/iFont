@@ -1,15 +1,15 @@
 import Foundation
 
 struct AppError: Equatable, Error {
-  var localizedDescription: String
-  
-  init(_ error: Error) {
-    self.localizedDescription = error.localizedDescription
-  }
-  
-  init(_ rawValue: String) {
-    self.localizedDescription = rawValue
-  }
+    var localizedDescription: String
+    
+    init(_ error: Error) {
+        self.localizedDescription = error.localizedDescription
+    }
+    
+    init(_ rawValue: String) {
+        self.localizedDescription = rawValue
+    }
 }
 
 // TODO: Make immutable.
@@ -24,14 +24,15 @@ struct Font: Equatable {
 }
 
 extension Array where Element == Font {
-    func groupByFamily() -> [FontFamily] {
-        let all = self.reduce(into: [String: FontFamily]()) { partialResult, font in
-            var family = partialResult[font.familyName, default: FontFamily(name: font.familyName, fonts: [])]
-            family.fonts.append(font)
-        }
-        
-        return all.reduce(into: [FontFamily]()) { partialResult, fontFamily in
-            partialResult.append(fontFamily.value)
-        }
+    func groupedByFamily() -> [FontFamily] {
+        self
+            .reduce(into: [String: FontFamily]()) { partial, font in
+                var family = partial[font.familyName, default: FontFamily(name: font.familyName, fonts: [])]
+                family.fonts.append(font)
+                partial[font.familyName] = family
+            }
+            .reduce(into: [FontFamily]()) { partial, fontFamily in
+                partial.append(fontFamily.value)
+            }
     }
 }
