@@ -25,7 +25,6 @@ extension FontClient {
         .compactMap(FontClientHelper.makeFonts)
         .map { nsFonts -> FontFamily in
           Logger.log("font: \(nsFonts.count)")
-          Thread.sleep(forTimeInterval: 0.1)
           let fonts = nsFonts.map { Font(name: $0.fontName) }
           let name = nsFonts[0].familyName ?? "None"
           return FontFamily(name: name, fonts: fonts)
