@@ -4,6 +4,7 @@ import ComposableArchitecture
 struct AppState: Equatable {
   var fontPath = "/System/Library/Fonts"
   var fonts: [FontFamily]
+  var selectedFontFamily: FontFamily? = nil
 }
 
 enum AppAction: Equatable {
@@ -11,6 +12,7 @@ enum AppAction: Equatable {
   case fetchFonts
   case fetchFontsResult(Result<FontFamily, Never>)
   case sidebar
+  case selectedFontFamily(FontFamily)
 }
 
 struct AppEnvironment {
@@ -39,6 +41,10 @@ extension AppState {
         return .none
         
       case .sidebar:
+        return .none
+        
+      case let .selectedFontFamily(family):
+        state.selectedFontFamily = family
         return .none
       }
     }

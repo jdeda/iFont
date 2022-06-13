@@ -11,9 +11,19 @@ struct AppView: View {
         Text("Found \(viewStore.fonts.count) fonts")
         List {
           ForEach(viewStore.fonts, id: \.name) { font in
-            Text(font.name)
+            HStack {
+              Button {
+                // TODO: is this bad (the argument)?
+                viewStore.send(AppAction.selectedFontFamily(font))
+                // Do nothing for now.
+              } label: {
+                Image(systemName: "chevron.right")
+              }
+              Text(font.name)
+            }
           }
         }
+        Text(viewStore.selectedFontFamily?.name ?? "None")
       }
       .onAppear {
         viewStore.send(AppAction.onAppear)

@@ -51,10 +51,7 @@ struct FontClientHelper {
     else { return [] }
     let fonts = fontDescriptors.compactMap { NSFont.init(descriptor: $0, size: 12) }
     Logger.log("found: \(fonts.count) fonts for: \(url.path)")
-    // TODO: Make a font family.
-    for font in fonts {
-      Logger.log("here: \(font.fontName)")
-    }
+    fonts.forEach { Logger.log("here: \($0.fontName)") }
     return fonts
   }
 }
