@@ -13,6 +13,7 @@ enum AppAction: Equatable {
 }
 
 struct AppEnvironment {
+  var mainQueue: AnySchedulerOf<DispatchQueue>
   var fontClient: FontClient
 }
 
@@ -22,18 +23,19 @@ extension AppState {
       switch action {
       case .onAppear:
         return Effect(value: .fetchFonts)
-
+        
       case .fetchFonts:
         return environment
           .fontClient
           .fetchFonts(URL(fileURLWithPath: "/System/Library/Fonts", isDirectory: true))
+          .receive(on: environment.mainQueue)
           .catchToEffect()
           .map(AppAction.fetchFontsResult)
-
+        
       case let .fetchFontsResult(.success(fonts)):
-        state.fonts = fonts
+        state.fonts.append(contentsOf: fonts)
         return .none
-
+        
       case .sidebar:
         return .none
       }
@@ -50,12 +52,18 @@ extension AppState {
   static let liveStore = Store(
     initialState: liveState,
     reducer: AppState.reducer,
-    environment: AppEnvironment(fontClient: FontClient.live)
+    environment: AppEnvironment(
+      mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
+      fontClient: FontClient.live
+    )
   )
-
+  
   static let mockStore = Store(
     initialState: mockState,
     reducer: AppState.reducer,
-    environment: AppEnvironment(fontClient: FontClient.live)
+    environment: AppEnvironment(
+      mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
+      fontClient: FontClient.live
+    )
   )
 }
