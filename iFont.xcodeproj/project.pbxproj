@@ -12,10 +12,8 @@
 		973B895028230DD800A2AB72 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 973B894F28230DD800A2AB72 /* Preview Assets.xcassets */; };
 		973B895B28230F7C00A2AB72 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 973B895A28230F7C00A2AB72 /* ComposableArchitecture */; };
 		975B7930284912DA0012C273 /* FontClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B792F284912DA0012C273 /* FontClient.swift */; };
-		9786AEC82846AC3B0078FD80 /* TEMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9786AEC72846AC3B0078FD80 /* TEMP.swift */; };
 		97D0E26528414F9E00F4BA77 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26428414F9E00F4BA77 /* AppView.swift */; };
 		97D0E26728414FA400F4BA77 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26628414FA400F4BA77 /* AppState.swift */; };
-		97D0E26A2841517600F4BA77 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E2692841517600F4BA77 /* Font.swift */; };
 		97D0E26C284152D500F4BA77 /* AppState+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26B284152D500F4BA77 /* AppState+Model.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,11 +24,8 @@
 		973B894F28230DD800A2AB72 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		973B895128230DD800A2AB72 /* iFont.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iFont.entitlements; sourceTree = "<group>"; };
 		975B792F284912DA0012C273 /* FontClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontClient.swift; sourceTree = "<group>"; };
-		9786AEC62846ABFD0078FD80 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = MyPlayground.playground; path = iFont/MyPlayground.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		9786AEC72846AC3B0078FD80 /* TEMP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TEMP.swift; sourceTree = "<group>"; };
 		97D0E26428414F9E00F4BA77 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		97D0E26628414FA400F4BA77 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-		97D0E2692841517600F4BA77 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		97D0E26B284152D500F4BA77 /* AppState+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppState+Model.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,13 +61,10 @@
 			isa = PBXGroup;
 			children = (
 				973B894828230DD700A2AB72 /* Main.swift */,
-				97D0E2682841515E00F4BA77 /* Fonts */,
 				97D0E26328414F9100F4BA77 /* AppFeature */,
 				973B894C28230DD800A2AB72 /* Assets.xcassets */,
 				973B895128230DD800A2AB72 /* iFont.entitlements */,
 				973B894E28230DD800A2AB72 /* Preview Content */,
-				9786AEC72846AC3B0078FD80 /* TEMP.swift */,
-				9786AEC62846ABFD0078FD80 /* MyPlayground.playground */,
 			);
 			path = iFont;
 			sourceTree = "<group>";
@@ -94,14 +86,6 @@
 				975B792F284912DA0012C273 /* FontClient.swift */,
 			);
 			path = AppFeature;
-			sourceTree = "<group>";
-		};
-		97D0E2682841515E00F4BA77 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				97D0E2692841517600F4BA77 /* Font.swift */,
-			);
-			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,10 +165,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				975B7930284912DA0012C273 /* FontClient.swift in Sources */,
-				97D0E26A2841517600F4BA77 /* Font.swift in Sources */,
 				97D0E26728414FA400F4BA77 /* AppState.swift in Sources */,
 				97D0E26528414F9E00F4BA77 /* AppView.swift in Sources */,
-				9786AEC82846AC3B0078FD80 /* TEMP.swift in Sources */,
 				973B894928230DD700A2AB72 /* Main.swift in Sources */,
 				97D0E26C284152D500F4BA77 /* AppState+Model.swift in Sources */,
 			);
@@ -312,6 +294,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iFont/iFont.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -339,6 +322,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iFont/iFont.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
