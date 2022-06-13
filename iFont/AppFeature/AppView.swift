@@ -8,9 +8,9 @@ struct AppView: View {
     WithViewStore(self.store) { viewStore in
       NavigationView {
         Text("AppView")
-        Text("Found \(viewStore.fonts.count) fonts")
+        Text("Found \(viewStore.fontFamilies.count) fonts")
         List {
-          ForEach(viewStore.fonts, id: \.name) { font in
+          ForEach(viewStore.fontFamilies, id: \.name) { font in
             HStack {
               Button {
                 // TODO: is this bad (the argument)?

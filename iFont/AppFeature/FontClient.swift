@@ -43,16 +43,21 @@ struct FontClientHelper {
     return fileType.contains("font")
   }
   
-  static func makeFonts(_ url: URL) -> [NSFont] {
-    guard let array = CTFontManagerCreateFontDescriptorsFromURL(url as CFURL)
-    else { return [] }
-    guard let fontDescriptors = array as? [CTFontDescriptor]
-    else { return [] }
-    let fonts = fontDescriptors.compactMap { NSFont.init(descriptor: $0, size: 12) }
-    Logger.log("found: \(fonts.count) fonts for: \(url.path)")
-    fonts.forEach { Logger.log("here: \($0.fontName)") }
-    return fonts
-  }
+    static func makeFonts(_ url: URL) -> [NSFont] {
+        guard let array = CTFontManagerCreateFontDescriptorsFromURL(url as CFURL)
+        else { return [] }
+        guard let fontDescriptors = array as? [CTFontDescriptor]
+        else { return [] }
+        let fonts = fontDescriptors.compactMap {
+            NSFont.init(descriptor: $0, size: 12)
+        }
+        
+        Logger.log("found: \(fonts.count) fonts for: \(url.path)")
+        fonts.forEach {
+            Logger.log("here: \($0.fontName)")
+        }
+        return fonts
+    }
 }
 
 extension URL {

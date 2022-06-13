@@ -2,8 +2,14 @@ import Foundation
 import ComposableArchitecture
 
 struct AppState: Equatable {
-  var fontPath = "/System/Library/Fonts"
-  var fonts: [FontFamily]
+    // var fontPath = "/System/Library/Fonts"
+    var fontPath = "/Users/kdeda/Library/Fonts"
+    
+    var fonts: [Font]
+    var fontFamilies {
+        fonts.groupByFamily()
+    }
+    
   var selectedFontFamily: FontFamily? = nil
 }
 
@@ -37,7 +43,8 @@ extension AppState {
         
       case let .fetchFontsResult(.success(family)):
         Logger.log("received: \(family.fonts.count)")
-        state.fonts.append(family)
+          state.fonts.append(family)
+          state.fontFamilies.append(family)
         return .none
         
       case .sidebar:
@@ -52,10 +59,10 @@ extension AppState {
 }
 
 extension AppState {
-  static let liveState = AppState(fonts: [])
+  static let liveState = AppState(fontFamilies: [])
   static let mockState = AppState(
     fontPath: "/Users/kdeda/Library/Fonts",
-    fonts: [FontFamily(name: "KohinoorBangla", fonts: [Font(name: "KohinoorBangla")])]
+    fontFamilies: [FontFamily(name: "KohinoorBangla", fonts: [Font(name: "KohinoorBangla")])]
   )
 }
 
