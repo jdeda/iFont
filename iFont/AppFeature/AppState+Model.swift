@@ -12,6 +12,12 @@ struct AppError: Equatable, Error {
   }
 }
 
+// TODO: Make immutable.
+struct FontFamily: Equatable {
+  var name: String
+  var fonts: [Font]
+}
+
 struct Font: Equatable {
-  var fontName: String
+  var name: String
 }
