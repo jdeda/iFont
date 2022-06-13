@@ -6,6 +6,7 @@ struct AppState: Equatable {
     //  var fontPath = "/Users/kdeda/Library/Fonts"
     var fonts = [Font]()
     var fontFamilies = [FontFamily]()
+    var familyExpansionState = Set<String>()
     var selectedFontFamily: FontFamily? = nil
 }
 
@@ -14,7 +15,8 @@ enum AppAction: Equatable {
     case fetchFonts
     case fetchFontsResult(Result<[Font], Never>)
     case sidebar
-    case selectedFontFamily(FontFamily)
+    case selectedFontFamily(FontFamily?)
+    case toggleExpand(FontFamily)
 }
 
 struct AppEnvironment {
@@ -40,14 +42,23 @@ extension AppState {
             case let .fetchFontsResult(.success(newFonts)):
                 Logger.log("received: \(newFonts.count)")
                 state.fonts.append(contentsOf: newFonts)
-                state.fontFamilies = state.fonts.groupedByFamily()
+                state.fontFamilies = state.fonts.groupedByFamily().sorted(by: { $0.name.caseInsensitiveCompare($1.name) == .orderedAscending })
                 return .none
                 
             case .sidebar:
                 return .none
                 
+                // display SelectedFont for each font in this fam
             case let .selectedFontFamily(family):
                 state.selectedFontFamily = family
+                return .none
+                
+            case let .toggleExpand(family):
+                if state.familyExpansionState.contains(family.name) {
+                    state.familyExpansionState.remove(family.name)
+                } else {
+                    state.familyExpansionState.insert(family.name)
+                }
                 return .none
             }
         }
@@ -56,7 +67,10 @@ extension AppState {
 
 extension AppState {
     static let liveState = AppState(fonts: [Font]())
-    static let mockState = AppState(fonts: [Font(name: "KohinoorBangla", familyName: "KohinoorBangla")])
+    static let mockState = AppState(
+        fontPath: "/Users/kdeda/Library/Fonts",
+        fonts: [Font(name: "KohinoorBangla", familyName: "KohinoorBangla")]
+    )
 }
 
 extension AppState {

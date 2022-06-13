@@ -85,6 +85,7 @@
 		97D0E26328414F9100F4BA77 /* AppFeature */ = {
 			isa = PBXGroup;
 			children = (
+				FBB8497A2857C00400258F7E /* SelectedFont */,
 				97D0E26428414F9E00F4BA77 /* AppView.swift */,
 				97D0E26628414FA400F4BA77 /* AppState.swift */,
 				97D0E26B284152D500F4BA77 /* AppState+Model.swift */,
@@ -100,6 +101,13 @@
 				FB294A9F28577DD800C8F8D9 /* String+Extensions.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		FBB8497A2857C00400258F7E /* SelectedFont */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SelectedFont;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

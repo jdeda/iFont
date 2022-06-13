@@ -44,11 +44,11 @@ struct FontClientHelper {
         else { return [] }
         
         let fonts = fontDescriptors
-            .compactMap { descriptor -> NSFont? in
-                    .init(descriptor: descriptor, size: 12)
+            .compactMap {
+                NSFont.init(descriptor: $0, size: 12)
             }
-            .map { nsFont -> Font in
-                Font(name: nsFont.fontName, familyName: nsFont.familyName ?? "None")
+            .map {
+                Font(name: $0.fontName, familyName: $0.familyName ?? "None")
             }
         
         Logger.log("found: \(fonts.count) fonts for: \(url.path)")

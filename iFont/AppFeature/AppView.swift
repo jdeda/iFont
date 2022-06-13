@@ -1,6 +1,14 @@
 import SwiftUI
 import ComposableArchitecture
 
+struct SelectedFamily: View {
+    var family: FontFamily
+
+    var body: some View {
+        Text(family.name)
+    }
+}
+
 struct AppView: View {
     let store: Store<AppState, AppAction>
     
@@ -8,21 +16,32 @@ struct AppView: View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
                 Text("Found \(viewStore.fontFamilies.count) fonts")
-                List {
-                    ForEach(viewStore.fontFamilies, id: \.name) { font in
-                        Button {
-                            viewStore.send(AppAction.selectedFontFamily(font))
-                        } label: {
-                            HStack {
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.gray)
-                                Text(font.name)
+                List(selection: viewStore.binding(
+                    get: \.selectedFontFamily,
+                    send: AppAction.selectedFontFamily
+                )) {
+                    ForEach(viewStore.fontFamilies, id: \.name) { family in
+                        HStack {
+                            Image(systemName: viewStore.familyExpansionState.contains(family.name)
+                                  ? "chevron.down"
+                                  : "chevron.right"
+                            )
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                Logger.log("onTapGesture: \(family.name)")
+                                viewStore.send(AppAction.toggleExpand(family))
                             }
+                            Text(family.name)
                         }
-                        .buttonStyle(.plain)
+                        .tag(family)
                     }
                 }
-                Text(viewStore.selectedFontFamily?.name ?? "None")
+                switch viewStore.selectedFontFamily {
+                case let .some(family):
+                    SelectedFamily(family: family)
+                case .none:
+                    Text("No selection ...")
+                }
             }
             .onAppear {
                 viewStore.send(AppAction.onAppear)
