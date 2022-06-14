@@ -1,13 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct SelectedFamily: View {
-    var family: FontFamily
-
-    var body: some View {
-        Text(family.name)
-    }
-}
 
 struct AppView: View {
     let store: Store<AppState, AppAction>
@@ -38,7 +31,7 @@ struct AppView: View {
                 }
                 switch viewStore.selectedFontFamily {
                 case let .some(family):
-                    SelectedFamily(family: family)
+                    FontFamilyView(family: family)
                 case .none:
                     Text("No selection ...")
                 }

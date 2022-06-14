@@ -12,15 +12,14 @@ struct AppError: Equatable, Error {
     }
 }
 
-// TODO: Make immutable.
 struct FontFamily: Equatable, Hashable {
-    var name: String
+    let name: String
     var fonts: [Font]
 }
 
 struct Font: Equatable, Hashable {
-    var name: String
-    var familyName: String
+    let name: String
+    let familyName: String
 }
 
 extension Array where Element == Font {

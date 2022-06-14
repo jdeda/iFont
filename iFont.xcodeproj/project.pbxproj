@@ -15,6 +15,7 @@
 		97D0E26528414F9E00F4BA77 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26428414F9E00F4BA77 /* AppView.swift */; };
 		97D0E26728414FA400F4BA77 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26628414FA400F4BA77 /* AppState.swift */; };
 		97D0E26C284152D500F4BA77 /* AppState+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26B284152D500F4BA77 /* AppState+Model.swift */; };
+		97FC6B762858C1F2000330C5 /* FontFamilyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FC6B752858C1F2000330C5 /* FontFamilyView.swift */; };
 		FB294A9E28577DB700C8F8D9 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB294A9D28577DB700C8F8D9 /* Logger.swift */; };
 		FB294AA028577DD800C8F8D9 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB294A9F28577DD800C8F8D9 /* String+Extensions.swift */; };
 /* End PBXBuildFile section */
@@ -29,6 +30,7 @@
 		97D0E26428414F9E00F4BA77 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		97D0E26628414FA400F4BA77 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		97D0E26B284152D500F4BA77 /* AppState+Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppState+Model.swift"; sourceTree = "<group>"; };
+		97FC6B752858C1F2000330C5 /* FontFamilyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontFamilyView.swift; sourceTree = "<group>"; };
 		FB294A9D28577DB700C8F8D9 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		FB294A9F28577DD800C8F8D9 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -85,11 +87,11 @@
 		97D0E26328414F9100F4BA77 /* AppFeature */ = {
 			isa = PBXGroup;
 			children = (
-				FBB8497A2857C00400258F7E /* SelectedFont */,
 				97D0E26428414F9E00F4BA77 /* AppView.swift */,
 				97D0E26628414FA400F4BA77 /* AppState.swift */,
 				97D0E26B284152D500F4BA77 /* AppState+Model.swift */,
 				975B792F284912DA0012C273 /* FontClient.swift */,
+				97FC6B752858C1F2000330C5 /* FontFamilyView.swift */,
 			);
 			path = AppFeature;
 			sourceTree = "<group>";
@@ -101,13 +103,6 @@
 				FB294A9F28577DD800C8F8D9 /* String+Extensions.swift */,
 			);
 			path = Common;
-			sourceTree = "<group>";
-		};
-		FBB8497A2857C00400258F7E /* SelectedFont */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SelectedFont;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,6 +184,7 @@
 				975B7930284912DA0012C273 /* FontClient.swift in Sources */,
 				FB294AA028577DD800C8F8D9 /* String+Extensions.swift in Sources */,
 				FB294A9E28577DB700C8F8D9 /* Logger.swift in Sources */,
+				97FC6B762858C1F2000330C5 /* FontFamilyView.swift in Sources */,
 				97D0E26728414FA400F4BA77 /* AppState.swift in Sources */,
 				97D0E26528414F9E00F4BA77 /* AppView.swift in Sources */,
 				973B894928230DD700A2AB72 /* Main.swift in Sources */,

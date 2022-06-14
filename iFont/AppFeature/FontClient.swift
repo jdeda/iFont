@@ -43,18 +43,44 @@ struct FontClientHelper {
         guard let fontDescriptors = array as? [CTFontDescriptor]
         else { return [] }
         
-        let fonts = fontDescriptors
+        let nsFonts = fontDescriptors
             .compactMap {
-                NSFont.init(descriptor: $0, size: 12)
+                NSFont(descriptor: $0, size: 12)
             }
-            .map {
-                Font(name: $0.fontName, familyName: $0.familyName ?? "None")
+        /**
+         1. I have an ns font.
+         2. I want all the glyphs associated with this font
+         3. i want to draw one or some or all of the  glyphs given a character or characters
+         */
+//        let glyphIds = 0...257
+//        let f = nsFonts[0]
+//        let g = f.gl
+//        NSGlyphInfo.init
+//        let glyphs = nsFonts.map { nsFont in
+//            let fontGlyphs = Array<Character>.alphabet.map { letter in
+//                nsFont.glyph(withName: String(letter))
+//
+//
+//            }
+//        }
+//        let glyphs = nsFonts[0]
+//        let f = nsFonts[0]
+//
+//        let g = f.glyph(withName: "A")
+        let fonts = nsFonts
+            .map { nsFont -> Font in
+                return Font(name: nsFont.fontName, familyName: nsFont.familyName ?? "None")
             }
         
         Logger.log("found: \(fonts.count) fonts for: \(url.path)")
         fonts.forEach {
             Logger.log("here: \($0.name)")
         }
+//        
+//        
+//        let manager = NSLayoutManager.init()
+//        let drawGlyphs = manager.drawGlyphs(forGlyphRange: NSRange.init(), at: NSPoint.init(x: 1, y: 1  ))
+//        let glpyh = NSGlyph.init("Cheese")
         
         return fonts
     }
@@ -113,3 +139,11 @@ extension URL {
     }
 }
 
+extension Array where Element == Character {
+    static var alphabet: [Character] {
+        (97...122).map { Character(UnicodeScalar($0)) }
+    }
+    static var digits: [Character] {
+        Array("123456789")
+    }
+}
