@@ -13,7 +13,7 @@ struct FontFamilyView: View {
                         VStack {
                             ForEach(family.fonts, id: \.name) { font in
                                 VStack {
-                                    Text(family.faces[font.name]!)
+                                    Text(font.name)
                                         .font(.title)
                                         .foregroundColor(.gray)
                                         .padding(5)
