@@ -43,6 +43,7 @@ extension FontFamily {
 struct Font: Equatable, Hashable {
     let name: String
     let familyName: String
+    var copyright: String = ""
 }
 
 extension Array where Element == Font {

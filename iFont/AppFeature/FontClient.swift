@@ -44,8 +44,14 @@ struct FontClientHelper {
         else { return [] }
         
         let nsFonts = fontDescriptors
-            .compactMap {
-                NSFont(descriptor: $0, size: 12)
+            .compactMap { fontDescriptor -> NSFont? in
+                let nsFontDescriptor = fontDescriptor as NSFontDescriptor
+                let name = (nsFontDescriptor.object(forKey: .name) as? String) ?? "uknown"
+                let font = NSFont(descriptor: nsFontDescriptor, size: 12)
+                
+                Logger.log("found: \(name)")
+                Logger.log("found: \(nsFontDescriptor.fontAttributes)")
+                return font
             }
         /**
          1. I have an ns font.
@@ -69,6 +75,8 @@ struct FontClientHelper {
 //        let g = f.glyph(withName: "A")
         let fonts = nsFonts
             .map { nsFont -> Font in
+                // TODO: kdeda
+                // extract as much as possible info from the NSFont
                 return Font(name: nsFont.fontName, familyName: nsFont.familyName ?? "None")
             }
         

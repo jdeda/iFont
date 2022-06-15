@@ -3,11 +3,12 @@ import Foundation
 
 struct FontFamilyView: View {
     var family: FontFamily
+    
     var body: some View {
         VStack(alignment: .center) {
             Text(family.name)
             HStack(alignment: .center) {
-                List{
+                List {
                     HStack {
                         Spacer()
                         VStack {
@@ -18,17 +19,13 @@ struct FontFamilyView: View {
                                         .foregroundColor(.gray)
                                         .padding(5)
                                     Text(String(Array<Character>.alphabet).splitInHalf().left)
-                                        .font(.custom(font.name, size: 64))
                                     Text(String(Array<Character>.alphabet).splitInHalf().right)
-                                        .font(.custom(font.name, size: 64))
                                     Text(String(Array<Character>.alphabet).uppercased().splitInHalf().left)
-                                        .font(.custom(font.name, size: 64))
                                     Text(String(Array<Character>.alphabet).uppercased().splitInHalf().right)
-                                        .font(.custom(font.name, size: 64))
                                     Text(String(Array<Character>.digits))
-                                        .font(.custom(font.name, size: 64))
                                     Spacer(minLength: 64)
                                 }
+                                .font(.custom(font.name, size: 32))
                             }
                         }
                         Spacer()
