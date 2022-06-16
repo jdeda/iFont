@@ -69,6 +69,10 @@ struct AppView: View {
                 // polish this so i'm able to select a family or a font
                 // use an enum case about what it selected
                 // than here you can switch over them
+                // clone https://github.com/pointfreeco/swift-composable-architecture.git
+                // open ComposableArchitecture.xcworkspace
+                // read/understand the SwitchStore
+                
 //                switch viewStore.selectedFontFamily {
 //                case let .some(family):
 //                    FontFamilyView(family: family)
