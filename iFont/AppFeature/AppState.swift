@@ -1,13 +1,30 @@
 import Foundation
 import ComposableArchitecture
 
+extension FontFamily {
+    var selectionType: SelectionType {
+        .fontFamily(self)
+    }
+}
+
+extension Font {
+    var selectionType: SelectionType {
+        .font(self)
+    }
+}
+
+enum SelectionType: Equatable, Hashable {
+    case font(Font)
+    case fontFamily(FontFamily)
+}
+
 struct AppState: Equatable {
-    var fontPath = "/System/Library/Fonts"
-    //  var fontPath = "/Users/kdeda/Library/Fonts"
+    // var fontPath = "/System/Library/Fonts"
+    var fontPath = "/Users/kdeda/Library/Fonts"
     var fonts = [Font]()
     var fontFamilies = [FontFamily]()
     var familyExpansionState = Set<String>()
-    var selectedFontFamily: FontFamily? = nil
+    var selectedItem: SelectionType? = nil
 }
 
 enum AppAction: Equatable {
@@ -15,7 +32,7 @@ enum AppAction: Equatable {
     case fetchFonts
     case fetchFontsResult(Result<[Font], Never>)
     case sidebar
-    case selectedFontFamily(FontFamily?)
+    case selectedItem(SelectionType?)
     case toggleExpand(FontFamily)
 }
 
@@ -47,10 +64,13 @@ extension AppState {
                 
             case .sidebar:
                 return .none
-                
+                                
                 // display SelectedFont for each font in this fam
-            case let .selectedFontFamily(family):
-                state.selectedFontFamily = family
+            case let .selectedItem(selectedItemType):
+                state.selectedItem = selectedItemType
+                if let selectedItem = selectedItemType {
+                    Logger.log("selectedItemType: \(selectedItemType)")
+                }
                 return .none
                 
             case let .toggleExpand(family):

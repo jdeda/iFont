@@ -1,21 +1,6 @@
 import Foundation
-
-struct AppError: Equatable, Error {
-    var localizedDescription: String
-    
-    init(_ error: Error) {
-        self.localizedDescription = error.localizedDescription
-    }
-    
-    init(_ rawValue: String) {
-        self.localizedDescription = rawValue
-    }
-}
-
-struct FontFamily: Equatable, Hashable {
-    let name: String
-    var fonts: [Font]
-}
+import AppKit
+import CoreText
 
 extension FontFamily {
     var faces: [String: String] {
@@ -40,12 +25,6 @@ extension FontFamily {
     }
 }
 
-struct Font: Equatable, Hashable {
-    let name: String
-    let familyName: String
-    var copyright: String = ""
-}
-
 extension Array where Element == Font {
     func groupedByFamily() -> [FontFamily] {
         self
@@ -58,5 +37,31 @@ extension Array where Element == Font {
             .reduce(into: [FontFamily]()) { partial, fontFamily in
                 partial.append(fontFamily.value)
             }
+    }
+}
+
+extension Font {
+    var fontAttributes: [String: String] {
+        let ctFont = CTFontCreateWithName(self.name as CFString, 12.0, nil)
+        // this does not fail because it will return a substitute font
+        // ie: Helvetica
+        // so make sure we get our guy here ...
+        guard (ctFont as NSFont).fontName == self.name
+        else {
+            Logger.log("error: 'could not create the proper font: \(self.name)'")
+            return [String: String]()
+        }
+        
+        // TODO: kdeda
+        // extract as much as possible info from the NSFont
+        return FontAttribute.allCases.reduce(into: [String: String](), { partialResult, nextItem in
+            let index = nextItem.rawValue.index(nextItem.rawValue.startIndex, offsetBy: 1)
+            let key = String(nextItem.rawValue.suffix(from: index)).replacingOccurrences(of: "Key", with: "")
+            
+            if let value = CTFontCopyName(ctFont, key as CFString) as String? {
+                Logger.log("\(key): \(value)")
+                partialResult[key] = value
+            }
+        })
     }
 }

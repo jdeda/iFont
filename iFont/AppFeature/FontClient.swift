@@ -77,6 +77,18 @@ struct FontClientHelper {
             .map { nsFont -> Font in
                 // TODO: kdeda
                 // extract as much as possible info from the NSFont
+                
+                FontAttribute.allCases.forEach { attribute in
+                    let index = attribute.rawValue.index(attribute.rawValue.startIndex, offsetBy: 1)
+                    // remove the k in the beginning and the Key at the end
+                    // kCTFontCopyrightNameKey -> CTFontCopyrightName
+                    let key = String(attribute.rawValue.suffix(from: index)).replacingOccurrences(of: "Key", with: "")
+                    
+                    if let value = CTFontCopyName(nsFont, key as CFString) as String? {
+                        Logger.log("\(key): \(value)")
+                    }
+                }
+
                 return Font(name: nsFont.fontName, familyName: nsFont.familyName ?? "None")
             }
         
