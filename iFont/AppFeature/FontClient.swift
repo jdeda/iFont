@@ -158,12 +158,3 @@ extension URL {
         .eraseToAnyPublisher()
     }
 }
-
-extension Array where Element == Character {
-    static var alphabet: [Character] {
-        (97...122).map { Character(UnicodeScalar($0)) }
-    }
-    static var digits: [Character] {
-        Array("123456789")
-    }
-}

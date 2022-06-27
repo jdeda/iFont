@@ -12,6 +12,7 @@
 		973B895028230DD800A2AB72 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 973B894F28230DD800A2AB72 /* Preview Assets.xcassets */; };
 		973B895B28230F7C00A2AB72 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 973B895A28230F7C00A2AB72 /* ComposableArchitecture */; };
 		975B7930284912DA0012C273 /* FontClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B792F284912DA0012C273 /* FontClient.swift */; };
+		97940CD52869F73A0037E3CD /* Model+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97940CD42869F73A0037E3CD /* Model+Extensions.swift */; };
 		97D0E26528414F9E00F4BA77 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26428414F9E00F4BA77 /* AppView.swift */; };
 		97D0E26728414FA400F4BA77 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26628414FA400F4BA77 /* AppState.swift */; };
 		97D0E26C284152D500F4BA77 /* Model+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26B284152D500F4BA77 /* Model+Extensions.swift */; };
@@ -30,6 +31,7 @@
 		973B894F28230DD800A2AB72 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		973B895128230DD800A2AB72 /* iFont.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iFont.entitlements; sourceTree = "<group>"; };
 		975B792F284912DA0012C273 /* FontClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontClient.swift; sourceTree = "<group>"; };
+		97940CD42869F73A0037E3CD /* Model+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model+Extensions.swift"; sourceTree = "<group>"; };
 		97D0E26428414F9E00F4BA77 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		97D0E26628414FA400F4BA77 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		97D0E26B284152D500F4BA77 /* Model+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Model+Extensions.swift"; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				FBD5DC172869E8A70031EFA3 /* FontFamilyState.swift */,
 				97FC6B752858C1F2000330C5 /* FamilyView.swift */,
 				FBD5DC192869EC8F0031EFA3 /* FontFamilyRowView.swift */,
+				97940CD42869F73A0037E3CD /* Model+Extensions.swift */,
 			);
 			path = FontFamilyState;
 			sourceTree = "<group>";
@@ -203,6 +206,7 @@
 				FB294AA028577DD800C8F8D9 /* String+Extensions.swift in Sources */,
 				FB294A9E28577DB700C8F8D9 /* Logger.swift in Sources */,
 				97FC6B762858C1F2000330C5 /* FamilyView.swift in Sources */,
+				97940CD52869F73A0037E3CD /* Model+Extensions.swift in Sources */,
 				97D0E26728414FA400F4BA77 /* AppState.swift in Sources */,
 				97D0E26528414F9E00F4BA77 /* AppView.swift in Sources */,
 				973B894928230DD700A2AB72 /* Main.swift in Sources */,

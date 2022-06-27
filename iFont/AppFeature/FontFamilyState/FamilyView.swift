@@ -11,9 +11,9 @@ struct FontDetails: View {
         return keys.reduce(into: [[String: String]](), { partialResult, nextItem in
             partialResult.append(["key": nextItem, "value": attributes[nextItem] ?? ""])
         })
-//        return font.fontAttributes.map { (key: String, value: String) -> [String: String] in
-//            ["key": key, "value": value]
-//        }
+        //        return font.fontAttributes.map { (key: String, value: String) -> [String: String] in
+        //            ["key": key, "value": value]
+        //        }
     }
     
     var body: some View {
@@ -47,11 +47,11 @@ struct FamilyView: View {
                                         .font(.title)
                                         .foregroundColor(.gray)
                                         .padding(5)
-                                    Text(String(Array<Character>.alphabet).splitInHalf().left)
-                                    Text(String(Array<Character>.alphabet).splitInHalf().right)
-                                    Text(String(Array<Character>.alphabet).uppercased().splitInHalf().left)
-                                    Text(String(Array<Character>.alphabet).uppercased().splitInHalf().right)
-                                    Text(String(Array<Character>.digits))
+                                    Text(String.alphabet.splitInHalf().left)
+                                    Text(String.alphabet.splitInHalf().right)
+                                    Text(String.alphabet.uppercased().splitInHalf().left)
+                                    Text(String.alphabet.uppercased().splitInHalf().right)
+                                    Text(String.digits)
                                     Spacer(minLength: 64)
                                 }
                                 .font(.custom(font.name, size: 32))
@@ -70,16 +70,5 @@ struct FamilyView: View {
 struct FamilyView_Previews: PreviewProvider {
     static var previews: some View {
         FamilyView(family: FontFamily(name: "Chicken", fonts: [Font(name: "Cheese", familyName: "Chicken")]))
-    }
-}
-
-let string = "Hello"
-
-extension String {
-    func splitInHalf() -> (left: String, right: String) {
-        let start = self.startIndex
-        let middle = self.index(self.startIndex, offsetBy: (self.count) / 2)
-        let end = self.endIndex
-        return (left: String(self[start..<middle]), right: String(self[middle..<end]))
     }
 }

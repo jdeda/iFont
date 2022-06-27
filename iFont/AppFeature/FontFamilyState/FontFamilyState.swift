@@ -10,11 +10,11 @@ import ComposableArchitecture
 
 struct FontFamilyState: Equatable, Hashable {
     var fontFamily: FontFamily
-    var isSelected: Bool = false
+    var expanded: Bool = false
     var fonts: [Font] {
         fontFamily.fonts
     }
-
+    
     init(_ fontFamily: FontFamily) {
         self.fontFamily = fontFamily
     }
@@ -46,33 +46,24 @@ extension FontFamilyState {
     )
 }
 
+// TODO: Mock state should fetch fonts.
+extension FontFamilyState {
+    static let mockState = FontFamilyState(
+        FontFamily(
+            name: "KohinoorBangla",
+            fonts: [Font(name: "KohinoorBangla", familyName: "KohinoorBangla")]
+        )
+    )
+}
 
-// TODO: add the mock state
+extension FontFamilyState {
+    static let mockStore = Store(
+        initialState: mockState,
+        reducer: reducer,
+        environment: .init(
+            mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
+            fontClient: FontClient.live
+        )
+    )
+}
 
-//extension FontFamilyState {
-//    static let liveState = FontFamilyState(fonts: [Font]())
-//    static let mockState = FontFamilyState(
-//        fontPath: "/Users/kdeda/Library/Fonts",
-//        fonts: [Font(name: "KohinoorBangla", familyName: "KohinoorBangla")]
-//    )
-//}
-//
-//extension FontFamilyState {
-//    static let liveStore = Store(
-//        initialState: liveState,
-//        reducer: FontFamilyState.reducer,
-//        environment: FontFamilyEnvironment(
-//            mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
-//            fontClient: FontClient.live
-//        )
-//    )
-//    
-//    static let mockStore = Store(
-//        initialState: mockState,
-//        reducer: FontFamilyState.reducer,
-//        environment: FontFamilyEnvironment(
-//            mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
-//            fontClient: FontClient.live
-//        )
-//    )
-//}

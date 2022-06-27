@@ -17,11 +17,8 @@ struct FontFamilyRowView: View {
             VStack {
                 HStack {
                     // TODO: move 'familyExpansionState' this to my state
-                    Image(systemName: viewStore.isSelected // fontFamily.familyExpansionState.contains(viewStore.fontFamily.name)
-                          ? "chevron.down"
-                          : "chevron.right"
-                    )
-                    // .resizable()
+                    // fontFamily.familyExpansionState.contains(viewStore.fontFamily.name)
+                    Image(systemName: viewStore.expanded ? "chevron.down" : "chevron.right")
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 20, height: 20)
                     .contentShape(Rectangle())
@@ -38,4 +35,8 @@ struct FontFamilyRowView: View {
     }
 }
 
-// TODO: add the preview
+struct FontFamilyRowView_Previews: PreviewProvider {
+    static var previews: some View {
+        FontFamilyRowView(store: FontFamilyState.mockStore)
+    }
+}

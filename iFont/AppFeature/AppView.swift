@@ -12,6 +12,11 @@ struct FontRow: View {
     }
 }
 
+/**
+ 1. collections you selected
+ 2. list view
+ 3. information view(s)
+ */
 struct AppView: View {
     let store: Store<AppState, AppAction>
     
