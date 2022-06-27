@@ -1,30 +1,31 @@
 import Foundation
 import ComposableArchitecture
 
-extension FontFamily {
+extension FontFamilyState {
     var selectionType: SelectionType {
         .fontFamily(self)
     }
 }
 
-extension Font {
-    var selectionType: SelectionType {
-        .font(self)
-    }
-}
+//extension Font {
+//    var selectionType: SelectionType {
+//        .font(self)
+//    }
+//}
 
 enum SelectionType: Equatable, Hashable {
-    case font(Font)
-    case fontFamily(FontFamily)
+//    case font(Font)
+    case fontFamily(FontFamilyState)
 }
 
 struct AppState: Equatable {
-    // var fontPath = "/System/Library/Fonts"
-    var fontPath = "/Users/kdeda/Library/Fonts"
+    var fontPath = "/System/Library/Fonts"
+    // var fontPath = "/Users/kdeda/Library/Fonts"
     var fonts = [Font]()
-    var fontFamilies = [FontFamily]()
+    // var fontFamilies = [FontFamily]()
     var familyExpansionState = Set<String>()
     var selectedItem: SelectionType? = nil
+    var fontFamilies = [FontFamilyState]()
 }
 
 enum AppAction: Equatable {
@@ -59,7 +60,10 @@ extension AppState {
             case let .fetchFontsResult(.success(newFonts)):
                 Logger.log("received: \(newFonts.count)")
                 state.fonts.append(contentsOf: newFonts)
-                state.fontFamilies = state.fonts.groupedByFamily().sorted(by: { $0.name.caseInsensitiveCompare($1.name) == .orderedAscending })
+                state.fontFamilies = state.fonts
+                    .groupedByFamily()
+                    .sorted(by: { $0.name.caseInsensitiveCompare($1.name) == .orderedAscending })
+                    .map(FontFamilyState.init)
                 return .none
                 
             case .sidebar:

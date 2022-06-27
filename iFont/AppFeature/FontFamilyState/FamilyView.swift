@@ -30,7 +30,7 @@ struct FontDetails: View {
     }
 }
 
-struct FontFamilyView: View {
+struct FamilyView: View {
     var family: FontFamily
     
     var body: some View {
@@ -67,9 +67,9 @@ struct FontFamilyView: View {
     }
 }
 
-struct FontFamilyView_Previews: PreviewProvider {
+struct FamilyView_Previews: PreviewProvider {
     static var previews: some View {
-        FontFamilyView(family: FontFamily(name: "Chicken", fonts: [Font(name: "Cheese", familyName: "Chicken")]))
+        FamilyView(family: FontFamily(name: "Chicken", fonts: [Font(name: "Cheese", familyName: "Chicken")]))
     }
 }
 

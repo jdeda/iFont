@@ -1,34 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct FontFamilyRow: View {
-    let store: Store<AppState, AppAction>
-    var family: FontFamily
-    
-    var body: some View {
-        WithViewStore(self.store) { viewStore in
-            VStack {
-                HStack {
-                    Image(systemName: viewStore.familyExpansionState.contains(family.name)
-                          ? "chevron.down"
-                          : "chevron.right"
-                    )
-                    // .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 20, height: 20)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        Logger.log("onTapGesture: \(family.name)")
-                        viewStore.send(AppAction.toggleExpand(family))
-                    }
-                    Text(family.name)
-                    Spacer()
-                }
-            }
-        }
-    }
-}
-
 struct FontRow: View {
     var font: Font
     
@@ -50,17 +22,25 @@ struct AppView: View {
                     get: \.selectedItem,
                     send: AppAction.selectedItem
                 )) {
-                    ForEach(viewStore.fontFamilies, id: \.name) { family in
-                        FontFamilyRow(store: store, family: family)
-                            .tag(family.selectionType)
-                        if viewStore.familyExpansionState.contains(family.name) {
-                            ForEach(family.fonts, id: \.name) { font in
-                                FontRow(font: font)
-                                    .tag(font.selectionType)
-                            }
-                            .offset(x: 20, y: 0)
-                        }
-                    }
+                    ForEachStore(
+                      self.store.scope(
+                        state: \.fontFamilies,
+                        action: AppAction.todo(id:action:)
+                      ),
+                      content: FontFamilyRowView.init(store:)
+                    )
+//
+//                    ForEach(viewStore.fontFamilies, id: \.family.name) { family in
+//                        FontFamilyRow(store: store, family: family)
+//                            .tag(family.selectionType)
+//                        if viewStore.familyExpansionState.contains(family.name) {
+//                            ForEach(family.fonts, id: \.name) { font in
+//                                FontRow(font: font)
+//                                    .tag(font.selectionType)
+//                            }
+//                            .offset(x: 20, y: 0)
+//                        }
+//                    }
                 }
                 .frame(minWidth: 220, maxWidth: 320)
                 Text("No selection ...")
@@ -73,6 +53,9 @@ struct AppView: View {
                 // open ComposableArchitecture.xcworkspace
                 // read/understand the SwitchStore
                 
+//                SwitchStore(viewStore.selectedItem) {
+//                    CaseLet(state: /SelectionType.font, then: <#T##(Store<LocalState, LocalAction>) -> Content#>)
+//                }
 //                switch viewStore.selectedFontFamily {
 //                case let .some(family):
 //                    FontFamilyView(family: family)
