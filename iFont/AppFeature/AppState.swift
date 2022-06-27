@@ -1,38 +1,16 @@
 import Foundation
 import ComposableArchitecture
 
-extension FontFamilyState {
-    var selectionType: SelectionType {
-        .fontFamily(self)
-    }
-}
-
-//extension Font {
-//    var selectionType: SelectionType {
-//        .font(self)
-//    }
-//}
-
-enum SelectionType: Equatable, Hashable {
-//    case font(Font)
-    case fontFamily(FontFamilyState)
-}
-
 struct AppState: Equatable {
-    // var fontPathURL = "/System/Library/Fonts"
-    // var fontPathURL = "/Users/kdeda/Library/Fonts"
-    
     // TODO: jdeda
     // Fix me in production
     // these are some fonts in the project for quick turn around debug/test
     // in production we would use the real machine font paths
-    //
     var fontPathURL = Bundle.main.resourceURL!.appendingPathComponent("Fonts")
     var fonts = [Font]()
-    // var fontFamilies = [FontFamily]()
     var familyExpansionState = Set<String>()
-    var selectedItem: SelectionType? = nil
     var fontFamilies: IdentifiedArrayOf<FontFamilyState> = []
+    var selectedItem: SelectedItem?
 }
 
 enum AppAction: Equatable {
@@ -40,7 +18,6 @@ enum AppAction: Equatable {
     case fetchFonts
     case fetchFontsResult(Result<[Font], Never>)
     case sidebar
-    case selectedItem(SelectionType?)
     case toggleExpand(FontFamily)
     case fontFamily(id: FontFamilyState.ID, action: FontFamilyAction)
 }
@@ -87,14 +64,6 @@ extension AppState {
                 
             case .sidebar:
                 return .none
-                                
-                // display SelectedFont for each font in this fam
-            case let .selectedItem(selectedItemType):
-                state.selectedItem = selectedItemType
-                if let selectedItem = selectedItemType {
-                    Logger.log("selectedItemType: \(selectedItemType)")
-                }
-                return .none
                 
             case let .toggleExpand(family):
                 if state.familyExpansionState.contains(family.name) {
@@ -106,17 +75,6 @@ extension AppState {
                 
             case let .fontFamily(familyID, subAction):
                 Logger.log("familyID: \(familyID) subAction: \(subAction)")
-                
-                if case FontFamilyAction.toggleSelection = subAction {
-                    // the selection did toggle on familyID
-                    if let familyState = state.fontFamilies[id: familyID] {
-                        if familyState.isSelected {
-                            state.selectedItem = .fontFamily(familyState)
-                        } else {
-                            state.selectedItem = nil
-                        }
-                    }
-                }
                 return .none
             }
         }

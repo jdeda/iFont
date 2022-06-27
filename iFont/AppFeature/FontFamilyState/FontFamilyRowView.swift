@@ -14,32 +14,52 @@ struct FontFamilyRowView: View {
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
-            VStack {
+            VStack(spacing: 1) {
+                
+                // Top row view.
                 HStack {
-                    // TODO: move 'familyExpansionState' this to my state
-                    // fontFamily.familyExpansionState.contains(viewStore.fontFamily.name)
                     Image(systemName: viewStore.isExpanded ? "chevron.down" : "chevron.right")
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 20, height: 20)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        Logger.log("toggleExpansion: \(viewStore.fontFamily.name)")
-                        viewStore.send(FontFamilyAction.toggleExpansion)
-                    }
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 20, height: 20)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            Logger.log("toggleExpansion: \(viewStore.fontFamily.name)")
+                            viewStore.send(FontFamilyAction.toggleExpansion)
+                        }
                     Text(viewStore.fontFamily.name)
                     Spacer()
                 }
-//                .onTapGesture {
-//                    Logger.log("toggleSelection: \(viewStore.fontFamily.name)")
-//                    viewStore.send(FontFamilyAction.toggleSelection)
-//                }
+                .highlightSelectionBox(viewStore.isSelected)
+                .onTapGesture {
+                    Logger.log("toggleSelection: \(viewStore.fontFamily.name)")
+                    viewStore.send(FontFamilyAction.toggleSelection)
+                }
+                
+                // Child row view.
+                if viewStore.isExpanded {
+//                    HStack {
+//                        ScrollView {
+                            ForEach(viewStore.fonts) { font in
+                                HStack {
+                                    Text("\t")
+                                    Text(font.name)
+                                    Spacer()
+                                }
+                                .padding(4)
+                                // .border(Color.red)
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    Logger.log("toggleSelection: \(viewStore.fontFamily.name)")
+                                    viewStore.send(FontFamilyAction.toggleChildSelection(font))
+                                }
+                                .highlightSelectionBox(viewStore.selectedChild?.id == font.id)
+                            }
+//                        }
+//                        Spacer()
+//                            .frame(minWidth: 220, maxWidth: 600)
+//                    }
+                }
             }
-            // this is the right way
-            // .background(viewStore.isSelected ? Color.red : Color.clear)
-            
-            // this is the Vanilla SwiftUI way, we are expected to be inside a list
-            // and thus need to furnish a tag to the list ...
-            .tag(viewStore.selectionType)
         }
     }
 }

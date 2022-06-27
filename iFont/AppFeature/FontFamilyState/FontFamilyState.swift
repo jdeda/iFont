@@ -12,6 +12,7 @@ struct FontFamilyState: Equatable, Hashable {
     var fontFamily: FontFamily
     var isSelected: Bool = false
     var isExpanded: Bool = false
+    var selectedChild: Font? = nil
     var fonts: [Font] {
         fontFamily.fonts
     }
@@ -31,6 +32,7 @@ enum FontFamilyAction: Equatable {
     case onAppear
     case toggleSelection
     case toggleExpansion
+    case toggleChildSelection(Font)
 }
 
 struct FontFamilyEnvironment {
@@ -47,6 +49,7 @@ extension FontFamilyState {
                 
             case .toggleSelection:
                 state.isSelected.toggle()
+                state.selectedChild = nil
                 Logger.log("familyID: \(state.id) isSelected: \(state.isSelected)")
                 return .none
                 
@@ -54,17 +57,27 @@ extension FontFamilyState {
                 state.isExpanded.toggle()
                 Logger.log("familyID: \(state.id) isExpanded: \(state.isExpanded)")
                 return .none
+                
+            case let .toggleChildSelection(font):
+                state.isSelected = false
+                state.selectedChild = font
+                Logger.log("child: \(font) isSelected")
+                return .none
             }
         }
     )
 }
 
-// TODO: Mock state should fetch fonts.
 extension FontFamilyState {
     static let mockState = FontFamilyState(
         FontFamily(
-            name: "KohinoorBangla",
-            fonts: [Font(name: "KohinoorBangla", familyName: "KohinoorBangla")]
+            name: "Foobar",
+            fonts: [
+                Font(name: "Super", familyName: "Foobar"),
+                Font(name: "Mega", familyName: "Foobar"),
+                Font(name: "Ultra", familyName: "Foobar"),
+                Font(name: "Supreme", familyName: "Foobar")
+            ]
         )
     )
 }

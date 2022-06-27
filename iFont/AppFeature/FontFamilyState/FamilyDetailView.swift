@@ -11,9 +11,6 @@ struct FontDetails: View {
         return keys.reduce(into: [[String: String]](), { partialResult, nextItem in
             partialResult.append(["key": nextItem, "value": attributes[nextItem] ?? ""])
         })
-        //        return font.fontAttributes.map { (key: String, value: String) -> [String: String] in
-        //            ["key": key, "value": value]
-        //        }
     }
     
     var body: some View {
@@ -30,7 +27,7 @@ struct FontDetails: View {
     }
 }
 
-struct FamilyView: View {
+struct FamilyDetailView: View {
     var family: FontFamily
     
     var body: some View {
@@ -69,6 +66,6 @@ struct FamilyView: View {
 
 struct FamilyView_Previews: PreviewProvider {
     static var previews: some View {
-        FamilyView(family: FontFamily(name: "Chicken", fonts: [Font(name: "Cheese", familyName: "Chicken")]))
+        FamilyDetailView(family: FontFamily(name: "Chicken", fonts: [Font(name: "Cheese", familyName: "Chicken")]))
     }
 }

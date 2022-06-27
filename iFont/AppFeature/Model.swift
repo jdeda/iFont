@@ -50,3 +50,20 @@ struct FontFamily: Equatable, Hashable {
     let name: String
     var fonts: [Font]
 }
+
+enum SelectedItem: Equatable, Hashable {
+    case font(Font)
+    case fontFamily(FontFamily)
+}
+
+extension Font {
+    var selectedItem: SelectedItem {
+        .font(self)
+    }
+}
+
+extension FontFamily {
+    var selectedItem: SelectedItem {
+        .fontFamily(self)
+    }
+}

@@ -2,29 +2,6 @@ import Foundation
 import AppKit
 import CoreText
 
-extension FontFamily {
-    var faces: [String: String] {
-        var map = [String: String]()
-        let foundFaces = fonts.map { font -> String in
-            if(font.name.count == name.count) {
-                map[font.name] = "Regular"
-                return "Regular"
-            }
-            let fontName = font.name
-            let offset = fontName.index(fontName.startIndex, offsetBy: name.count)
-            let end = fontName.endIndex
-            let face = String(fontName[offset..<end])
-            let newFace = face.replacingOccurrences(of: "-", with: " ")
-            
-            // TODO: Space between words
-            // Replace Hyphens with spaces
-            map[font.name] = newFace
-            return newFace
-        }
-        return map
-    }
-}
-
 extension Array where Element == Font {
     func groupedByFamily() -> [FontFamily] {
         self
@@ -64,4 +41,9 @@ extension Font {
             }
         })
     }
+}
+
+
+extension Font: Identifiable {
+    var id: String { self.name }
 }
