@@ -23,6 +23,8 @@ struct AppView: View {
     var body: some View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
+                // TODO: get rid of this shit
+                // it is not modular ....
                 List(selection: viewStore.binding(
                     get: \.selectedItem,
                     send: AppAction.selectedItem
