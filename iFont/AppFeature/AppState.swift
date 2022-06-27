@@ -19,13 +19,20 @@ enum SelectionType: Equatable, Hashable {
 }
 
 struct AppState: Equatable {
-    var fontPath = "/System/Library/Fonts"
-    // var fontPath = "/Users/kdeda/Library/Fonts"
+    // var fontPathURL = "/System/Library/Fonts"
+    // var fontPathURL = "/Users/kdeda/Library/Fonts"
+    
+    // TODO: jdeda
+    // Fix me in production
+    // these are some fonts in the project for quick turn around debug/test
+    // in production we would use the real machine font paths
+    //
+    var fontPathURL = Bundle.main.resourceURL!.appendingPathComponent("Fonts")
     var fonts = [Font]()
     // var fontFamilies = [FontFamily]()
     var familyExpansionState = Set<String>()
     var selectedItem: SelectionType? = nil
-    var fontFamilies = [FontFamilyState]()
+    var fontFamilies: IdentifiedArrayOf<FontFamilyState> = []
 }
 
 enum AppAction: Equatable {
@@ -35,6 +42,7 @@ enum AppAction: Equatable {
     case sidebar
     case selectedItem(SelectionType?)
     case toggleExpand(FontFamily)
+    case fontFamily(id: FontFamilyState.ID, action: FontFamilyAction)
 }
 
 struct AppEnvironment {
@@ -44,6 +52,15 @@ struct AppEnvironment {
 
 extension AppState {
     static let reducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
+        FontFamilyState.reducer.forEach(
+          state: \.fontFamilies,
+          action: /AppAction.fontFamily(id:action:),
+          environment: {
+              FontFamilyEnvironment(
+                mainQueue: $0.mainQueue,
+                fontClient: $0.fontClient
+              )}
+        ),
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
@@ -52,7 +69,7 @@ extension AppState {
             case .fetchFonts:
                 return environment
                     .fontClient
-                    .fetchFonts(URL(fileURLWithPath: state.fontPath, isDirectory: true))
+                    .fetchFonts(state.fontPathURL)
                     .receive(on: environment.mainQueue)
                     .catchToEffect()
                     .map(AppAction.fetchFontsResult)
@@ -60,10 +77,12 @@ extension AppState {
             case let .fetchFontsResult(.success(newFonts)):
                 Logger.log("received: \(newFonts.count)")
                 state.fonts.append(contentsOf: newFonts)
-                state.fontFamilies = state.fonts
+                let temp = state.fonts
                     .groupedByFamily()
                     .sorted(by: { $0.name.caseInsensitiveCompare($1.name) == .orderedAscending })
                     .map(FontFamilyState.init)
+                
+                state.fontFamilies = IdentifiedArrayOf(uniqueElements: temp)
                 return .none
                 
             case .sidebar:
@@ -84,15 +103,31 @@ extension AppState {
                     state.familyExpansionState.insert(family.name)
                 }
                 return .none
+                
+            case let .fontFamily(familyID, subAction):
+                Logger.log("familyID: \(familyID) subAction: \(subAction)")
+                
+                if case FontFamilyAction.toggleSelection = subAction {
+                    // the selection did toggle on familyID
+                    if let familyState = state.fontFamilies[id: familyID] {
+                        if familyState.isSelected {
+                            state.selectedItem = .fontFamily(familyState)
+                        } else {
+                            state.selectedItem = nil
+                        }
+                    }
+                }
+                return .none
             }
         }
     )
+        .debug()
 }
 
 extension AppState {
     static let liveState = AppState(fonts: [Font]())
     static let mockState = AppState(
-        fontPath: "/Users/kdeda/Library/Fonts",
+        fontPathURL: URL(fileURLWithPath: "/Users/kdeda/Library/Fonts"),
         fonts: [Font(name: "KohinoorBangla", familyName: "KohinoorBangla")]
     )
 }

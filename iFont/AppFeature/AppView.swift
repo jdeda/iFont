@@ -28,11 +28,11 @@ struct AppView: View {
                     send: AppAction.selectedItem
                 )) {
                     ForEachStore(
-                      self.store.scope(
-                        state: \.fontFamilies,
-                        action: AppAction.todo(id:action:)
-                      ),
-                      content: FontFamilyRowView.init(store:)
+                        self.store.scope(
+                            state: \.fontFamilies,
+                            action: AppAction.fontFamily(id:action:)
+                        ),
+                        content: FontFamilyRowView.init(store:)
                     )
 //
 //                    ForEach(viewStore.fontFamilies, id: \.family.name) { family in
@@ -48,7 +48,6 @@ struct AppView: View {
 //                    }
                 }
                 .frame(minWidth: 220, maxWidth: 320)
-                Text("No selection ...")
 
                 // TODO: kdeda
                 // polish this so i'm able to select a family or a font
@@ -61,12 +60,14 @@ struct AppView: View {
 //                SwitchStore(viewStore.selectedItem) {
 //                    CaseLet(state: /SelectionType.font, then: <#T##(Store<LocalState, LocalAction>) -> Content#>)
 //                }
-//                switch viewStore.selectedFontFamily {
-//                case let .some(family):
-//                    FontFamilyView(family: family)
-//                case .none:
-//                    Text("No selection ...")
-//                }
+                switch viewStore.selectedItem {
+                case let .fontFamily(familyState):
+                    Text("fontFamily: selection ...\(familyState.fontFamily.name)")
+                case .some:
+                    Text("some: selection ...")
+                case .none:
+                    Text("none selection ...")
+                }
             }
             .onAppear {
                 viewStore.send(AppAction.onAppear)

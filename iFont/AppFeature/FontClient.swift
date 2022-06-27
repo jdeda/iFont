@@ -119,7 +119,7 @@ extension URL {
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) {
             Logger.log("\n\nThread: \(Thread.current) \n Starting ...")
             
-            Logger.log("Creating enumerator ...")
+            Logger.log("Creating enumerator at path: '\(self.path)'")
             let enumerator = FileManager.default.enumerator(
                 at: self,
                 includingPropertiesForKeys: [.fileResourceTypeKey, .contentTypeKey, .nameKey],
@@ -130,7 +130,6 @@ extension URL {
                 }
             )!
             Logger.log("Finished Creating enumerator ...")
-            
             
             Logger.log("Enumerating ...")
             enumerator.forEach { element in

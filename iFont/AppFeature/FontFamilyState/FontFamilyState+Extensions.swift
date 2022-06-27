@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 extension Array where Element == Character {
     static var alphabet: [Character] {
         (97...122).map { Character(UnicodeScalar($0)) }

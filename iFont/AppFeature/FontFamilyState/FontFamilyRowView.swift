@@ -18,19 +18,28 @@ struct FontFamilyRowView: View {
                 HStack {
                     // TODO: move 'familyExpansionState' this to my state
                     // fontFamily.familyExpansionState.contains(viewStore.fontFamily.name)
-                    Image(systemName: viewStore.expanded ? "chevron.down" : "chevron.right")
+                    Image(systemName: viewStore.isExpanded ? "chevron.down" : "chevron.right")
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 20, height: 20)
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        Logger.log("onTapGesture: \(viewStore.fontFamily.name)")
-                        // TODO: implement action
-                        // viewStore.send(AppAction.toggleExpand(family))
+                        Logger.log("toggleExpansion: \(viewStore.fontFamily.name)")
+                        viewStore.send(FontFamilyAction.toggleExpansion)
                     }
                     Text(viewStore.fontFamily.name)
                     Spacer()
                 }
+//                .onTapGesture {
+//                    Logger.log("toggleSelection: \(viewStore.fontFamily.name)")
+//                    viewStore.send(FontFamilyAction.toggleSelection)
+//                }
             }
+            // this is the right way
+            // .background(viewStore.isSelected ? Color.red : Color.clear)
+            
+            // this is the Vanilla SwiftUI way, we are expected to be inside a list
+            // and thus need to furnish a tag to the list ...
+            .tag(viewStore.selectionType)
         }
     }
 }

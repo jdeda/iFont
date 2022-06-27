@@ -10,7 +10,8 @@ import ComposableArchitecture
 
 struct FontFamilyState: Equatable, Hashable {
     var fontFamily: FontFamily
-    var expanded: Bool = false
+    var isSelected: Bool = false
+    var isExpanded: Bool = false
     var fonts: [Font] {
         fontFamily.fonts
     }
@@ -28,6 +29,8 @@ extension FontFamilyState: Identifiable {
 
 enum FontFamilyAction: Equatable {
     case onAppear
+    case toggleSelection
+    case toggleExpansion
 }
 
 struct FontFamilyEnvironment {
@@ -40,6 +43,16 @@ extension FontFamilyState {
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
+                return .none
+                
+            case .toggleSelection:
+                state.isSelected.toggle()
+                Logger.log("familyID: \(state.id) isSelected: \(state.isSelected)")
+                return .none
+                
+            case .toggleExpansion:
+                state.isExpanded.toggle()
+                Logger.log("familyID: \(state.id) isExpanded: \(state.isExpanded)")
                 return .none
             }
         }
