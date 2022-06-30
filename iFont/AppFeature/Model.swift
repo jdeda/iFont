@@ -50,3 +50,42 @@ struct FontFamily: Equatable, Hashable {
     let name: String
     var fonts: [Font]
 }
+
+extension Font: Identifiable {
+    var id: String {
+        name
+    }
+}
+
+extension FontFamily: Identifiable {
+    var id: String {
+        name
+    }
+}
+
+enum ItemType: Equatable, Hashable {
+    case font(Font)
+    case fontFamily(FontFamily)
+}
+
+extension ItemType: Identifiable {
+    var id: String {
+        switch self {
+        case let .font(font): return font.id
+        case let .fontFamily(fontFamily): return fontFamily.id
+        }
+    }
+}
+
+extension FontFamily {
+    var itemType: ItemType {
+        .fontFamily(self)
+    }
+}
+
+extension Font {
+    var itemType: ItemType {
+        .font(self)
+    }
+}
+

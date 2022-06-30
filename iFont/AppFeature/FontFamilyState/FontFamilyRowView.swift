@@ -39,7 +39,7 @@ struct FontFamilyRowView: View {
             
             // this is the Vanilla SwiftUI way, we are expected to be inside a list
             // and thus need to furnish a tag to the list ...
-            .tag(viewStore.selectionType)
+//            .tag(viewStore.selectionType)
         }
     }
 }

@@ -1,12 +1,26 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct FontRow: View {
-    var font: Font
+struct ItemTypeView: View {
+    let store: Store<AppState, AppAction>
+    var itemType: ItemType
     
+    // TODO: jdeda
+    // add
+    // item expansion
+    // item selection
     var body: some View {
         HStack {
-            Text(font.name)
+            switch itemType {
+            case let .font(font):
+                Text("font: selection ...\(font.name)")
+            case let .fontFamily(fontFamily):
+                Text("fontFamily: selection ...\(fontFamily.name)")
+                //                        case .some:
+                //                            Text("some: selection ...")
+                //                        case .none:
+                //                            Text("none selection ...")
+            }
             Spacer()
         }
     }
@@ -29,25 +43,10 @@ struct AppView: View {
                     get: \.selectedItem,
                     send: AppAction.selectedItem
                 )) {
-                    ForEachStore(
-                        self.store.scope(
-                            state: \.fontFamilies,
-                            action: AppAction.fontFamily(id:action:)
-                        ),
-                        content: FontFamilyRowView.init(store:)
-                    )
-//
-//                    ForEach(viewStore.fontFamilies, id: \.family.name) { family in
-//                        FontFamilyRow(store: store, family: family)
-//                            .tag(family.selectionType)
-//                        if viewStore.familyExpansionState.contains(family.name) {
-//                            ForEach(family.fonts, id: \.name) { font in
-//                                FontRow(font: font)
-//                                    .tag(font.selectionType)
-//                            }
-//                            .offset(x: 20, y: 0)
-//                        }
-//                    }
+                    ForEach(viewStore.items) { item in
+                        ItemTypeView(store: store, itemType: item)
+                            .tag(item)
+                    }
                 }
                 .frame(minWidth: 220, maxWidth: 320)
 
@@ -63,8 +62,10 @@ struct AppView: View {
 //                    CaseLet(state: /SelectionType.font, then: <#T##(Store<LocalState, LocalAction>) -> Content#>)
 //                }
                 switch viewStore.selectedItem {
-                case let .fontFamily(familyState):
-                    Text("fontFamily: selection ...\(familyState.fontFamily.name)")
+                case let .font(font):
+                    Text("font: selection ...\(font.name)")
+                case let .fontFamily(fontFamily):
+                    Text("fontFamily: selection ...\(fontFamily.name)")
                 case .some:
                     Text("some: selection ...")
                 case .none:
