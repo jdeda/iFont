@@ -1,5 +1,6 @@
 import Foundation
 import ComposableArchitecture
+import AppKit
 
 struct AppState: Equatable {
     // var fontPathURL = "/System/Library/Fonts"
@@ -29,6 +30,7 @@ enum AppAction: Equatable {
     case sidebar
     case selectedItem(ItemType?)
     case toggleExpand(FontFamily)
+    case sidebarExpandCollapse
 }
 
 struct AppEnvironment {
@@ -38,15 +40,6 @@ struct AppEnvironment {
 
 extension AppState {
     static let reducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
-        //        FontFamilyState.reducer.forEach(
-        //          state: \.fontFamilies,
-        //          action: /AppAction.fontFamily(id:action:),
-        //          environment: {
-        //              FontFamilyEnvironment(
-        //                mainQueue: $0.mainQueue,
-        //                fontClient: $0.fontClient
-        //              )}
-        //        ),
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
@@ -104,24 +97,15 @@ extension AppState {
                 
                 return .none
                 
-                //            case let .fontFamily(familyID, subAction):
-                //                Logger.log("familyID: \(familyID) subAction: \(subAction)")
-                //
-                //                if case FontFamilyAction.toggleSelection = subAction {
-                //                    // the selection did toggle on familyID
-                //                    if let familyState = state.fontFamilies[id: familyID] {
-                //                        if familyState.isSelected {
-                //                            state.selectedItem = .fontFamily(familyState)
-                //                        } else {
-                //                            state.selectedItem = nil
-                //                        }
-                //                    }
-                //                }
-                //                return .none
+            case .sidebarExpandCollapse:
+                NSApp.keyWindow?
+                    .firstResponder?
+                    .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
+                return .none
             }
         }
     )
-        .debug()
+        // .debug()
 }
 
 extension AppState {

@@ -1,15 +1,17 @@
+////
+////  FontRowView.swift
+////  iFont
+////
+////  Created by Jesse Deda on 7/1/22.
+////
 //
-//  FontRowView.swift
-//  iFont
+//import SwiftUI
 //
-//  Created by Jesse Deda on 7/1/22.
-//
-
-import SwiftUI
-
-struct FontRowView: View {
-    let font: Font
-    var body: some View {
-        Text("\t \(font.name)")
-    }
-}
+//struct FontRowView: View {
+//    let font: Font
+//    
+//    var body: some View {
+//        Text("\(font.name)")
+//            .padding(.leading, 40)
+//    }
+//}
