@@ -75,6 +75,11 @@ struct FontFamilyDetailView: View {
 
 struct FontFamilyDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        FontFamilyDetailView(family: FontFamily(name: "Chicken", fonts: [Font(name: "Cheese", familyName: "Chicken")]))
+        FontFamilyDetailView(
+            family: FontFamily(
+                name: "Chicken",
+                fonts: [Font(name: "Cheese", familyName: "Chicken")]
+            )
+        )
     }
 }

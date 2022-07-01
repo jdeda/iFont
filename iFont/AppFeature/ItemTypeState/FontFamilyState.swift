@@ -59,7 +59,6 @@ extension FontFamilyState {
     )
 }
 
-// TODO: Mock state should fetch fonts.
 extension FontFamilyState {
     static let mockState = FontFamilyState(
         FontFamily(

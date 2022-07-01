@@ -12,7 +12,7 @@ import ComposableArchitecture
 struct FontFamilyRowView: View {
     let store: Store<AppState, AppAction>
     var fontFamily: FontFamily
-
+    
     var body: some View {
         WithViewStore(self.store) { viewStore in
             VStack {
@@ -31,11 +31,6 @@ struct FontFamilyRowView: View {
                     Spacer()
                 }
             }
-            // this is the right way
-            // .background(viewStore.isSelected ? Color.red : Color.clear)
-            
-            // this is the Vanilla SwiftUI way, we are expected to be inside a list
-            // and thus need to furnish a tag to the list ...
         }
     }
 }
