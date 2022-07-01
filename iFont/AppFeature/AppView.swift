@@ -1,11 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
 
-/**
- 1. collections you selected
- 2. list view
- 3. information view(s)
- */
 struct AppView: View {
     let store: Store<AppState, AppAction>
     
@@ -30,16 +25,8 @@ struct AppView: View {
                 
                 // TODO: jdeda
                 // Create the corresponding views here
-                switch viewStore.selectedItem {
-                case let .font(font):
-                    // One for the Selected Font
-                    Text("font: selection ...\(font.name)")
-                case let .fontFamily(fontFamily):
-                    // One for the Selected Family
-                    Text("fontFamily: selection ...\(fontFamily.name)")
-                case .none:
-                    // One for no Selection
-                    Text("none selection ...")
+                if let item = viewStore.selectedItem {
+                    ItemTypeView(store: store, itemType: item)
                 }
             }
             .onAppear {

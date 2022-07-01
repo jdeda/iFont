@@ -58,21 +58,21 @@ struct FontClientHelper {
          2. I want all the glyphs associated with this font
          3. i want to draw one or some or all of the  glyphs given a character or characters
          */
-//        let glyphIds = 0...257
-//        let f = nsFonts[0]
-//        let g = f.gl
-//        NSGlyphInfo.init
-//        let glyphs = nsFonts.map { nsFont in
-//            let fontGlyphs = Array<Character>.alphabet.map { letter in
-//                nsFont.glyph(withName: String(letter))
-//
-//
-//            }
-//        }
-//        let glyphs = nsFonts[0]
-//        let f = nsFonts[0]
-//
-//        let g = f.glyph(withName: "A")
+        //        let glyphIds = 0...257
+        //        let f = nsFonts[0]
+        //        let g = f.gl
+        //        NSGlyphInfo.init
+        //        let glyphs = nsFonts.map { nsFont in
+        //            let fontGlyphs = Array<Character>.alphabet.map { letter in
+        //                nsFont.glyph(withName: String(letter))
+        //
+        //
+        //            }
+        //        }
+        //        let glyphs = nsFonts[0]
+        //        let f = nsFonts[0]
+        //
+        //        let g = f.glyph(withName: "A")
         let fonts = nsFonts
             .map { nsFont -> Font in
                 // TODO: kdeda
@@ -88,7 +88,7 @@ struct FontClientHelper {
                         Logger.log("\(key): \(value)")
                     }
                 }
-
+                
                 return Font(name: nsFont.fontName, familyName: nsFont.familyName ?? "None")
             }
         
@@ -96,11 +96,11 @@ struct FontClientHelper {
         fonts.forEach {
             Logger.log("here: \($0.name)")
         }
-//        
-//        
-//        let manager = NSLayoutManager.init()
-//        let drawGlyphs = manager.drawGlyphs(forGlyphRange: NSRange.init(), at: NSPoint.init(x: 1, y: 1  ))
-//        let glpyh = NSGlyph.init("Cheese")
+        //        
+        //        
+        //        let manager = NSLayoutManager.init()
+        //        let drawGlyphs = manager.drawGlyphs(forGlyphRange: NSRange.init(), at: NSPoint.init(x: 1, y: 1  ))
+        //        let glpyh = NSGlyph.init("Cheese")
         
         return fonts
     }

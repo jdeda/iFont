@@ -38,15 +38,15 @@ struct AppEnvironment {
 
 extension AppState {
     static let reducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
-//        FontFamilyState.reducer.forEach(
-//          state: \.fontFamilies,
-//          action: /AppAction.fontFamily(id:action:),
-//          environment: {
-//              FontFamilyEnvironment(
-//                mainQueue: $0.mainQueue,
-//                fontClient: $0.fontClient
-//              )}
-//        ),
+        //        FontFamilyState.reducer.forEach(
+        //          state: \.fontFamilies,
+        //          action: /AppAction.fontFamily(id:action:),
+        //          environment: {
+        //              FontFamilyEnvironment(
+        //                mainQueue: $0.mainQueue,
+        //                fontClient: $0.fontClient
+        //              )}
+        //        ),
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
@@ -78,7 +78,7 @@ extension AppState {
                 
             case .sidebar:
                 return .none
-                                
+                
                 // display SelectedFont for each font in this fam
             case let .selectedItem(selectedItemType):
                 state.selectedItem = selectedItemType
@@ -104,20 +104,20 @@ extension AppState {
                 
                 return .none
                 
-//            case let .fontFamily(familyID, subAction):
-//                Logger.log("familyID: \(familyID) subAction: \(subAction)")
-//
-//                if case FontFamilyAction.toggleSelection = subAction {
-//                    // the selection did toggle on familyID
-//                    if let familyState = state.fontFamilies[id: familyID] {
-//                        if familyState.isSelected {
-//                            state.selectedItem = .fontFamily(familyState)
-//                        } else {
-//                            state.selectedItem = nil
-//                        }
-//                    }
-//                }
-//                return .none
+                //            case let .fontFamily(familyID, subAction):
+                //                Logger.log("familyID: \(familyID) subAction: \(subAction)")
+                //
+                //                if case FontFamilyAction.toggleSelection = subAction {
+                //                    // the selection did toggle on familyID
+                //                    if let familyState = state.fontFamilies[id: familyID] {
+                //                        if familyState.isSelected {
+                //                            state.selectedItem = .fontFamily(familyState)
+                //                        } else {
+                //                            state.selectedItem = nil
+                //                        }
+                //                    }
+                //                }
+                //                return .none
             }
         }
     )
