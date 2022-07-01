@@ -1,31 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct ItemTypeView: View {
-    let store: Store<AppState, AppAction>
-    var itemType: ItemType
-    
-    // TODO: jdeda
-    // add
-    // item expansion
-    // item selection
-    var body: some View {
-        HStack {
-            switch itemType {
-            case let .font(font):
-                Text("font: selection ...\(font.name)")
-            case let .fontFamily(fontFamily):
-                Text("fontFamily: selection ...\(fontFamily.name)")
-                //                        case .some:
-                //                            Text("some: selection ...")
-                //                        case .none:
-                //                            Text("none selection ...")
-            }
-            Spacer()
-        }
-    }
-}
-
 /**
  1. collections you selected
  2. list view
@@ -37,38 +12,33 @@ struct AppView: View {
     var body: some View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
-                // TODO: get rid of this shit
-                // it is not modular ....
-                List(selection: viewStore.binding(
-                    get: \.selectedItem,
-                    send: AppAction.selectedItem
-                )) {
-                    ForEach(viewStore.items) { item in
-                        ItemTypeView(store: store, itemType: item)
-                            .tag(item)
+                VStack(spacing: 0) {
+                    List(selection: viewStore.binding(
+                        get: \.selectedItem,
+                        send: AppAction.selectedItem
+                    )) {
+                        ForEach(viewStore.items) { item in
+                            ItemTypeView(store: store, itemType: item)
+                                .tag(item)
+                        }
                     }
+                    .frame(minWidth: 220, maxWidth: 320)
+                    Divider()
+                    Text("Font count: \(viewStore.fonts.count)")
+                        .padding(5)
                 }
-                .frame(minWidth: 220, maxWidth: 320)
-
-                // TODO: kdeda
-                // polish this so i'm able to select a family or a font
-                // use an enum case about what it selected
-                // than here you can switch over them
-                // clone https://github.com/pointfreeco/swift-composable-architecture.git
-                // open ComposableArchitecture.xcworkspace
-                // read/understand the SwitchStore
                 
-//                SwitchStore(viewStore.selectedItem) {
-//                    CaseLet(state: /SelectionType.font, then: <#T##(Store<LocalState, LocalAction>) -> Content#>)
-//                }
+                // TODO: jdeda
+                // Create the corresponding views here
                 switch viewStore.selectedItem {
                 case let .font(font):
+                    // One for the Selected Font
                     Text("font: selection ...\(font.name)")
                 case let .fontFamily(fontFamily):
+                    // One for the Selected Family
                     Text("fontFamily: selection ...\(fontFamily.name)")
-                case .some:
-                    Text("some: selection ...")
                 case .none:
+                    // One for no Selection
                     Text("none selection ...")
                 }
             }

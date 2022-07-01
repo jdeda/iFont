@@ -10,42 +10,39 @@ import SwiftUI
 import ComposableArchitecture
 
 struct FontFamilyRowView: View {
-    let store: Store<FontFamilyState, FontFamilyAction>
-    
+    let store: Store<AppState, AppAction>
+    var fontFamily: FontFamily
+
     var body: some View {
         WithViewStore(self.store) { viewStore in
             VStack {
                 HStack {
-                    // TODO: move 'familyExpansionState' this to my state
-                    // fontFamily.familyExpansionState.contains(viewStore.fontFamily.name)
-                    Image(systemName: viewStore.isExpanded ? "chevron.down" : "chevron.right")
+                    Image(systemName: viewStore.familyExpansionState.contains(fontFamily.id)
+                          ? "chevron.down"
+                          : "chevron.right")
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 20, height: 20)
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        Logger.log("toggleExpansion: \(viewStore.fontFamily.name)")
-                        viewStore.send(FontFamilyAction.toggleExpansion)
+                        Logger.log("toggleExpansion: \(fontFamily.name)")
+                        viewStore.send(AppAction.toggleExpand(fontFamily))
                     }
-                    Text(viewStore.fontFamily.name)
+                    Text(fontFamily.name)
                     Spacer()
                 }
-//                .onTapGesture {
-//                    Logger.log("toggleSelection: \(viewStore.fontFamily.name)")
-//                    viewStore.send(FontFamilyAction.toggleSelection)
-//                }
             }
             // this is the right way
             // .background(viewStore.isSelected ? Color.red : Color.clear)
             
             // this is the Vanilla SwiftUI way, we are expected to be inside a list
             // and thus need to furnish a tag to the list ...
-//            .tag(viewStore.selectionType)
         }
     }
 }
 
 struct FontFamilyRowView_Previews: PreviewProvider {
     static var previews: some View {
-        FontFamilyRowView(store: FontFamilyState.mockStore)
+        Text("Fix me")
+        // FontFamilyRowView(store: FontFamilyState.mockStore)
     }
 }

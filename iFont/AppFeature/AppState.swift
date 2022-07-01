@@ -5,24 +5,21 @@ struct AppState: Equatable {
     // var fontPathURL = "/System/Library/Fonts"
     // var fontPathURL = "/Users/kdeda/Library/Fonts"
     
-    // TODO: jdeda
-    // Fix me in production
+    // FIXME: jdeda
+    // When in production
     // these are some fonts in the project for quick turn around debug/test
     // in production we would use the real machine font paths
     //
     var fontPathURL = Bundle.main.resourceURL!.appendingPathComponent("Fonts")
+    // var fontPathURL = URL(fileURLWithPath: "/System/Library/Fonts")
     var fonts = [Font]()
-    // var fontFamilies = [FontFamily]()
-    var familyExpansionState = Set<String>()
+    var familyExpansionState = Set<ItemType.ID>()
     var selectedItem: ItemType? = nil
-
-    // TODO: jdeda
-    // derive this from the array of fontFamilies
-    /// Will contain an array of items derived from the fontFamilies
-    /// and if a family is expanded it will contain that family's children as well
-    var items = [ItemType]()
-
+    
+    /// derived
     var fontFamilies = [FontFamily]()
+    /// derived
+    var items = [ItemType]()
 }
 
 enum AppAction: Equatable {
@@ -32,7 +29,6 @@ enum AppAction: Equatable {
     case sidebar
     case selectedItem(ItemType?)
     case toggleExpand(FontFamily)
-//    case fontFamily(id: FontFamilyState.ID, action: FontFamilyAction)
 }
 
 struct AppEnvironment {
@@ -71,7 +67,13 @@ extension AppState {
                     .groupedByFamily()
                     .sorted(by: { $0.name.caseInsensitiveCompare($1.name) == .orderedAscending })
                 
-                state.items = state.fontFamilies.map(\.itemType)
+                state.items = state.fontFamilies.reduce(into: [ItemType](), { partialResult, nextItem in
+                    partialResult.append(nextItem.itemType)
+                    // if family is expanded, add its children to display
+                    if state.familyExpansionState.contains(nextItem.id) {
+                        partialResult.append(contentsOf: nextItem.fonts.map(\.itemType))
+                    }
+                })
                 return .none
                 
             case .sidebar:
@@ -86,11 +88,20 @@ extension AppState {
                 return .none
                 
             case let .toggleExpand(family):
-                if state.familyExpansionState.contains(family.name) {
-                    state.familyExpansionState.remove(family.name)
+                if state.familyExpansionState.contains(family.id) {
+                    state.familyExpansionState.remove(family.id)
                 } else {
-                    state.familyExpansionState.insert(family.name)
+                    state.familyExpansionState.insert(family.id)
                 }
+                
+                state.items = state.fontFamilies.reduce(into: [ItemType](), { partialResult, nextItem in
+                    partialResult.append(nextItem.itemType)
+                    // if family is expanded, add its children to display
+                    if state.familyExpansionState.contains(nextItem.id) {
+                        partialResult.append(contentsOf: nextItem.fonts.map(\.itemType))
+                    }
+                })
+                
                 return .none
                 
 //            case let .fontFamily(familyID, subAction):
