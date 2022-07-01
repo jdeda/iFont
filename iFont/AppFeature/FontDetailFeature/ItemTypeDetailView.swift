@@ -1,14 +1,15 @@
 //
-//  ItemTypeView.swift
+//  ItemTypeDetailView.swift
 //  iFont
 //
-//  Created by Klajd Deda on 7/1/22.
+//  Created by Jesse Deda on 7/1/22.
 //
 
 import SwiftUI
+
 import ComposableArchitecture
 
-struct ItemTypeView: View {
+struct ItemTypeDetailView: View {
     let store: Store<AppState, AppAction>
     var itemType: ItemType
     
@@ -17,9 +18,9 @@ struct ItemTypeView: View {
             HStack {
                 switch itemType {
                 case let .font(font):
-                    FontRowView(font: font)
+                    FontDetailView(font: font)
                 case let .fontFamily(fontFamily):
-                    FontFamilyRowView(store: store, fontFamily: fontFamily)
+                    FontFamilyDetailView(family: fontFamily)
                 }
                 Spacer()
             }
