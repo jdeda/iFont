@@ -62,7 +62,7 @@ struct AppView: View {
                     }
                 }
                 
-                // TODO: jdeda
+                // TODO: jdeda - DONE(ish)
                 // Know that the toolbar can reside inside the ItemTypeDetailView
                 // 1) Add some toolbar items, such a search field, just like font book
                 // 2) Add some more detail views ...

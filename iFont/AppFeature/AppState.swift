@@ -12,7 +12,7 @@ struct AppState: Equatable {
     // in production we would use the real machine font paths
     //
     var fontPathURL = Bundle.main.resourceURL!.appendingPathComponent("Fonts")
-    // var fontPathURL = URL(fileURLWithPath: "/System/Library/Fonts")
+//     var fontPathURL = URL(fileURLWithPath: "/System/Library/Fonts")
     var fonts = [Font]()
     var familyExpansionState = Set<ItemType.ID>()
     var selectedItem: ItemType? = nil
@@ -105,6 +105,7 @@ extension AppState {
                     .firstResponder?
                     .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
                 return .none
+                
             case let .clickedDetailSelection(newSelection):
                 state.detailSelection = newSelection
                 return .none

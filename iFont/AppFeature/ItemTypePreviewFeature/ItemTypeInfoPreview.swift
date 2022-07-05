@@ -62,6 +62,7 @@ struct FontFamilyInfoPreview: View {
         List {
             ForEach(family.fonts, id: \.name) { font in
                 FontInfoPreview(font: font)
+                    .padding()
             }
         }
     }
