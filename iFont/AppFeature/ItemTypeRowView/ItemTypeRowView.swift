@@ -18,7 +18,7 @@ struct FontRowView: View {
 }
 
 struct FontFamilyRowView: View {
-    let store: Store<AppState, AppAction>
+    let store: Store<FontCollectionState, FontCollectionAction>
     var fontFamily: FontFamily
     
     var body: some View {
@@ -32,7 +32,7 @@ struct FontFamilyRowView: View {
                 .contentShape(Rectangle())
                 .onTapGesture {
                     Logger.log("toggleExpansion: \(fontFamily.name)")
-                    viewStore.send(AppAction.toggleExpand(fontFamily))
+                    viewStore.send(FontCollectionAction.toggleExpand(fontFamily))
                 }
                 Text(fontFamily.name)
                 Spacer()
@@ -41,15 +41,16 @@ struct FontFamilyRowView: View {
     }
 }
 
-struct FontFamilyRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        Text("Fix me")
-        // FontFamilyRowView(store: FontFamilyState.mockStore)
-    }
-}
+// TODO: Jdeda: fix me
+//struct FontFamilyRowView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        // FontFamilyRowView(store: FontFamilyState.mockStore)
+//    }
+//}
 
-struct ItemTypeView: View {
-    let store: Store<AppState, AppAction>
+
+struct ItemTypeRowView: View {
+    let store: Store<FontCollectionState, FontCollectionAction>
     var itemType: ItemType
     
     var body: some View {
