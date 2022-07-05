@@ -49,7 +49,7 @@ struct FontFamilyRowView: View {
 //}
 
 
-struct ItemTypeView: View {
+struct ItemTypeRowView: View {
     let store: Store<AppState, AppAction>
     var itemType: ItemType
     

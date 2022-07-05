@@ -7,39 +7,6 @@
 
 import SwiftUI
 import ComposableArchitecture
-//
-//struct FontSamplePreview: View {
-//    let font: Font
-//    
-//    var body: some View {
-//        Text("\(font.name)")
-//            .padding(.leading, 40)
-//    }
-//}
-//
-//struct FontFamilySamplePreview: View {
-//    let store: Store<AppState, AppAction>
-//    var fontFamily: FontFamily
-//    
-//    var body: some View {
-//        WithViewStore(self.store) { viewStore in
-//            HStack {
-//                Image(systemName: viewStore.familyExpansionState.contains(fontFamily.id)
-//                      ? "chevron.down"
-//                      : "chevron.right")
-//                .aspectRatio(contentMode: .fit)
-//                .frame(width: 20, height: 20)
-//                .contentShape(Rectangle())
-//                .onTapGesture {
-//                    Logger.log("toggleExpansion: \(fontFamily.name)")
-//                    viewStore.send(AppAction.toggleExpand(fontFamily))
-//                }
-//                Text(fontFamily.name)
-//                Spacer()
-//            }
-//        }
-//    }
-//}
 
 struct FontSamplePreview: View {
     let font: Font
@@ -73,7 +40,7 @@ struct FontFamilySamplePreview: View {
                         Spacer()
                         VStack {
                             ForEach(family.fonts, id: \.name) { font in
-                                FontDetailView(font: font)
+                                FontSamplePreview(font: font)
                             }
                         }
                         Spacer()
@@ -101,6 +68,12 @@ struct FontFamilySamplePreview_Previews: PreviewProvider {
     }
 }
 
+// TODO: Jdeda Fix me
+//struct FontSamplePreviewView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FontSamplePreviewView()
+//    }
+//}
 
 struct ItemTypeSamplePreview: View {
     let store: Store<AppState, AppAction>
@@ -117,11 +90,3 @@ struct ItemTypeSamplePreview: View {
         }
     }
 }
-
-
-// TODO: Jdeda Fix me
-//struct FontSamplePreviewView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FontSamplePreviewView()
-//    }
-//}

@@ -11,7 +11,6 @@
 		973B894D28230DD800A2AB72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 973B894C28230DD800A2AB72 /* Assets.xcassets */; };
 		973B895028230DD800A2AB72 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 973B894F28230DD800A2AB72 /* Preview Assets.xcassets */; };
 		973B895B28230F7C00A2AB72 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 973B895A28230F7C00A2AB72 /* ComposableArchitecture */; };
-		975B5710286F526200AA468F /* ItemTypeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B570F286F526200AA468F /* ItemTypeDetailView.swift */; };
 		975B7930284912DA0012C273 /* FontClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B792F284912DA0012C273 /* FontClient.swift */; };
 		97D0E26528414F9E00F4BA77 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26428414F9E00F4BA77 /* AppView.swift */; };
 		97D0E26728414FA400F4BA77 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26628414FA400F4BA77 /* AppState.swift */; };
@@ -23,12 +22,11 @@
 		97DFC5B52874A09700D2E845 /* ItemTypeRepertoirePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DFC5B42874A09700D2E845 /* ItemTypeRepertoirePreview.swift */; };
 		97DFC5B72874A0A200D2E845 /* ItemTypeCustomPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DFC5B62874A0A200D2E845 /* ItemTypeCustomPreview.swift */; };
 		97DFC5B92874A0B700D2E845 /* ItemTypeSamplePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DFC5B82874A0B700D2E845 /* ItemTypeSamplePreview.swift */; };
-		97FC6B762858C1F2000330C5 /* FontFamilyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97FC6B752858C1F2000330C5 /* FontFamilyDetailView.swift */; };
 		FB294A9E28577DB700C8F8D9 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB294A9D28577DB700C8F8D9 /* Logger.swift */; };
 		FB294AA028577DD800C8F8D9 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB294A9F28577DD800C8F8D9 /* String+Extensions.swift */; };
 		FB90B821286A077900C5141B /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = FB90B820286A077900C5141B /* Fonts */; };
 		FBA3B5DC285B9DB3002C771F /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA3B5DB285B9DB3002C771F /* Model.swift */; };
-		FBD01F7D286F3B2C00857988 /* ItemTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD01F7C286F3B2C00857988 /* ItemTypeView.swift */; };
+		FBD01F7D286F3B2C00857988 /* ItemTypeRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD01F7C286F3B2C00857988 /* ItemTypeRowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +35,6 @@
 		973B894C28230DD800A2AB72 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		973B894F28230DD800A2AB72 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		973B895128230DD800A2AB72 /* iFont.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iFont.entitlements; sourceTree = "<group>"; };
-		975B570F286F526200AA468F /* ItemTypeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTypeDetailView.swift; sourceTree = "<group>"; };
 		975B792F284912DA0012C273 /* FontClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontClient.swift; sourceTree = "<group>"; };
 		97D0E26428414F9E00F4BA77 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		97D0E26628414FA400F4BA77 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
@@ -49,12 +46,11 @@
 		97DFC5B42874A09700D2E845 /* ItemTypeRepertoirePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTypeRepertoirePreview.swift; sourceTree = "<group>"; };
 		97DFC5B62874A0A200D2E845 /* ItemTypeCustomPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTypeCustomPreview.swift; sourceTree = "<group>"; };
 		97DFC5B82874A0B700D2E845 /* ItemTypeSamplePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTypeSamplePreview.swift; sourceTree = "<group>"; };
-		97FC6B752858C1F2000330C5 /* FontFamilyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontFamilyDetailView.swift; sourceTree = "<group>"; };
 		FB294A9D28577DB700C8F8D9 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		FB294A9F28577DD800C8F8D9 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		FB90B820286A077900C5141B /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		FBA3B5DB285B9DB3002C771F /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		FBD01F7C286F3B2C00857988 /* ItemTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTypeView.swift; sourceTree = "<group>"; };
+		FBD01F7C286F3B2C00857988 /* ItemTypeRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTypeRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,15 +103,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		975B5711286F545400AA468F /* FontDetailFeature */ = {
-			isa = PBXGroup;
-			children = (
-				975B570F286F526200AA468F /* ItemTypeDetailView.swift */,
-				97FC6B752858C1F2000330C5 /* FontFamilyDetailView.swift */,
-			);
-			path = FontDetailFeature;
-			sourceTree = "<group>";
-		};
 		97D0E26328414F9100F4BA77 /* AppFeature */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,8 +112,7 @@
 				97D0E26B284152D500F4BA77 /* Model+Extensions.swift */,
 				975B792F284912DA0012C273 /* FontClient.swift */,
 				97DFC5A92874944B00D2E845 /* ItemTypePreviewFeature */,
-				FBD5DC162869E8810031EFA3 /* ItemTypeState */,
-				975B5711286F545400AA468F /* FontDetailFeature */,
+				FBD5DC162869E8810031EFA3 /* ItemTypeRowView */,
 			);
 			path = AppFeature;
 			sourceTree = "<group>";
@@ -154,12 +140,12 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		FBD5DC162869E8810031EFA3 /* ItemTypeState */ = {
+		FBD5DC162869E8810031EFA3 /* ItemTypeRowView */ = {
 			isa = PBXGroup;
 			children = (
-				FBD01F7C286F3B2C00857988 /* ItemTypeView.swift */,
+				FBD01F7C286F3B2C00857988 /* ItemTypeRowView.swift */,
 			);
-			path = ItemTypeState;
+			path = ItemTypeRowView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,8 +230,7 @@
 				97DFC5B72874A0A200D2E845 /* ItemTypeCustomPreview.swift in Sources */,
 				FB294AA028577DD800C8F8D9 /* String+Extensions.swift in Sources */,
 				FB294A9E28577DB700C8F8D9 /* Logger.swift in Sources */,
-				97FC6B762858C1F2000330C5 /* FontFamilyDetailView.swift in Sources */,
-				FBD01F7D286F3B2C00857988 /* ItemTypeView.swift in Sources */,
+				FBD01F7D286F3B2C00857988 /* ItemTypeRowView.swift in Sources */,
 				97DFC5B32874A08700D2E845 /* ItemTypeInfoPreview.swift in Sources */,
 				97D0E26728414FA400F4BA77 /* AppState.swift in Sources */,
 				97D0E26528414F9E00F4BA77 /* AppView.swift in Sources */,
@@ -255,7 +240,6 @@
 				97DFC5B128749D1D00D2E845 /* ItemTypePreviewSelection+Extensions.swift in Sources */,
 				97DFC5AB2874949400D2E845 /* ItemTypePreviewSelection.swift in Sources */,
 				97D0E26C284152D500F4BA77 /* Model+Extensions.swift in Sources */,
-				975B5710286F526200AA468F /* ItemTypeDetailView.swift in Sources */,
 				97DFC5B52874A09700D2E845 /* ItemTypeRepertoirePreview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

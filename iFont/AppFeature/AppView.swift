@@ -31,7 +31,7 @@ struct AppView: View {
                         send: AppAction.selectedItem
                     )) {
                         ForEach(viewStore.items) { item in
-                            ItemTypeView(store: store, itemType: item)
+                            ItemTypeRowView(store: store, itemType: item)
                                 .tag(item)
                         }
                     }
