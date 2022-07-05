@@ -80,3 +80,7 @@ extension String {
         return (left: String(self[start..<middle]), right: String(self[middle..<end]))
     }
 }
+
+extension String {
+    static let quickBrownFox = "The quick brown fox jumps over the lazy dog and runs away."
+}
