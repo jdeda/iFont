@@ -21,6 +21,8 @@ struct AppState: Equatable {
     var fontFamilies = [FontFamily]()
     /// derived
     var items = [ItemType]()
+    
+    var detailSelection: ItemTypePreviewSelection = .sample
 }
 
 enum AppAction: Equatable {
@@ -31,6 +33,7 @@ enum AppAction: Equatable {
     case selectedItem(ItemType?)
     case toggleExpand(FontFamily)
     case sidebarExpandCollapse
+    case clickedDetailSelection(ItemTypePreviewSelection)
 }
 
 struct AppEnvironment {
@@ -101,6 +104,9 @@ extension AppState {
                 NSApp.keyWindow?
                     .firstResponder?
                     .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
+                return .none
+            case let .clickedDetailSelection(newSelection):
+                state.detailSelection = newSelection
                 return .none
             }
         }

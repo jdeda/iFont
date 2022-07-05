@@ -41,12 +41,13 @@ struct FontFamilyRowView: View {
     }
 }
 
-struct FontFamilyRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        Text("Fix me")
-        // FontFamilyRowView(store: FontFamilyState.mockStore)
-    }
-}
+// TODO: Jdeda: fix me
+//struct FontFamilyRowView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        // FontFamilyRowView(store: FontFamilyState.mockStore)
+//    }
+//}
+
 
 struct ItemTypeView: View {
     let store: Store<AppState, AppAction>

@@ -1,6 +1,24 @@
 import SwiftUI
 import ComposableArchitecture
 
+extension ItemTypePreviewSelection {
+    var image: Image {
+        switch self {
+        case .sample:
+            return Image(systemName: "text.aligncenter")
+
+        case .repertoire:
+            return Image(systemName: "square.grid.2x2")
+            
+        case .custom:
+            return Image(systemName: "character.cursor.ibeam")
+            
+        case .info:
+            return Image(systemName: "info.circle")
+        }
+    }
+}
+
 struct AppView: View {
     let store: Store<AppState, AppAction>
     
@@ -29,29 +47,33 @@ struct AppView: View {
                         }, label: {
                             Image(systemName: "sidebar.left")
                         })
-                        .help("Will show/hide the sidebar view")
+                        .help("Will show/hide the sidebar view") // TODO: Jdeda make conditional
                     }
                 }
                 
-                // TODO: jdeda
+                // TODO: jdeda: - DONE
                 // Add the view to indicate when no item is selected ...
                 VStack {
                     switch viewStore.selectedItem {
                     case let .some(item):
-                        ItemTypeDetailView(store: store, itemType: item)
+                        ItemTypePreview(store: store, selection: viewStore.detailSelection, item: item)
                     case .none:
-                        Text("123")
+                        Text("No fonts selected")
                     }
                 }
+                
+                // TODO: jdeda
+                // Know that the toolbar can reside inside the ItemTypeDetailView
+                // 1) Add some toolbar items, such a search field, just like font book
+                // 2) Add some more detail views ...
                 .toolbar {
-                    // TODO: jdeda
-                    // Know that the toolbar can reside inside the ItemTypeDetailView
-                    // 1) Add some toolbar items, such a search field, just like font book
-                    // 2) Add some more detail views ...
-                    ToolbarItemGroup {
-                        Text("Button 1")
-                        Text("1")
+                    Picker("Detail View", selection: viewStore.binding(
+                        get: \.detailSelection,
+                        send: AppAction.clickedDetailSelection)
+                    ) {
+                        ForEach(ItemTypePreviewSelection.allCases, id: \.self) { $0.image }
                     }
+                    .pickerStyle(.segmented)
                 }
             }
             .onAppear {
