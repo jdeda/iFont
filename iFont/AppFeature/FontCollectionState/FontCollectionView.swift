@@ -51,8 +51,6 @@ struct FontCollectionView: View {
                     }
                 }
                 
-                // TODO: jdeda: - DONE
-                // Add the view to indicate when no item is selected ...
                 VStack {
                     switch viewStore.selectedItem {
                     case let .some(item):
@@ -61,11 +59,6 @@ struct FontCollectionView: View {
                         Text("No fonts selected")
                     }
                 }
-                
-                // TODO: jdeda - DONE(ish)
-                // Know that the toolbar can reside inside the ItemTypeDetailView
-                // 1) Add some toolbar items, such a search field, just like font book
-                // 2) Add some more detail views ...
                 .toolbar {
                     Picker("Detail View", selection: viewStore.binding(
                         get: \.detailSelection,
