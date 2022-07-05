@@ -18,7 +18,7 @@ struct FontRowView: View {
 }
 
 struct FontFamilyRowView: View {
-    let store: Store<AppState, AppAction>
+    let store: Store<FontCollectionState, FontCollectionAction>
     var fontFamily: FontFamily
     
     var body: some View {
@@ -32,7 +32,7 @@ struct FontFamilyRowView: View {
                 .contentShape(Rectangle())
                 .onTapGesture {
                     Logger.log("toggleExpansion: \(fontFamily.name)")
-                    viewStore.send(AppAction.toggleExpand(fontFamily))
+                    viewStore.send(FontCollectionAction.toggleExpand(fontFamily))
                 }
                 Text(fontFamily.name)
                 Spacer()
@@ -50,7 +50,7 @@ struct FontFamilyRowView: View {
 
 
 struct ItemTypeRowView: View {
-    let store: Store<AppState, AppAction>
+    let store: Store<FontCollectionState, FontCollectionAction>
     var itemType: ItemType
     
     var body: some View {

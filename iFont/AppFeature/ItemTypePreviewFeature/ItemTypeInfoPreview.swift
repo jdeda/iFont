@@ -51,7 +51,10 @@ struct FontInfoPreview: View {
 
 struct FontInfoPreview_Previews: PreviewProvider {
     static var previews: some View {
-        FontInfoPreview(font: Font(name: "Chicken", familyName: "Cheese"))
+        FontInfoPreview(font: Font(
+            url: URL.init(fileURLWithPath: NSTemporaryDirectory()),
+            name: "Chicken",
+            familyName: "Cheese"))
     }
 }
 
@@ -70,7 +73,7 @@ struct FontFamilyInfoPreview: View {
 
 
 struct ItemTypeInfoPreview: View {
-    let store: Store<AppState, AppAction>
+    let store: Store<FontCollectionState, FontCollectionAction>
     var item: ItemType
     
     var body: some View {

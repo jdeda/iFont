@@ -1,6 +1,12 @@
+//
+//  AppState.swift
+//  iFont
+//
+//  Created by Klajd Deda on 7/5/22.
+//
+
 import Foundation
 import ComposableArchitecture
-import AppKit
 
 struct AppState: Equatable {
     // var fontPathURL = "/System/Library/Fonts"
@@ -12,28 +18,23 @@ struct AppState: Equatable {
     // in production we would use the real machine font paths
     //
     var fontPathURL = Bundle.main.resourceURL!.appendingPathComponent("Fonts")
-//     var fontPathURL = URL(fileURLWithPath: "/System/Library/Fonts")
+    //     var fontPathURL = URL(fileURLWithPath: "/System/Library/Fonts")
     var fonts = [Font]()
-    var familyExpansionState = Set<ItemType.ID>()
-    var selectedItem: ItemType? = nil
-    
     /// derived
-    var fontFamilies = [FontFamily]()
-    /// derived
-    var items = [ItemType]()
-    
-    var detailSelection: ItemTypePreviewSelection = .sample
+    var fontCollections = [FontCollection]()
+
+    var selectedItem: FontCollection? = nil
 }
 
 enum AppAction: Equatable {
     case onAppear
     case fetchFonts
     case fetchFontsResult(Result<[Font], Never>)
-    case sidebar
-    case selectedItem(ItemType?)
-    case toggleExpand(FontFamily)
-    case sidebarExpandCollapse
-    case clickedDetailSelection(ItemTypePreviewSelection)
+//    case sidebar
+//    case selectedItem(ItemType?)
+//    case toggleExpand(FontFamily)
+//    case sidebarExpandCollapse
+//    case clickedDetailSelection(ItemPreviewType)
 }
 
 struct AppEnvironment {
@@ -59,56 +60,60 @@ extension AppState {
             case let .fetchFontsResult(.success(newFonts)):
                 Logger.log("received: \(newFonts.count)")
                 state.fonts.append(contentsOf: newFonts)
-                state.fontFamilies = state.fonts
-                    .groupedByFamily()
-                    .sorted(by: { $0.name.caseInsensitiveCompare($1.name) == .orderedAscending })
                 
-                state.items = state.fontFamilies.reduce(into: [ItemType](), { partialResult, nextItem in
-                    partialResult.append(nextItem.itemType)
-                    // if family is expanded, add its children to display
-                    if state.familyExpansionState.contains(nextItem.id) {
-                        partialResult.append(contentsOf: nextItem.fonts.map(\.itemType))
-                    }
-                })
+                // TODO: jdeda
+                // Create the Users, Computer FontCollection
+                state.fontCollections = [FontCollection]()
+//                state.fontFamilies = state.fonts
+//                    .groupedByFamily()
+//                    .sorted(by: { $0.name.caseInsensitiveCompare($1.name) == .orderedAscending })
+//
+//                state.items = state.fontFamilies.reduce(into: [ItemType](), { partialResult, nextItem in
+//                    partialResult.append(nextItem.itemType)
+//                    // if family is expanded, add its children to display
+//                    if state.familyExpansionState.contains(nextItem.id) {
+//                        partialResult.append(contentsOf: nextItem.fonts.map(\.itemType))
+//                    }
+//                })
                 return .none
                 
-            case .sidebar:
-                return .none
-                
-                // display SelectedFont for each font in this fam
-            case let .selectedItem(selectedItemType):
-                state.selectedItem = selectedItemType
-                if let selectedItem = selectedItemType {
-                    Logger.log("selectedItemType: \(selectedItemType)")
-                }
-                return .none
-                
-            case let .toggleExpand(family):
-                if state.familyExpansionState.contains(family.id) {
-                    state.familyExpansionState.remove(family.id)
-                } else {
-                    state.familyExpansionState.insert(family.id)
-                }
-                
-                state.items = state.fontFamilies.reduce(into: [ItemType](), { partialResult, nextItem in
-                    partialResult.append(nextItem.itemType)
-                    // if family is expanded, add its children to display
-                    if state.familyExpansionState.contains(nextItem.id) {
-                        partialResult.append(contentsOf: nextItem.fonts.map(\.itemType))
-                    }
-                })
-                
-                return .none
-                
-            case .sidebarExpandCollapse:
-                NSApp.keyWindow?
-                    .firstResponder?
-                    .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
-                return .none
-                
-            case let .clickedDetailSelection(newSelection):
-                state.detailSelection = newSelection
-                return .none
+//            case .sidebar:
+//                return .none
+//
+//                // display SelectedFont for each font in this fam
+//            case let .selectedItem(selectedItemType):
+//                state.selectedItem = selectedItemType
+//                if let selectedItem = selectedItemType {
+//                    Logger.log("selectedItemType: \(selectedItemType)")
+//                }
+//                return .none
+//
+//            case let .toggleExpand(family):
+//                if state.familyExpansionState.contains(family.id) {
+//                    state.familyExpansionState.remove(family.id)
+//                } else {
+//                    state.familyExpansionState.insert(family.id)
+//                }
+//
+//                state.items = state.fontFamilies.reduce(into: [ItemType](), { partialResult, nextItem in
+//                    partialResult.append(nextItem.itemType)
+//                    // if family is expanded, add its children to display
+//                    if state.familyExpansionState.contains(nextItem.id) {
+//                        partialResult.append(contentsOf: nextItem.fonts.map(\.itemType))
+//                    }
+//                })
+//
+//                return .none
+//
+//            case .sidebarExpandCollapse:
+//                NSApp.keyWindow?
+//                    .firstResponder?
+//                    .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
+//                return .none
+//
+//            case let .clickedDetailSelection(newSelection):
+//                state.detailSelection = newSelection
+//                return .none
             }
         }
     )
@@ -119,7 +124,10 @@ extension AppState {
     static let liveState = AppState(fonts: [Font]())
     static let mockState = AppState(
         fontPathURL: URL(fileURLWithPath: "/Users/kdeda/Library/Fonts"),
-        fonts: [Font(name: "KohinoorBangla", familyName: "KohinoorBangla")]
+        fonts: [Font(
+            url: URL.init(fileURLWithPath: NSTemporaryDirectory()),
+            name: "KohinoorBangla",
+            familyName: "KohinoorBangla")]
     )
 }
 

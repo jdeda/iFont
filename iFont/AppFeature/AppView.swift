@@ -1,23 +1,12 @@
+//
+//  AppView.swift
+//  iFont
+//
+//  Created by Klajd Deda on 7/5/22.
+//
+
 import SwiftUI
 import ComposableArchitecture
-
-extension ItemTypePreviewSelection {
-    var image: Image {
-        switch self {
-        case .sample:
-            return Image(systemName: "text.aligncenter")
-
-        case .repertoire:
-            return Image(systemName: "square.grid.2x2")
-            
-        case .custom:
-            return Image(systemName: "character.cursor.ibeam")
-            
-        case .info:
-            return Image(systemName: "info.circle")
-        }
-    }
-}
 
 struct AppView: View {
     let store: Store<AppState, AppAction>
@@ -25,56 +14,21 @@ struct AppView: View {
     var body: some View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
-                VStack(spacing: 0) {
-                    List(selection: viewStore.binding(
-                        get: \.selectedItem,
-                        send: AppAction.selectedItem
-                    )) {
-                        ForEach(viewStore.items) { item in
-                            ItemTypeRowView(store: store, itemType: item)
-                                .tag(item)
-                        }
-                    }
-                    Divider()
-                    Text("Font count: \(viewStore.fonts.count)")
-                        .padding(5)
-                }
-                .frame(minWidth: 220, idealWidth: 280, maxWidth: 380)
-                .toolbar {
-                    ToolbarItem {
-                        Button(action: {
-                            viewStore.send(.sidebarExpandCollapse)
-                        }, label: {
-                            Image(systemName: "sidebar.left")
-                        })
-                        .help("Will show/hide the sidebar view") // TODO: Jdeda make conditional
+                List {
+                    Text("All Fonts")
+                    Text("Computer")
+                    Text("User")
+                    Section {
+                        Text("All Fonts")
+                        Text("Computer")
+                        Text("User")
+                    } header: {
+                        Text("Vegetables")
                     }
                 }
-                
-                // TODO: jdeda: - DONE
-                // Add the view to indicate when no item is selected ...
-                VStack {
-                    switch viewStore.selectedItem {
-                    case let .some(item):
-                        ItemTypePreview(store: store, selection: viewStore.detailSelection, item: item)
-                    case .none:
-                        Text("No fonts selected")
-                    }
-                }
-                
-                // TODO: jdeda - DONE(ish)
-                // Know that the toolbar can reside inside the ItemTypeDetailView
-                // 1) Add some toolbar items, such a search field, just like font book
-                // 2) Add some more detail views ...
-                .toolbar {
-                    Picker("Detail View", selection: viewStore.binding(
-                        get: \.detailSelection,
-                        send: AppAction.clickedDetailSelection)
-                    ) {
-                        ForEach(ItemTypePreviewSelection.allCases, id: \.self) { $0.image }
-                    }
-                    .pickerStyle(.segmented)
-                }
+
+                Text("Selected Collection")
+                Text("Selected Collection details")
             }
             .onAppear {
                 viewStore.send(AppAction.onAppear)

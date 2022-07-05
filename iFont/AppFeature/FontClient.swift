@@ -89,7 +89,10 @@ struct FontClientHelper {
                     }
                 }
                 
-                return Font(name: nsFont.fontName, familyName: nsFont.familyName ?? "None")
+                return Font(
+                    url: url,
+                    name: nsFont.fontName,
+                    familyName: nsFont.familyName ?? "None")
             }
         
         Logger.log("found: \(fonts.count) fonts for: \(url.path)")

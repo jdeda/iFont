@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-extension ItemTypePreviewSelection {
-    func image(for selection: ItemTypePreviewSelection) -> Image {
+extension ItemPreviewType {
+    func image(for selection: ItemPreviewType) -> Image {
         switch selection {
         case .sample:
             return Image(systemName: "text.aligncenter")

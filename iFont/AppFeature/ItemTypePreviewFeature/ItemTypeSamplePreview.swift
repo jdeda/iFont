@@ -55,12 +55,18 @@ struct FontFamilySamplePreview_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             FontSamplePreview(
-                font: Font(name: "Cheese", familyName: "Chicken")
+                font: Font(
+                    url: URL.init(fileURLWithPath: NSTemporaryDirectory()),
+                    name: "Cheese",
+                    familyName: "Chicken")
             )
             FontFamilySamplePreview(
                 family: FontFamily(
                     name: "Chicken",
-                    fonts: [Font(name: "Cheese", familyName: "Chicken")]
+                    fonts: [Font(
+                        url: URL.init(fileURLWithPath: NSTemporaryDirectory()),
+                        name: "Cheese",
+                        familyName: "Chicken")]
                 )
             )
         }
@@ -76,7 +82,7 @@ struct FontFamilySamplePreview_Previews: PreviewProvider {
 //}
 
 struct ItemTypeSamplePreview: View {
-    let store: Store<AppState, AppAction>
+    let store: Store<FontCollectionState, FontCollectionAction>
     var item: ItemType
     
     var body: some View {

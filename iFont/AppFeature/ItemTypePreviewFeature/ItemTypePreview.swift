@@ -9,8 +9,8 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ItemTypePreview: View {
-    let store: Store<AppState, AppAction>
-    var selection: ItemTypePreviewSelection
+    let store: Store<FontCollectionState, FontCollectionAction>
+    var selection: ItemPreviewType
     var item: ItemType
     
     var body: some View {

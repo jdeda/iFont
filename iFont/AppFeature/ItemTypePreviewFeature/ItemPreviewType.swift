@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum ItemTypePreviewSelection: CaseIterable {
+enum ItemPreviewType: CaseIterable {
     case sample
     case repertoire
     case custom

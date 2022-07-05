@@ -19,50 +19,9 @@ struct AppError: Equatable, Error {
     }
 }
 
-enum FontAttribute: String, CaseIterable {
-    case copyright = "kCTFontCopyrightNameKey"
-    case family = "kCTFontFamilyNameKey"
-    case subfamily = "kCTFontSubFamilyNameKey"
-    case style = "kCTFontStyleNameKey"
-    case unique = "kCTFontUniqueNameKey"
-    case full = "kCTFontFullNameKey"
-    case version = "kCTFontVersionNameKey"
-    case postScript = "kCTFontPostScriptNameKey"
-    case trademark = "kCTFontTrademarkNameKey"
-    case manufacturer = "kCTFontManufacturerNameKey"
-    case designer = "kCTFontDesignerNameKey"
-    case description = "kCTFontDescriptionNameKey"
-    case vendorURL = "kCTFontVendorURLNameKey"
-    case designerURL = "kCTFontDesignerURLNameKey"
-    case license = "kCTFontLicenseNameKey"
-    case licenseURL = "kCTFontLicenseURLNameKey"
-    case sampleText = "kCTFontSampleTextNameKey"
-    case postScriptCID = "kCTFontPostScriptCIDNameKey"
-}
-
-struct Font: Equatable, Hashable {
-    var name: String
-    var familyName: String
-    var attributes = [FontAttribute: String]()
-}
-
-struct FontFamily: Equatable, Hashable {
-    let name: String
-    var fonts: [Font]
-}
-
-extension Font: Identifiable {
-    var id: String {
-        name
-    }
-}
-
-extension FontFamily: Identifiable {
-    var id: String {
-        name
-    }
-}
-
+// TODO: kdeda
+// The name on this is strange
+// We ought to come up with better names
 enum ItemType: Equatable, Hashable {
     case font(Font)
     case fontFamily(FontFamily)
