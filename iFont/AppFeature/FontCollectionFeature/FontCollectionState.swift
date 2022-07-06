@@ -3,16 +3,22 @@ import ComposableArchitecture
 import AppKit
 
 struct FontCollectionState: Equatable {
-    // var fontPathURL = "/System/Library/Fonts"
-    // var fontPathURL = "/Users/kdeda/Library/Fonts"
+    
+    // Basically this is what is going on.
+    //    var collection: FontCollection
+    //    var items = [ItemType]()
+    //    var selectedItem: ItemType? = nil
+    //    var selectedPreview: ItemPreviewType = .sample
+    //    var selectedExpansions = Set<ItemType.ID>()
     
     // FIXME: jdeda
     // When in production
     // these are some fonts in the project for quick turn around debug/test
     // in production we would use the real machine font paths
-    //
+//    var fontPathURL = URL(fileURLWithPath: "/Users/kdeda/Library/Fonts")
+//    var fontPathURL = URL(fileURLWithPath: "/System/Library/Fonts")
     var fontPathURL = Bundle.main.resourceURL!.appendingPathComponent("Fonts")
-//     var fontPathURL = URL(fileURLWithPath: "/System/Library/Fonts")
+    
     var fonts = [Font]()
     var familyExpansionState = Set<ItemType.ID>()
     var selectedItem: ItemType? = nil
@@ -112,7 +118,7 @@ extension FontCollectionState {
             }
         }
     )
-        // .debug()
+    // .debug()
 }
 
 extension FontCollectionState {

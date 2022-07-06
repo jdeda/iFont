@@ -16,13 +16,10 @@ struct AppState: Equatable {
     // When in production
     // these are some fonts in the project for quick turn around debug/test
     // in production we would use the real machine font paths
-    //
+    //var fontPathURL = URL(fileURLWithPath: "/System/Library/Fonts")
     var fontPathURL = Bundle.main.resourceURL!.appendingPathComponent("Fonts")
-    //     var fontPathURL = URL(fileURLWithPath: "/System/Library/Fonts")
     var fonts = [Font]()
-    /// derived
-    var fontCollections = [FontCollection]()
-
+    var fontCollections = [FontCollection]() /// derived
     var selectedItem: FontCollection? = nil
 }
 
@@ -64,6 +61,30 @@ extension AppState {
                 // TODO: jdeda
                 // Create the Users, Computer FontCollection
                 state.fontCollections = [FontCollection]()
+                /**
+                 Collections belong either in the program itself...
+                 or to the file system...
+                 how to create this array?
+                 - if the font.url is from a specific directory...
+                 then it belongs to the collection of that directory
+                 thus you need a Dictionary<FontCollection.url, FontCollection>
+                 then with that directory...
+                 
+                    while scanning all fonts
+                    if
+                    state.fontCollections.forEach { collection in
+                        
+                    }
+                 
+                 
+                 alternatively
+                 - when you are reading, you were given a directory url...
+                 so this is the FontCollection url...
+                 so stuff the fonts into this collection and you are done
+                 */
+                
+                
+                
 //                state.fontFamilies = state.fonts
 //                    .groupedByFamily()
 //                    .sorted(by: { $0.name.caseInsensitiveCompare($1.name) == .orderedAscending })

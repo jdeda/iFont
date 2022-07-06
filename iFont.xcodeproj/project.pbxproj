@@ -124,7 +124,7 @@
 				FBA3B5DB285B9DB3002C771F /* Model.swift */,
 				97D0E26B284152D500F4BA77 /* Model+Extensions.swift */,
 				975B792F284912DA0012C273 /* FontClient.swift */,
-				FB5B2E222874C9B900BE7F8E /* FontCollectionState */,
+				FB5B2E222874C9B900BE7F8E /* FontCollectionFeature */,
 				97DFC5A92874944B00D2E845 /* ItemTypePreviewFeature */,
 				FBD5DC162869E8810031EFA3 /* ItemTypeRowView */,
 			);
@@ -165,13 +165,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		FB5B2E222874C9B900BE7F8E /* FontCollectionState */ = {
+		FB5B2E222874C9B900BE7F8E /* FontCollectionFeature */ = {
 			isa = PBXGroup;
 			children = (
-				97D0E26428414F9E00F4BA77 /* FontCollectionView.swift */,
 				97D0E26628414FA400F4BA77 /* FontCollectionState.swift */,
+				97D0E26428414F9E00F4BA77 /* FontCollectionView.swift */,
 			);
-			path = FontCollectionState;
+			path = FontCollectionFeature;
 			sourceTree = "<group>";
 		};
 		FBD5DC162869E8810031EFA3 /* ItemTypeRowView */ = {

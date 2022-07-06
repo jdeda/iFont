@@ -54,6 +54,21 @@ struct FontCollectionsSideBarView: View {
         }
     }
 }
+
+/**
+ Library
+    - FontCollection that has access to file system: if its the system/library/fonts directory, it is immutable
+ Smart Collection
+    - FontCollection derived from a library
+ Collection
+    - FontCollection
+ 
+ A whole new type is unncessary...
+ 
+ Ok but how should the AppState handle the FontCollections?
+ Well now we have a FontCollectionFeature, so we'd have to hold on to a bunch of these...
+ or derive a FontCollectionState whenever we select a specific FontCollection...
+ */
 struct AppView: View {
     let store: Store<AppState, AppAction>
     
