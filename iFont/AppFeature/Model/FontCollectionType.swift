@@ -7,6 +7,12 @@
 
 import Foundation
 
+//enum FontCollectionType {
+//    case allFontLibrary([(URL)])
+//    case computerLibrary(URL: .init(fileURLWithPath: "/System/Library/Fonts"))
+//    case standardUserLibrary(URL : .init(fileURLWithPath: "/USER/Library/Fonts"))
+//}
+
 enum FontCollectionType {
     case unknown
     case allFontLibrary         // builtin, contains all fonts from all over
@@ -17,6 +23,7 @@ enum FontCollectionType {
                                 // plus, user can also add to this list
     case userDefined            // a few build in ones, plus whatever the user wants
 }
+
 
 extension FontCollectionType {
     var imageSystemName: String {
