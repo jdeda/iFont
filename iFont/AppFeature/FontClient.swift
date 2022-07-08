@@ -38,6 +38,9 @@ struct FontClientHelper {
     }
     
     static func makeFonts(_ url: URL) -> [Font] {
+        // add -debug.makeFonts YES on the argument line to see more crap
+        let debug = UserDefaults.standard.bool(forKey: "debug.makeFonts")
+        
         guard let array = CTFontManagerCreateFontDescriptorsFromURL(url as CFURL)
         else { return [] }
         guard let fontDescriptors = array as? [CTFontDescriptor]
@@ -49,8 +52,10 @@ struct FontClientHelper {
                 let name = (nsFontDescriptor.object(forKey: .name) as? String) ?? "uknown"
                 let font = NSFont(descriptor: nsFontDescriptor, size: 12)
                 
-                Logger.log("found: \(name)")
-                Logger.log("found: \(nsFontDescriptor.fontAttributes)")
+                if debug {
+                    Logger.log("found: \(name)")
+                    Logger.log("found: \(nsFontDescriptor.fontAttributes)")
+                }
                 return font
             }
         /**
@@ -78,17 +83,18 @@ struct FontClientHelper {
                 // TODO: kdeda
                 // extract as much as possible info from the NSFont
                 
-                FontAttribute.allCases.forEach { attribute in
-                    let index = attribute.rawValue.index(attribute.rawValue.startIndex, offsetBy: 1)
-                    // remove the k in the beginning and the Key at the end
-                    // kCTFontCopyrightNameKey -> CTFontCopyrightName
-                    let key = String(attribute.rawValue.suffix(from: index)).replacingOccurrences(of: "Key", with: "")
-                    
-                    if let value = CTFontCopyName(nsFont, key as CFString) as String? {
-                        Logger.log("\(key): \(value)")
+                if debug {
+                    FontAttribute.allCases.forEach { attribute in
+                        let index = attribute.rawValue.index(attribute.rawValue.startIndex, offsetBy: 1)
+                        // remove the k in the beginning and the Key at the end
+                        // kCTFontCopyrightNameKey -> CTFontCopyrightName
+                        let key = String(attribute.rawValue.suffix(from: index)).replacingOccurrences(of: "Key", with: "")
+                        
+                        if let value = CTFontCopyName(nsFont, key as CFString) as String? {
+                            Logger.log("\(key): \(value)")
+                        }
                     }
                 }
-                
                 return Font(
                     url: url,
                     name: nsFont.fontName,
@@ -96,8 +102,10 @@ struct FontClientHelper {
             }
         
         Logger.log("found: \(fonts.count) fonts for: \(url.path)")
-        fonts.forEach {
-            Logger.log("here: \($0.name)")
+        if debug {
+            fonts.forEach {
+                Logger.log("here: \($0.name)")
+            }
         }
         //        
         //        

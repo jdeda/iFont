@@ -32,6 +32,7 @@
 		FB5B2E292874CC6500BE7F8E /* FontAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5B2E282874CC6500BE7F8E /* FontAttribute.swift */; };
 		FB90B821286A077900C5141B /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = FB90B820286A077900C5141B /* Fonts */; };
 		FBA3B5DC285B9DB3002C771F /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA3B5DB285B9DB3002C771F /* Model.swift */; };
+		FBAE323E28786DD7004DAEB4 /* FontCollectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAE323D28786DD7004DAEB4 /* FontCollectionType.swift */; };
 		FBD01F7D286F3B2C00857988 /* ItemTypeRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD01F7C286F3B2C00857988 /* ItemTypeRowView.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		FB5B2E282874CC6500BE7F8E /* FontAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontAttribute.swift; sourceTree = "<group>"; };
 		FB90B820286A077900C5141B /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		FBA3B5DB285B9DB3002C771F /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		FBAE323D28786DD7004DAEB4 /* FontCollectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontCollectionType.swift; sourceTree = "<group>"; };
 		FBD01F7C286F3B2C00857988 /* ItemTypeRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTypeRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,10 +122,10 @@
 			children = (
 				FB5B2E242874CAE100BE7F8E /* AppState.swift */,
 				FB5B2E262874CAEA00BE7F8E /* AppView.swift */,
+				975B792F284912DA0012C273 /* FontClient.swift */,
 				FB5B2E1B2874C80000BE7F8E /* Model */,
 				FBA3B5DB285B9DB3002C771F /* Model.swift */,
 				97D0E26B284152D500F4BA77 /* Model+Extensions.swift */,
-				975B792F284912DA0012C273 /* FontClient.swift */,
 				FB5B2E222874C9B900BE7F8E /* FontCollectionFeature */,
 				97DFC5A92874944B00D2E845 /* ItemTypePreviewFeature */,
 				FBD5DC162869E8810031EFA3 /* ItemTypeRowView */,
@@ -160,6 +162,7 @@
 				FB5B2E1E2874C82400BE7F8E /* Font.swift */,
 				FB5B2E282874CC6500BE7F8E /* FontAttribute.swift */,
 				FB5B2E1C2874C81000BE7F8E /* FontCollection.swift */,
+				FBAE323D28786DD7004DAEB4 /* FontCollectionType.swift */,
 				FB5B2E202874C82E00BE7F8E /* FontFamily.swift */,
 			);
 			path = Model;
@@ -278,6 +281,7 @@
 				FB5B2E212874C82E00BE7F8E /* FontFamily.swift in Sources */,
 				FB5B2E1F2874C82400BE7F8E /* Font.swift in Sources */,
 				FB5B2E272874CAEA00BE7F8E /* AppView.swift in Sources */,
+				FBAE323E28786DD7004DAEB4 /* FontCollectionType.swift in Sources */,
 				97DFC5AB2874949400D2E845 /* ItemPreviewType.swift in Sources */,
 				97D0E26C284152D500F4BA77 /* Model+Extensions.swift in Sources */,
 				97DFC5B52874A09700D2E845 /* ItemTypeRepertoirePreview.swift in Sources */,
