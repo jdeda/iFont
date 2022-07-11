@@ -21,15 +21,17 @@ struct AppState: Equatable {
         .init(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Fonts"),
         Bundle.main.resourceURL!.appendingPathComponent("Fonts")
     ]
-    
-    var fonts: [Font] = []
+    var fontLibraries: [URL: FontCollection] =  [:] // Derived from self.fonts.
     var allFontsLibrary: FontCollection {
         .init(type: .allLibrary, fonts: fonts, fontFamilies: fonts.groupedByFamily())
     }
-    var fontLibraries: [URL: FontCollection] =  [:] // Derived from self.fonts.
+    var fonts: [Font] = []
+    // TODO: pretty much all four properties above can be combined...
+        
+    
     var fontCollections: [String: FontCollection] = [:] // Derived from self.fonts.
     
-    // TODO: leave as one variable or derive?
+    // TODO: these two variables should be combined...?
     var selectedCollection: FontCollection? = nil
     var selectedCollectionState: FontCollectionState? = nil
 }
@@ -89,8 +91,9 @@ extension AppState {
                 state.fonts.append(contentsOf: newFonts)
                 // TODO: Jdeda/Kdeda
                 // Does not account for actual directory a font is in...
-                // Enumerator will recursively find fonts...digging into folders
+                // Enumerator will recursively find fonts...digging into folders...
                 // So a font might belong in a different folder than expected here.
+                // Also this is inefficient...
                 for font in newFonts { // N^4
                     for fontDirectoryURL in state.fontDirectories {
                         if font.url.absoluteString.contains(fontDirectoryURL.absoluteString) {
