@@ -36,33 +36,33 @@ struct FontCollectionView: View {
                         }
                     }
                     Divider()
-                    Text("Font count: \(viewStore.fonts.count)")
+                    Text("Font count: \(viewStore.collection.fonts.count)")
                         .padding(5)
                 }
                 .frame(minWidth: 220, idealWidth: 280, maxWidth: 380)
-                .toolbar {
-                    ToolbarItem {
-                        Button(action: {
-                            viewStore.send(.sidebarExpandCollapse)
-                        }, label: {
-                            Image(systemName: "sidebar.left")
-                        })
-                        .help("Will show/hide the sidebar view") // TODO: Jdeda make conditional
-                    }
-                }
+//                .toolbar {
+//                    ToolbarItem {
+//                        Button(action: {
+//                            viewStore.send(.sidebarExpandCollapse)
+//                        }, label: {
+//                            Image(systemName: "sidebar.left")
+//                        })
+//                        .help("Will show/hide the sidebar view") // TODO: Jdeda make conditional
+//                    }
+//                }
                 
                 VStack {
                     switch viewStore.selectedItem {
                     case let .some(item):
-                        ItemTypePreview(store: store, selection: viewStore.detailSelection, item: item)
+                        ItemTypePreview(store: store, selection: viewStore.selectedPreview, item: item)
                     case .none:
                         Text("No fonts selected")
                     }
                 }
                 .toolbar {
                     Picker("Detail View", selection: viewStore.binding(
-                        get: \.detailSelection,
-                        send: FontCollectionAction.clickedDetailSelection)
+                        get: \.selectedPreview,
+                        send: FontCollectionAction.selectedPreviewType)
                     ) {
                         ForEach(ItemPreviewType.allCases, id: \.self) { $0.image }
                     }

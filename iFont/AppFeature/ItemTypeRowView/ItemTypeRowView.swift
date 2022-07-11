@@ -24,7 +24,7 @@ struct FontFamilyRowView: View {
     var body: some View {
         WithViewStore(self.store) { viewStore in
             HStack {
-                Image(systemName: viewStore.familyExpansionState.contains(fontFamily.id)
+                Image(systemName: viewStore.selectedExpansions.contains(fontFamily.id)
                       ? "chevron.down"
                       : "chevron.right")
                 .aspectRatio(contentMode: .fit)

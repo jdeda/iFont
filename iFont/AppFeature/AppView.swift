@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 struct FontCollectionsSideBarView: View {
     let store: Store<AppState, AppAction>
-
+    
     func labeledImage(_ fontCollection: FontCollection) -> some View {
         HStack {
             Image(systemName: fontCollection.type.imageSystemName)
@@ -21,7 +21,7 @@ struct FontCollectionsSideBarView: View {
                 .bold()
         }
     }
-
+    
     var body: some View {
         WithViewStore(self.store) { viewStore in
             // TODO: jdeda - DONE!
@@ -40,22 +40,22 @@ struct FontCollectionsSideBarView: View {
                 } header: {
                     Text("Libraries")
                 }
-//                Section {
-//                    labeledImage(systemName: "gearshape", label: "English")
-//                    labeledImage(systemName: "gearshape", label: "Fixed Width")
-//                } header: {
-//                    Text("Smart Collections")
-//                }
-//                Section {
-//                    labeledImage(systemName: "square.on.square", label: "Fun", accent: .cyan)
-//                    labeledImage(systemName: "square.on.square", label: "Modern", accent: .cyan)
-//                    labeledImage(systemName: "square.on.square", label: "PDF", accent: .cyan)
-//                    labeledImage(systemName: "square.on.square", label: "Traditional", accent: .cyan)
-//                    labeledImage(systemName: "square.on.square", label: "Web", accent: .cyan)
-//                    labeledImage(systemName: "square.on.square", label: "All", accent: .cyan)
-//                } header: {
-//                    Text("Collections")
-//                }
+                //                Section {
+                //                    labeledImage(systemName: "gearshape", label: "English")
+                //                    labeledImage(systemName: "gearshape", label: "Fixed Width")
+                //                } header: {
+                //                    Text("Smart Collections")
+                //                }
+                //                Section {
+                //                    labeledImage(systemName: "square.on.square", label: "Fun", accent: .cyan)
+                //                    labeledImage(systemName: "square.on.square", label: "Modern", accent: .cyan)
+                //                    labeledImage(systemName: "square.on.square", label: "PDF", accent: .cyan)
+                //                    labeledImage(systemName: "square.on.square", label: "Traditional", accent: .cyan)
+                //                    labeledImage(systemName: "square.on.square", label: "Web", accent: .cyan)
+                //                    labeledImage(systemName: "square.on.square", label: "All", accent: .cyan)
+                //                } header: {
+                //                    Text("Collections")
+                //                }
             }
         }
     }
@@ -63,11 +63,11 @@ struct FontCollectionsSideBarView: View {
 
 /**
  Library
-    - FontCollection that has access to file system: if its the system/library/fonts directory, it is immutable
+ - FontCollection that has access to file system: if its the system/library/fonts directory, it is immutable
  Smart Collection
-    - FontCollection derived from a library
+ - FontCollection derived from a library
  Collection
-    - FontCollection
+ - FontCollection
  
  A whole new type is unncessary...
  
@@ -82,12 +82,28 @@ struct AppView: View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
                 FontCollectionsSideBarView(store: store)
-//                FontCollectionView(store: store.scope(
-//                    state: \.,
-//                    action: <#T##(LocalAction) -> AppAction#>
-//                ))
-                Text("Selected Collection")
-                Text("Selected Collection details")
+                IfLetStore.init(
+                    store.scope(
+                    state: \.selectedCollectionState,
+                    action: AppAction.fontCollection
+                ),
+                    then: { childStore in
+                        FontCollectionView(store: childStore)
+                    }) {
+                        Text("Selected Collection")
+                    }
+                //                IfLetStore(
+                //                    store: store.scope(
+                //                    state: \.selectedCollectionState,
+                //                    action: AppState.fontCollection
+                //                    ) { childStore in
+                //                        FontCollectionView(store: childStore)
+                //                    } else: {
+                //                        Text("Selected Collection")
+                //                    }
+                //                    )
+                //                Text("Selected Collection")
+                //                Text("Selected Collection details")
             }
             .onAppear {
                 viewStore.send(AppAction.onAppear)

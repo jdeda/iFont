@@ -29,8 +29,11 @@ struct AppState: Equatable {
     var fontLibraries: [URL: FontCollection] =  [:] // Derived from self.fonts.
     var fontCollections: [String: FontCollection] = [:] // Derived from self.fonts.
     var selectedCollection: FontCollection? = nil
-    var selectedCollectionState: FontCollectionState {
-        .init()
+    var selectedCollectionState: FontCollectionState? {
+        if let unwrapped = selectedCollection {
+            return FontCollectionState(collection: unwrapped)
+        }
+        return nil
     }
 }
 
@@ -39,6 +42,7 @@ enum AppAction: Equatable {
     case fetchFonts
     case fetchFontsResult(Result<[Font], Never>)
     case madeSelection(FontCollection?)
+    case fontCollection(FontCollectionAction)
 }
 
 struct AppEnvironment {
@@ -110,6 +114,8 @@ extension AppState {
                 
             case let .madeSelection(newSelection):
                 state.selectedCollection = newSelection
+                return .none
+            case let .fontCollection(fontCollectionAction):
                 return .none
             }
         }
