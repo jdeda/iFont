@@ -11,27 +11,10 @@ import ComposableArchitecture
 struct FontCollectionsSideBarView: View {
     let store: Store<AppState, AppAction>
 
-    func labeledImage(systemName: String, label: String) -> some View {
-        HStack {
-            Image(systemName: systemName)
-                .frame(width: 20, height: 20)
-            Text(label)
-        }
-    }
-
-    func labeledImage(systemName: String, label: String, accent: Color) -> some View {
-        HStack {
-            Image(systemName: systemName)
-                .foregroundColor(accent)
-                .frame(width: 20, height: 20)
-            Text(label)
-        }
-    }
-
     func labeledImage(_ fontCollection: FontCollection) -> some View {
         HStack {
             Image(systemName: fontCollection.type.imageSystemName)
-                .foregroundColor(.accentColor)
+                .foregroundColor(fontCollection.type.accentColor)
                 .frame(width: 20, height: 20)
             Text(fontCollection.type.labelString)
             Text("\(fontCollection.fonts.count)")
@@ -41,32 +24,38 @@ struct FontCollectionsSideBarView: View {
 
     var body: some View {
         WithViewStore(self.store) { viewStore in
-            // TODO: jdeda
+            // TODO: jdeda - DONE!
             // make it so i can select a font collection ...
-            List {
+            List(selection: viewStore.binding(
+                get: \.selectedCollection,
+                send: AppAction.madeSelection)
+            ) {
                 Section {
-                    ForEach(viewStore.fontLibraries) { fontCollection in
+                    labeledImage(viewStore.allFontsLibrary)
+                        .tag(viewStore.allFontsLibrary)
+                    ForEach(Array(viewStore.fontLibraries.values)) { fontCollection in
                         labeledImage(fontCollection)
+                            .tag(fontCollection)
                     }
                 } header: {
                     Text("Libraries")
                 }
-                Section {
-                    labeledImage(systemName: "gearshape", label: "English")
-                    labeledImage(systemName: "gearshape", label: "Fixed Width")
-                } header: {
-                    Text("Smart Collections")
-                }
-                Section {
-                    labeledImage(systemName: "square.on.square", label: "Fun", accent: .cyan)
-                    labeledImage(systemName: "square.on.square", label: "Modern", accent: .cyan)
-                    labeledImage(systemName: "square.on.square", label: "PDF", accent: .cyan)
-                    labeledImage(systemName: "square.on.square", label: "Traditional", accent: .cyan)
-                    labeledImage(systemName: "square.on.square", label: "Web", accent: .cyan)
-                    labeledImage(systemName: "square.on.square", label: "All", accent: .cyan)
-                } header: {
-                    Text("Collections")
-                }
+//                Section {
+//                    labeledImage(systemName: "gearshape", label: "English")
+//                    labeledImage(systemName: "gearshape", label: "Fixed Width")
+//                } header: {
+//                    Text("Smart Collections")
+//                }
+//                Section {
+//                    labeledImage(systemName: "square.on.square", label: "Fun", accent: .cyan)
+//                    labeledImage(systemName: "square.on.square", label: "Modern", accent: .cyan)
+//                    labeledImage(systemName: "square.on.square", label: "PDF", accent: .cyan)
+//                    labeledImage(systemName: "square.on.square", label: "Traditional", accent: .cyan)
+//                    labeledImage(systemName: "square.on.square", label: "Web", accent: .cyan)
+//                    labeledImage(systemName: "square.on.square", label: "All", accent: .cyan)
+//                } header: {
+//                    Text("Collections")
+//                }
             }
         }
     }
@@ -93,6 +82,10 @@ struct AppView: View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
                 FontCollectionsSideBarView(store: store)
+//                FontCollectionView(store: store.scope(
+//                    state: \.,
+//                    action: <#T##(LocalAction) -> AppAction#>
+//                ))
                 Text("Selected Collection")
                 Text("Selected Collection details")
             }

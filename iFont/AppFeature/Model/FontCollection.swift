@@ -12,7 +12,7 @@ import Foundation
 /// Where do these fonts come from ?
 /// They can be created empty and the user can add/remove fonts from it
 /// They canbe created on application start up, for example the Computer Collection
-struct FontCollection: Equatable {
+struct FontCollection: Equatable, Hashable {
     let id = UUID()
     var type: FontCollectionType = .unknown
     var fonts = [Font]()
@@ -36,19 +36,19 @@ extension FontCollection: Identifiable {}
 extension FontCollection {
     // We will append any font found into here
     static var allFonts: Self = FontCollection(
-        type: .allFontLibrary,
+        type: .allLibrary,
         fonts: [Font]()
     )
     
     // We will append any font found on the following locations
     // /System/Library/Fonts
     // /Library/Fonts
-    static var computerColletion: Self = FontCollection.init(type: .computerLibrary, fonts: [Font]())
+    static var computerColletion: Self = FontCollection.init(type: .macOSLibrary, fonts: [Font]())
     
     // We will append any font found on the following locations
     // /Users/kdeda/Library/Fonts
     static var userCollection: Self = {
-        FontCollection.init(type: .standardUserLibrary, fonts: [Font]())
+        FontCollection.init(type: .library, fonts: [Font]())
     }()
 
     static var fontLibraries: [FontCollection] = {
