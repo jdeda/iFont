@@ -59,11 +59,17 @@ extension AppState {
                     )
             }
         ),
-        // TODO: List does its own thing...
-        // List will still move selection and
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
+                state.fontLibraries = state.fontDirectories.reduce(into: [URL: FontCollection](), { partial, url in
+                    if url == state.macOSFontsDirectory {
+                        partial[url] = .init(type: .macOSLibrary, fonts: [], fontFamilies: [])
+                    }
+                    else {
+                        partial[url] = .init(type: .library, fonts: [], fontFamilies: [])
+                    }
+                })
                 return Effect(value: .fetchFonts)
                 
             case .fetchFonts:
@@ -80,22 +86,12 @@ extension AppState {
                 
             case let .fetchFontsResult(.success(newFonts)):
                 Logger.log("received: \(newFonts[0].url.path)")
-                
                 state.fonts.append(contentsOf: newFonts)
-                
-                
-                // Nice and imperarative.
-                state.fontLibraries = state.fontDirectories.reduce(into: [URL: FontCollection](), { partial, url in
-                    if state.macOSFontsDirectory == url {
-                        partial[url] = .init(type: .macOSLibrary, fonts: [], fontFamilies: [])
-                    }
-                    else {
-                        partial[url] = .init(type: .library, fonts: [], fontFamilies: [])
-                    }
-                })
-                
+                // TODO: Jdeda/Kdeda
                 // Does not account for actual directory a font is in...
-                for font in state.fonts { // N^4
+                // Enumerator will recursively find fonts...digging into folders
+                // So a font might belong in a different folder than expected here.
+                for font in newFonts { // N^4
                     for fontDirectoryURL in state.fontDirectories {
                         if font.url.absoluteString.contains(fontDirectoryURL.absoluteString) {
                             state.fontLibraries[fontDirectoryURL]!.fonts.append(font)
@@ -109,6 +105,9 @@ extension AppState {
                 state.selectedCollection = newSelection
                 if let unwrapped = newSelection {
                     state.selectedCollectionState = .init(collection: unwrapped)
+                }
+                else {
+                    state.selectedCollectionState = nil
                 }
                 return .none
             case let .fontCollection(fontCollectionAction):

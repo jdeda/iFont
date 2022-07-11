@@ -28,8 +28,8 @@ struct FontCollectionsSideBarView: View {
             // make it so i can select a font collection ...
             List(selection: viewStore.binding(
                 get: \.selectedCollection,
-                send: AppAction.madeSelection)
-            ) {
+                send: AppAction.madeSelection
+            )) {
                 Section {
                     labeledImage(viewStore.allFontsLibrary)
                         .tag(viewStore.allFontsLibrary)
