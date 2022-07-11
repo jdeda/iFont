@@ -92,16 +92,6 @@ struct AppView: View {
                     }) {
                         Text("Selected Collection")
                     }
-                //                IfLetStore(
-                //                    store: store.scope(
-                //                    state: \.selectedCollectionState,
-                //                    action: AppState.fontCollection
-                //                    ) { childStore in
-                //                        FontCollectionView(store: childStore)
-                //                    } else: {
-                //                        Text("Selected Collection")
-                //                    }
-                //                    )
                 //                Text("Selected Collection")
                 //                Text("Selected Collection details")
             }

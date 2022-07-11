@@ -28,13 +28,10 @@ struct AppState: Equatable {
     }
     var fontLibraries: [URL: FontCollection] =  [:] // Derived from self.fonts.
     var fontCollections: [String: FontCollection] = [:] // Derived from self.fonts.
+    
+    // TODO: leave as one variable or derive?
     var selectedCollection: FontCollection? = nil
-    var selectedCollectionState: FontCollectionState? {
-        if let unwrapped = selectedCollection {
-            return FontCollectionState(collection: unwrapped)
-        }
-        return nil
-    }
+    var selectedCollectionState: FontCollectionState? = nil
 }
 
 enum AppAction: Equatable {
@@ -52,6 +49,18 @@ struct AppEnvironment {
 
 extension AppState {
     static let reducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
+        FontCollectionState.reducer.optional().pullback(
+            state: \.selectedCollectionState,
+            action: /AppAction.fontCollection,
+            environment: { appEnvironment in
+                    .init(
+                        mainQueue: appEnvironment.mainQueue,
+                        fontClient: appEnvironment.fontClient
+                    )
+            }
+        ),
+        // TODO: List does its own thing...
+        // List will still move selection and
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
@@ -84,6 +93,8 @@ extension AppState {
                         partial[url] = .init(type: .library, fonts: [], fontFamilies: [])
                     }
                 })
+                
+                // Does not account for actual directory a font is in...
                 for font in state.fonts { // N^4
                     for fontDirectoryURL in state.fontDirectories {
                         if font.url.absoluteString.contains(fontDirectoryURL.absoluteString) {
@@ -92,28 +103,13 @@ extension AppState {
                     }
                 }
                 
-                // This is if you want to know the actual directory a font is in...
-                //                // N^2. Could be N if font had a directory field.
-                //                for font in state.fonts {
-                //                    let fontDirectoryURL = font.url.deletingLastPathComponent()
-                //                    print("\n\n\nFinding....")
-                //                    print(font.url.absoluteString, "\n")
-                //                    print(fontDirectoryURL.absoluteString, "\n")
-                //                    state.fontDirectories.forEach {
-                //                        print($0.absoluteString, "\n")
-                //                    }
-                //                    if state.fontDirectories.contains(fontDirectoryURL) {
-                //                        state.fontLibraries[fontDirectoryURL]!.fonts.append(font)
-                //                    }
-                //                    else {
-                //                        // Bad news...
-                //                    }
-                //                    print("Done. \n\n\n")
-                //                }
                 return .none
                 
             case let .madeSelection(newSelection):
                 state.selectedCollection = newSelection
+                if let unwrapped = newSelection {
+                    state.selectedCollectionState = .init(collection: unwrapped)
+                }
                 return .none
             case let .fontCollection(fontCollectionAction):
                 return .none
@@ -127,7 +123,7 @@ extension AppState {
     static let mockState = AppState(
         fontDirectories: [URL(fileURLWithPath: "/Users/kdeda/Library/Fonts")],
         fonts: [Font(
-            url: URL.init(fileURLWithPath: NSTemporaryDirectory()),
+            url: URL(fileURLWithPath: NSTemporaryDirectory()),
             name: "KohinoorBangla",
             familyName: "KohinoorBangla")]
     )
