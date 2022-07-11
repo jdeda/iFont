@@ -162,8 +162,8 @@
 				FB5B2E1E2874C82400BE7F8E /* Font.swift */,
 				FB5B2E282874CC6500BE7F8E /* FontAttribute.swift */,
 				FB5B2E1C2874C81000BE7F8E /* FontCollection.swift */,
-				FBAE323D28786DD7004DAEB4 /* FontCollectionType.swift */,
 				FB5B2E202874C82E00BE7F8E /* FontFamily.swift */,
+				FBAE323D28786DD7004DAEB4 /* FontCollectionType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

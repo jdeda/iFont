@@ -31,9 +31,9 @@ struct FontCollectionsSideBarView: View {
                 send: AppAction.madeSelection
             )) {
                 Section {
-                    labeledImage(viewStore.allFontsLibrary)
-                        .tag(viewStore.allFontsLibrary)
-                    ForEach(Array(viewStore.fontLibraries.values)) { fontCollection in
+//                    labeledImage(viewStore.allFontsLibrary)
+//                        .tag(viewStore.allFontsLibrary)
+                    ForEach(viewStore.librarySection) { fontCollection in
                         labeledImage(fontCollection)
                             .tag(fontCollection)
                     }

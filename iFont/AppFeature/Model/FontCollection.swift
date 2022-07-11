@@ -21,43 +21,40 @@ struct FontCollection: Equatable, Hashable {
     
     init(
         type: FontCollectionType = .unknown,
-        fonts: [Font] = [Font](),
-        fontFamilies: [FontFamily] = [FontFamily]()
+        fonts: [Font] = [Font]()
     ) {
         self.type = type
         self.fonts = fonts
-        self.fontFamilies = fontFamilies
     }
-    
 }
 
 extension FontCollection: Identifiable {}
 
-extension FontCollection {
-    // We will append any font found into here
-    static var allFonts: Self = FontCollection(
-        type: .allLibrary,
-        fonts: [Font]()
-    )
-    
-    // We will append any font found on the following locations
-    // /System/Library/Fonts
-    // /Library/Fonts
-    static var computerColletion: Self = FontCollection.init(type: .macOSLibrary, fonts: [Font]())
-    
-    // We will append any font found on the following locations
-    // /Users/kdeda/Library/Fonts
-    static var userCollection: Self = {
-        FontCollection.init(type: .library, fonts: [Font]())
-    }()
-
-    static var fontLibraries: [FontCollection] = {
-        var rv = [FontCollection]()
-        
-        rv.append(.allFonts)
-        rv.append(.computerColletion)
-        rv.append(.userCollection)
-        return rv
-    }()
-}
-
+//extension FontCollection {
+//    // We will append any font found into here
+//    static var allFonts: Self = FontCollection(
+//        type: .allFonts,
+//        fonts: [Font]()
+//    )
+//
+//    // We will append any font found on the following locations
+//    // /System/Library/Fonts
+//    // /Library/Fonts
+//    static var computerColletion: Self = FontCollection.init(type: .computer, fonts: [Font]())
+//
+//    // We will append any font found on the following locations
+//    // /Users/kdeda/Library/Fonts
+//    static var userCollection: Self = {
+//        FontCollection.init(type: .library, fonts: [Font]())
+//    }()
+//
+//    static var fontLibraries: [FontCollection] = {
+//        var rv = [FontCollection]()
+//
+//        rv.append(.allFonts)
+//        rv.append(.computerColletion)
+//        rv.append(.userCollection)
+//        return rv
+//    }()
+//}
+//

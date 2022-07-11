@@ -18,22 +18,21 @@ struct AppState: Equatable {
     // Only libraries can have directories.
     var fontDirectories: Set<URL> = [
         .init(fileURLWithPath: "/System/Library/Fonts"),
+        .init(fileURLWithPath: "/Library/Fonts"),
         .init(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Fonts"),
         Bundle.main.resourceURL!.appendingPathComponent("Fonts")
     ]
-    var fontLibraries: [URL: FontCollection] =  [:] // Derived from self.fonts.
-    var allFontsLibrary: FontCollection {
-        .init(type: .allLibrary, fonts: fonts, fontFamilies: fonts.groupedByFamily())
-    }
     var fonts: [Font] = []
-    // TODO: pretty much all four properties above can be combined...
-        
-    
-    var fontCollections: [String: FontCollection] = [:] // Derived from self.fonts.
     
     // TODO: these two variables should be combined...?
     var selectedCollection: FontCollection? = nil
     var selectedCollectionState: FontCollectionState? = nil
+
+    var librarySection: [FontCollection] = [
+        .init(type: .allFonts, fonts: []),
+        .init(type: .computer, fonts: []),
+        .init(type: .user, fonts: [])
+    ]
 }
 
 enum AppAction: Equatable {
@@ -64,14 +63,6 @@ extension AppState {
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
-                state.fontLibraries = state.fontDirectories.reduce(into: [URL: FontCollection](), { partial, url in
-                    if url == state.macOSFontsDirectory {
-                        partial[url] = .init(type: .macOSLibrary, fonts: [], fontFamilies: [])
-                    }
-                    else {
-                        partial[url] = .init(type: .library, fonts: [], fontFamilies: [])
-                    }
-                })
                 return Effect(value: .fetchFonts)
                 
             case .fetchFonts:
@@ -87,21 +78,26 @@ extension AppState {
                 return foo
                 
             case let .fetchFontsResult(.success(newFonts)):
-                Logger.log("received: \(newFonts[0].url.path)")
-                state.fonts.append(contentsOf: newFonts)
-                // TODO: Jdeda/Kdeda
-                // Does not account for actual directory a font is in...
-                // Enumerator will recursively find fonts...digging into folders...
-                // So a font might belong in a different folder than expected here.
-                // Also this is inefficient...
-                for font in newFonts { // N^4
-                    for fontDirectoryURL in state.fontDirectories {
-                        if font.url.absoluteString.contains(fontDirectoryURL.absoluteString) {
-                            state.fontLibraries[fontDirectoryURL]!.fonts.append(font)
-                        }
-                    }
+                let startTime = Date()
+
+                defer {
+                    let elapsed = startTime.timeIntervalSinceNow * -1000
+                    let elapsedString = String(format: "%0.3f", elapsed)
+                    Logger.log("completed in: \(elapsedString) ms")
                 }
+                Logger.log("received: \(newFonts.count)")
+                state.fonts.append(contentsOf: newFonts)
                 
+                // option2
+                // each collection takes what it needs
+                state.librarySection = state.librarySection.map({ fontCollection in
+                    let collectionType = fontCollection.type
+                    let fonts = fontCollection.fonts
+                    let newFonts_ = newFonts.filter(collectionType.matchingFonts(_:))
+                    
+                    return FontCollection(type: collectionType, fonts: fonts + newFonts_)
+                })
+
                 return .none
                 
             case let .madeSelection(newSelection):

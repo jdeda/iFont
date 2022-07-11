@@ -134,7 +134,7 @@ extension FontCollectionState {
 extension FontCollectionState {
     static let liveState =  FontCollectionState(collection: .init())
     static let mockState = FontCollectionState(collection: .init(
-        type: .library,
+        type: .library(URL(fileURLWithPath: NSTemporaryDirectory())),
         fonts: [Font(
             url: URL(fileURLWithPath: NSTemporaryDirectory()),
             name: "KohinoorBangla",

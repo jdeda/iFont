@@ -8,6 +8,76 @@
 import Foundation
 import SwiftUI
 
+enum FontCollectionType: Equatable {
+    case unknown
+    case allFonts
+    case computer
+    case user          // there is only one user collection per user, some times zero
+    case library(URL)
+    case smart
+    case normal
+}
+
+extension FontCollectionType: Hashable {}
+
+extension FontCollectionType {
+    var imageSystemName: String {
+        switch self {
+        case .unknown:      return "questionmark"
+        case .allFonts:     return "f.square"
+        case .computer:     return "laptopcomputer"
+        case .user:         return "laptopcomputer"
+        case .library:      return "person.crop.square"
+        case .smart:        return "gearshape"
+        case .normal:       return "square.on.square"
+        }
+    }
+
+    var labelString: String {
+        switch self {
+        case .unknown:      return "Unknown"
+        case .allFonts:     return "All Fonts"
+        case .computer:     return "Computer"
+        case .user:         return "User"
+        case .library:      return "User"
+        case .smart:        return "standardSmart"
+        case .normal:       return "userDefined"
+        }
+    }
+
+    var accentColor: Color {
+        switch self {
+        case .unknown:      return .gray
+        case .allFonts:     return .accentColor
+        case .computer:     return .accentColor
+        case .user:         return .accentColor
+        case .library:      return .accentColor
+        case .smart:        return .primary
+        case .normal:       return .cyan
+        }
+    }
+    
+    public func matchingFonts(_ font: Font) -> Bool {
+        switch self {
+        case .unknown:
+            return false
+        case .allFonts:
+            return true
+        case .computer:
+            return false
+        case .user:
+            return font.url.path.starts(with: NSHomeDirectory())
+        case let .library(libraryURL):
+            return font.url.path.starts(with: libraryURL.path)
+        case .smart:
+            return false
+        case .normal:
+            return false
+        }
+    }
+
+}
+
 //enum FontCollectionType: Equatable {
 //    case unknown
 //    case allLibrary([URL: FontCollection])
@@ -39,52 +109,6 @@ import SwiftUI
 //    case smart
 //    case normal
 //}
-
-
-enum FontCollectionType: Equatable {
-    case unknown
-    case allLibrary
-    case macOSLibrary
-    case library
-    case smart
-    case normal
-}
-
-
-extension FontCollectionType {
-    var imageSystemName: String {
-        switch self {
-        case .unknown:       return "questionmark"
-        case .allLibrary:   return "f.square"
-        case .macOSLibrary: return "laptopcomputer"
-        case .library:      return "person.crop.square"
-        case .smart:        return "gearshape"
-        case .normal:       return "square.on.square"
-        }
-    }
-
-    var labelString: String {
-        switch self {
-        case .unknown:       return "Unknown"
-        case .allLibrary:   return "All Fonts"
-        case .macOSLibrary: return "Computer"
-        case .library:      return "User"
-        case .smart:        return "standardSmart"
-        case .normal:       return "userDefined"
-        }
-    }
-
-    var accentColor: Color {
-        switch self {
-        case .unknown:       return .gray
-        case .allLibrary:   return .accentColor
-        case .macOSLibrary: return .accentColor
-        case .library:      return .accentColor
-        case .smart:        return .primary
-        case .normal:       return .cyan
-        }
-    }
-}
 
 //enum FontCollectionType {
 //    case unknown
