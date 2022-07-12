@@ -59,6 +59,16 @@ struct AppView: View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
                 FontCollectionsSideBarView(store: store)
+                    .toolbar {
+                        ToolbarItem(placement: .primaryAction) {
+                            Button(action: {
+                                viewStore.send(.sidebarToggle)
+                            }, label: {
+                                Image(systemName: "sidebar.left")
+                            })
+                            .help("Will show/hide the sidebar view") // TODO: Jdeda make conditional
+                        }
+                    }
                 IfLetStore(
                     store.scope(
                         state: \.selectedCollectionState,

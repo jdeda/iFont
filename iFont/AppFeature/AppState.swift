@@ -5,7 +5,7 @@
 //  Created by Klajd Deda on 7/5/22.
 //
 
-import Foundation
+import AppKit
 import ComposableArchitecture
 
 // Single Source of Truth (SSOT) for the App.
@@ -49,6 +49,7 @@ enum AppAction: Equatable {
     case fetchFontsResult(Result<[Font], Never>)
     case madeSelection(FontCollection?)
     case fontCollection(FontCollectionAction)
+    case sidebarToggle
 }
 
 struct AppEnvironment {
@@ -108,6 +109,12 @@ extension AppState {
                 return .none
                 
             case let .fontCollection(fontCollectionAction):
+                return .none
+                
+            case .sidebarToggle:
+                NSApp.keyWindow?
+                    .firstResponder?
+                    .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
                 return .none
             }
         }
