@@ -7,15 +7,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6ED10BC5-44F1-4AC0-AA32-FDDA87F8B8BB"
+            uuid = "BAF1163F-68F2-4D2B-80B7-CA2B502CCB59"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iFont/AppFeature/AppState.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "reducer"
             landmarkType = "24">
          </BreakpointContent>
@@ -23,7 +23,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A1088898-214F-451F-8491-D7C9B4918298"
+            uuid = "B43893E3-DDEF-45D0-B9CD-F888A9FB0978"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -39,16 +39,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "77AF45ED-03C6-4EE1-B049-18157284EEA9"
+            uuid = "451F6365-488F-43EB-9340-C68C4AB0DA79"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "iFont/AppFeature/AppView.swift"
+            filePath = "iFont/AppFeature/FontCollectionFeature/FontCollectionState.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "body"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "init(collection:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "67B02093-0A55-4D86-AA9D-1E43C1E5A3B7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "iFont/AppFeature/AppState.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "reducer"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>

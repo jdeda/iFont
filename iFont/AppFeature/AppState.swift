@@ -10,28 +10,36 @@ import ComposableArchitecture
 
 // Single Source of Truth (SSOT) for the App.
 struct AppState: Equatable {
-    
-    let macOSFontsDirectory: URL = .init(fileURLWithPath: "/System/Library/Fonts")
-    
+        
     // FIXME: jdeda
     // When in production, make sure all these paths are in
-    // Only libraries can have directories.
     var fontDirectories: Set<URL> = [
         .init(fileURLWithPath: "/System/Library/Fonts"),
         .init(fileURLWithPath: "/Library/Fonts"),
         .init(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Fonts"),
         Bundle.main.resourceURL!.appendingPathComponent("Fonts")
     ]
+    
     var fonts: [Font] = []
     
-    // TODO: these two variables should be combined...?
-    var selectedCollection: FontCollection? = nil
+    var selectedCollection: FontCollection? = nil // TODO: Combine these.
     var selectedCollectionState: FontCollectionState? = nil
 
     var librarySection: [FontCollection] = [
-        .init(type: .allFonts, fonts: []),
-        .init(type: .computer, fonts: []),
-        .init(type: .user, fonts: [])
+        .init(type: .allFontsLibrary, fonts: []),
+        .init(type: .computerLibrary, fonts: []),
+        .init(type: .standardUserLibrary, fonts: [])
+    ]
+    
+    var smartSection: [FontCollection] = [
+        .init(type: .smart, fonts: []),
+        .init(type: .smart, fonts: []),
+    ]
+    
+    var normalSection: [FontCollection] = [
+        .init(type: .standardUserLibrary, fonts: []),
+        .init(type: .standardUserLibrary, fonts: []),
+        .init(type: .standardUserLibrary, fonts: [])
     ]
 }
 
@@ -78,25 +86,11 @@ extension AppState {
                 return foo
                 
             case let .fetchFontsResult(.success(newFonts)):
-                let startTime = Date()
-
-                defer {
-                    let elapsed = startTime.timeIntervalSinceNow * -1000
-                    let elapsedString = String(format: "%0.3f", elapsed)
-                    Logger.log("completed in: \(elapsedString) ms")
-                }
                 Logger.log("received: \(newFonts.count)")
                 state.fonts.append(contentsOf: newFonts)
-                
-                // option2
-                // each collection takes what it needs
-                state.librarySection = state.librarySection.map({ fontCollection in
-                    let collectionType = fontCollection.type
-                    let fonts = fontCollection.fonts
-                    let newFonts_ = newFonts.filter(collectionType.matchingFonts(_:))
-                    
-                    return FontCollection(type: collectionType, fonts: fonts + newFonts_)
-                })
+                state.librarySection = state.librarySection.map {
+                    .init(type: $0.type, fonts: $0.fonts + newFonts.filter($0.type.matchingFonts))
+                }
 
                 return .none
                 
@@ -109,10 +103,12 @@ extension AppState {
                     state.selectedCollectionState = nil
                 }
                 return .none
+                
             case let .fontCollection(fontCollectionAction):
                 return .none
             }
         }
+            .debug()
     )
 }
 

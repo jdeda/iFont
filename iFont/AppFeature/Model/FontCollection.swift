@@ -14,7 +14,7 @@ import Foundation
 /// They canbe created on application start up, for example the Computer Collection
 struct FontCollection: Equatable, Hashable {
     let id = UUID()
-    var type: FontCollectionType = .unknown
+    var type: FontCollectionType = .unknown // TODO: Rename to something like "FontCollectionCategory"
     var fonts = [Font]()
     /// derived
     public private(set) var fontFamilies = [FontFamily]()

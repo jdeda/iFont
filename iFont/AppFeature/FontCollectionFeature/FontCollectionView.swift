@@ -69,9 +69,9 @@ struct FontCollectionView: View {
                     .pickerStyle(.segmented)
                 }
             }
-            .onAppear {
-                viewStore.send(FontCollectionAction.onAppear)
-            }
+//            .onAppear {
+//                viewStore.send(FontCollectionAction.onAppear)
+//            }
         }
     }
 }

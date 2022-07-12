@@ -11,7 +11,7 @@ import ComposableArchitecture
 struct FontCollectionsSideBarView: View {
     let store: Store<AppState, AppAction>
     
-    func labeledImage(_ fontCollection: FontCollection) -> some View {
+    private func labeledImage(_ fontCollection: FontCollection) -> some View {
         HStack {
             Image(systemName: fontCollection.type.imageSystemName)
                 .foregroundColor(fontCollection.type.accentColor)
@@ -24,15 +24,11 @@ struct FontCollectionsSideBarView: View {
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
-            // TODO: jdeda - DONE!
-            // make it so i can select a font collection ...
             List(selection: viewStore.binding(
                 get: \.selectedCollection,
                 send: AppAction.madeSelection
             )) {
                 Section {
-//                    labeledImage(viewStore.allFontsLibrary)
-//                        .tag(viewStore.allFontsLibrary)
                     ForEach(viewStore.librarySection) { fontCollection in
                         labeledImage(fontCollection)
                             .tag(fontCollection)
@@ -61,20 +57,6 @@ struct FontCollectionsSideBarView: View {
     }
 }
 
-/**
- Library
- - FontCollection that has access to file system: if its the system/library/fonts directory, it is immutable
- Smart Collection
- - FontCollection derived from a library
- Collection
- - FontCollection
- 
- A whole new type is unncessary...
- 
- Ok but how should the AppState handle the FontCollections?
- Well now we have a FontCollectionFeature, so we'd have to hold on to a bunch of these...
- or derive a FontCollectionState whenever we select a specific FontCollection...
- */
 struct AppView: View {
     let store: Store<AppState, AppAction>
     
@@ -82,21 +64,19 @@ struct AppView: View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
                 FontCollectionsSideBarView(store: store)
-                IfLetStore.init(
+                IfLetStore(
                     store.scope(
-                    state: \.selectedCollectionState,
-                    action: AppAction.fontCollection
-                ),
-                    then: { childStore in
-                        FontCollectionView(store: childStore)
-                    }) {
-                        Text("Selected Collection")
+                        state: \.selectedCollectionState,
+                        action: AppAction.fontCollection
+                    ),
+                    then: FontCollectionView.init(store:),
+                    else: {
+                        Text("No collection selected")
                     }
-                //                Text("Selected Collection")
-                //                Text("Selected Collection details")
-            }
-            .onAppear {
-                viewStore.send(AppAction.onAppear)
+                )
+                .onAppear {
+                    viewStore.send(AppAction.onAppear)
+                }
             }
         }
     }

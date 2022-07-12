@@ -39,7 +39,7 @@ struct FontCollectionState: Equatable {
 }
 
 enum FontCollectionAction: Equatable {
-            case onAppear
+//    case onAppear
     //    case fetchFonts
     //    case fetchFontsResult(Result<[Font], Never>)
     //    case sidebar
@@ -58,11 +58,11 @@ extension FontCollectionState {
     static let reducer = Reducer<FontCollectionState, FontCollectionAction, FontCollectionEnvironment>.combine(
         Reducer { state, action, environment in
             switch action {
-            case .onAppear:
-                state.items = state.collection.fontFamilies.reduce(into: [ItemType](), { partial, family in
-                    partial.append(family.itemType)
-                })
-                return .none
+//            case .onAppear:
+//                state.items = state.collection.fontFamilies.reduce(into: [ItemType](), { partial, family in
+//                    partial.append(family.itemType)
+//                })
+//                return .none
                 //
                 //            case .fetchFonts:
                 //                return environment
