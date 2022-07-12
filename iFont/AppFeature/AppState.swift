@@ -15,8 +15,8 @@ struct AppState: Equatable {
     // When in production, make sure all these paths are in
     var fontDirectories: Set<URL> = [
         .init(fileURLWithPath: "/System/Library/Fonts"),
-        .init(fileURLWithPath: "/Library/Fonts"),
-        .init(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Fonts"),
+//        .init(fileURLWithPath: "/Library/Fonts"),
+//        .init(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Fonts"),
         Bundle.main.resourceURL!.appendingPathComponent("Fonts")
     ]
     
@@ -108,7 +108,6 @@ extension AppState {
                 return .none
             }
         }
-            .debug()
     )
 }
 

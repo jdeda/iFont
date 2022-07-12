@@ -8,6 +8,33 @@
 import SwiftUI
 import ComposableArchitecture
 
+//struct FontCollectionSection: View {
+//    private func labeledImage(_ fontCollection: FontCollection) -> some View {
+//        HStack {
+//            Image(systemName: fontCollection.type.imageSystemName)
+//                .foregroundColor(fontCollection.type.accentColor)
+//                .frame(width: 20, height: 20)
+//            Text(fontCollection.type.labelString)
+//            Text("\(fontCollection.fonts.count)")
+//                .bold()
+//        }
+//    }
+//    
+//    var collection: [FontCollection]
+//    var header: String
+//    
+//    var body: some View {
+//        Section {
+//            ForEach(collection) {
+//                labeledImage($0)
+//                    .tag($0)
+//            }
+//        } header: {
+//            Text(header)
+//        }
+//    }
+//}
+
 struct FontCollectionsSideBarView: View {
     let store: Store<AppState, AppAction>
     
@@ -35,6 +62,22 @@ struct FontCollectionsSideBarView: View {
                     }
                 } header: {
                     Text("Libraries")
+                }
+                Section {
+                    ForEach(viewStore.smartSection) { fontCollection in
+                        labeledImage(fontCollection)
+                            .tag(fontCollection)
+                    }
+                } header: {
+                    Text("Smart Collections")
+                }
+                Section {
+                    ForEach(viewStore.normalSection) { fontCollection in
+                        labeledImage(fontCollection)
+                            .tag(fontCollection)
+                    }
+                } header: {
+                    Text("Collections")
                 }
                 //                Section {
                 //                    labeledImage(systemName: "gearshape", label: "English")

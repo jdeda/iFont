@@ -45,8 +45,8 @@ extension FontCollectionType {
         case .unknown:              return "questionmark"
         case .allFontsLibrary:      return "f.square"
         case .computerLibrary:      return "laptopcomputer"
-        case .standardUserLibrary:  return "laptopcomputer"
-        case .library:              return "person.crop.square"
+        case .standardUserLibrary:  return "person.crop.square"
+        case .library:              return "square.stack"
         case .smart:                return "gearshape"
         case .basic:                return "square.on.square"
         }
@@ -83,7 +83,7 @@ extension FontCollectionType {
         case .allFontsLibrary:
             return true
         case .computerLibrary:
-            return false
+            return font.url.path.starts(with: "/System/Library/Fonts")
         case .standardUserLibrary:
             return font.url.path.starts(with: NSHomeDirectory())
         case let .library(libraryURL):
