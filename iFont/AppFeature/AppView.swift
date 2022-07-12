@@ -8,36 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 
-//struct FontCollectionSection: View {
-//    private func labeledImage(_ fontCollection: FontCollection) -> some View {
-//        HStack {
-//            Image(systemName: fontCollection.type.imageSystemName)
-//                .foregroundColor(fontCollection.type.accentColor)
-//                .frame(width: 20, height: 20)
-//            Text(fontCollection.type.labelString)
-//            Text("\(fontCollection.fonts.count)")
-//                .bold()
-//        }
-//    }
-//    
-//    var collection: [FontCollection]
-//    var header: String
-//    
-//    var body: some View {
-//        Section {
-//            ForEach(collection) {
-//                labeledImage($0)
-//                    .tag($0)
-//            }
-//        } header: {
-//            Text(header)
-//        }
-//    }
-//}
-
-struct FontCollectionsSideBarView: View {
-    let store: Store<AppState, AppAction>
-    
+struct FontCollectionSection: View {
     private func labeledImage(_ fontCollection: FontCollection) -> some View {
         HStack {
             Image(systemName: fontCollection.type.imageSystemName)
@@ -49,52 +20,33 @@ struct FontCollectionsSideBarView: View {
         }
     }
     
+    var collection: [FontCollection]
+    var header: String
+    
+    var body: some View {
+        Section {
+            ForEach(collection) {
+                labeledImage($0)
+                    .tag($0)
+            }
+        } header: {
+            Text(header)
+        }
+    }
+}
+
+struct FontCollectionsSideBarView: View {
+    let store: Store<AppState, AppAction>
+    
     var body: some View {
         WithViewStore(self.store) { viewStore in
             List(selection: viewStore.binding(
                 get: \.selectedCollection,
                 send: AppAction.madeSelection
             )) {
-                Section {
-                    ForEach(viewStore.librarySection) { fontCollection in
-                        labeledImage(fontCollection)
-                            .tag(fontCollection)
-                    }
-                } header: {
-                    Text("Libraries")
-                }
-                Section {
-                    ForEach(viewStore.smartSection) { fontCollection in
-                        labeledImage(fontCollection)
-                            .tag(fontCollection)
-                    }
-                } header: {
-                    Text("Smart Collections")
-                }
-                Section {
-                    ForEach(viewStore.normalSection) { fontCollection in
-                        labeledImage(fontCollection)
-                            .tag(fontCollection)
-                    }
-                } header: {
-                    Text("Collections")
-                }
-                //                Section {
-                //                    labeledImage(systemName: "gearshape", label: "English")
-                //                    labeledImage(systemName: "gearshape", label: "Fixed Width")
-                //                } header: {
-                //                    Text("Smart Collections")
-                //                }
-                //                Section {
-                //                    labeledImage(systemName: "square.on.square", label: "Fun", accent: .cyan)
-                //                    labeledImage(systemName: "square.on.square", label: "Modern", accent: .cyan)
-                //                    labeledImage(systemName: "square.on.square", label: "PDF", accent: .cyan)
-                //                    labeledImage(systemName: "square.on.square", label: "Traditional", accent: .cyan)
-                //                    labeledImage(systemName: "square.on.square", label: "Web", accent: .cyan)
-                //                    labeledImage(systemName: "square.on.square", label: "All", accent: .cyan)
-                //                } header: {
-                //                    Text("Collections")
-                //                }
+                FontCollectionSection(collection: viewStore.librarySection, header: "Library")
+                FontCollectionSection(collection: viewStore.smartSection, header: "Smart Collections")
+                FontCollectionSection(collection: viewStore.normalSection, header: "Collections")
             }
         }
     }
@@ -113,11 +65,11 @@ struct AppView: View {
                         action: AppAction.fontCollection
                     ),
                     then: FontCollectionView.init(store:),
-                    else: {
-                        Text("No collection selected")
-                    }
+                    else: { Text("No collection selected") }
                 )
                 .onAppear {
+                    // TODO: This is bad...
+                    // App should load fonts only on start up and never again!
                     viewStore.send(AppAction.onAppear)
                 }
             }

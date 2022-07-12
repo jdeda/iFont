@@ -52,6 +52,7 @@ extension FontCollectionType {
         }
     }
 
+    // TODO: This is not very good
     var labelString: String {
         switch self {
         case .unknown:             return "Unknown"

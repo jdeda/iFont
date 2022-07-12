@@ -6,11 +6,10 @@ struct FontCollectionState: Equatable {
     
     // Basically this is what is going on.
     var collection: FontCollection
-    //    var items = [ItemType]()
+    var items: [ItemType]
     var selectedItem: ItemType? = nil
     var selectedPreview: ItemPreviewType = .sample
     var selectedExpansions = Set<ItemType.ID>()
-    var items: [ItemType]
     
     init(collection: FontCollection) {
         self.collection = collection
