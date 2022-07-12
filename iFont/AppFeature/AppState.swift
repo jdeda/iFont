@@ -88,8 +88,11 @@ extension AppState {
             case let .fetchFontsResult(.success(newFonts)):
                 Logger.log("received: \(newFonts.count)")
                 state.fonts.append(contentsOf: newFonts)
-                state.librarySection = state.librarySection.map {
-                    .init(type: $0.type, fonts: $0.fonts + newFonts.filter($0.type.matchingFonts))
+                
+                for i in 1..<state.librarySection.count - 1 {
+                    let newFontsFiltered = newFonts.filter(state.librarySection[i].type.matchingFonts)
+                    state.librarySection[i].fonts.append(contentsOf: newFontsFiltered)
+                    state.librarySection[0].fonts.append(contentsOf: newFontsFiltered)
                 }
 
                 return .none

@@ -67,6 +67,7 @@ struct AppView: View {
                     then: FontCollectionView.init(store:),
                     else: { Text("No collection selected") }
                 )
+                
                 .onAppear {
                     // TODO: This is bad...
                     // App should load fonts only on start up and never again!

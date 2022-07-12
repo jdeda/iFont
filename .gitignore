@@ -6,3 +6,4 @@ build
 iFont.xcodeproj/xcuserdata/jessededa.xcuserdatad/xcschemes/xcschememanagement.plist
 *.plist
 iFont.xcodeproj/xcuserdata/jessededa.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+*.xcbkptlist
