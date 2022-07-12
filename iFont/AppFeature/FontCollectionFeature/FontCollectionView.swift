@@ -23,7 +23,9 @@ struct FontCollectionView: View {
     let store: Store<FontCollectionState, FontCollectionAction>
     
     var body: some View {
-        WithViewStore(self.store) { viewStore in
+        Logger.log("")
+
+        return WithViewStore(self.store) { viewStore in
             NavigationView {
                 VStack(spacing: 0) {
                     List(selection: viewStore.binding(

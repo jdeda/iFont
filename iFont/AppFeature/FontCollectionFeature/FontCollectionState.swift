@@ -13,9 +13,9 @@ struct FontCollectionState: Equatable {
     
     init(collection: FontCollection) {
         self.collection = collection
-        self.items = collection.fontFamilies.reduce(into: [ItemType](), { partial, family in
-            partial.append(family.itemType)
-        })
+        self.items = self.collection.fontFamilies
+            .sorted(by: { $0.name < $1.name })
+            .map(\.itemType)
     }
     //    // FIXME: jdeda
     //    // When in production

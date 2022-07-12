@@ -23,16 +23,12 @@ extension Font: Identifiable {
 
 extension Array where Element == Font {
     func groupedByFamily() -> [FontFamily] {
-        self
-            .reduce(into: [String: FontFamily]()) { partial, font in
-                var family = partial[font.familyName, default: FontFamily(name: font.familyName, fonts: [])]
-                
-                family.fonts.append(font)
-                partial[font.familyName] = family
+        let foo = self
+            .reduce(into: [String: [Font]]()) { partial, font in
+                partial[font.familyName, default: []].append(font)
             }
-            .reduce(into: [FontFamily]()) { partial, fontFamily in
-                partial.append(fontFamily.value)
-            }
+            .map { FontFamily.init(name: $0.0, fonts: $0.1) }
+        return foo
     }
 }
 

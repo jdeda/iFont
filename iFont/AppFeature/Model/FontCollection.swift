@@ -16,9 +16,9 @@ struct FontCollection: Equatable, Hashable {
     let id = UUID()
     var type: FontCollectionType = .unknown // TODO: Rename to something like "FontCollectionCategory"
     var fonts = [Font]()
-    var fontFamilies: [FontFamily] {
+    lazy var fontFamilies: [FontFamily] = {
         fonts.groupedByFamily()
-    }
+    }()
     
     init(
         type: FontCollectionType = .unknown,
@@ -26,6 +26,7 @@ struct FontCollection: Equatable, Hashable {
     ) {
         self.type = type
         self.fonts = fonts
+        // self.fontFamilies = self.fonts.groupedByFamily()
     }
 //    let id = UUID()
 //    var type: FontCollectionType = .unknown // TODO: Rename to something like "FontCollectionCategory"

@@ -72,6 +72,7 @@ extension AppState {
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
+                state.selectedCollection = .init(type: .allFontsLibrary, fonts: [])
                 return Effect(value: .fetchFonts)
                 
             case .fetchFonts:
@@ -87,15 +88,30 @@ extension AppState {
                 return foo
                 
             case let .fetchFontsResult(.success(newFonts)):
+                let startTime = Date()
+
+                defer {
+                    let elapsed = startTime.timeIntervalSinceNow * -1000
+                    let elapsedString = String(format: "%0.3f", elapsed)
+                    Logger.log("completed in: \(elapsedString) ms")
+                }
                 Logger.log("received: \(newFonts.count)")
                 state.fonts.append(contentsOf: newFonts)
-                
-                for i in 1..<state.librarySection.count - 1 {
-                    let newFontsFiltered = newFonts.filter(state.librarySection[i].type.matchingFonts)
-                    state.librarySection[i].fonts.append(contentsOf: newFontsFiltered)
-                    state.librarySection[0].fonts.append(contentsOf: newFontsFiltered)
-                }
+                let oldSelection = state.selectedCollection
 
+                state.librarySection = state.librarySection.map({ fontCollection in
+                    let collectionType = fontCollection.type
+                    let fonts = fontCollection.fonts
+                    let newFonts_ = newFonts.filter(collectionType.matchingFonts)
+                    
+                    return FontCollection(type: collectionType, fonts: fonts + newFonts_)
+                })
+                
+                if let oldSelection = oldSelection {
+                    // preserve it ...
+                    let updated = state.librarySection.first(where: { $0.type == oldSelection.type })
+                    return Effect(value: .madeSelection(updated))
+                }
                 return .none
                 
             case let .madeSelection(newSelection):
