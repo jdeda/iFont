@@ -22,7 +22,7 @@ struct AppState: Equatable {
     
     var fonts: [Font] = []
     
-    var selectedCollection: FontCollection? = nil // TODO: Combine these.
+    var selectedCollection: FontCollection? = nil // TODO: Combine these?
     var selectedCollectionState: FontCollectionState? = nil
 
     var librarySection: [FontCollection] = [
@@ -37,9 +37,9 @@ struct AppState: Equatable {
     ]
     
     var normalSection: [FontCollection] = [
-        .init(type: .standardUserLibrary, fonts: []),
-        .init(type: .standardUserLibrary, fonts: []),
-        .init(type: .standardUserLibrary, fonts: [])
+        .init(type: .basic, fonts: []),
+        .init(type: .basic, fonts: []),
+        .init(type: .basic, fonts: [])
     ]
 }
 
