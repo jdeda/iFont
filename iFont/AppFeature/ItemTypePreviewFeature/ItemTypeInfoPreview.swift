@@ -21,12 +21,12 @@ struct FontInfoPreview: View {
             }
             .padding()
             
-            VStack(alignment: .trailing) {
+            HStack {
+                VStack(alignment: .trailing) {
                     Group {
                         Text("PostScript name ")
                         Text("Full name ")
                         Text("Family name ")
-                        Text("Style ")
                         Text("Style ")
                         Text("Kind ")
                         Text("Language ")
@@ -44,6 +44,30 @@ struct FontInfoPreview: View {
                         Text("Embedding ")
                         Text("Glyph count ")
                     }
+                }
+                VStack(alignment: .leading) {
+                    Group {
+                        Text(font.attributes[FontAttributeKey.postScript] ?? "")
+                        Text(font.attributes[FontAttributeKey.full] ?? "")
+                        Text(font.attributes[FontAttributeKey.family] ?? "")
+                        Text(font.attributes[FontAttributeKey.style] ?? "")
+                        Text("") // Kind
+                        Text("") // Language
+                        Text("") // Script
+                        Text(font.attributes[FontAttributeKey.version] ?? "")
+                    }
+                    Group {
+                        Text("") // Location
+                        Text("") // Unique name
+                        Text(font.attributes[FontAttributeKey.copyright] ?? "")
+                        Text(font.attributes[FontAttributeKey.trademark] ?? "")
+                        Text("") // Enabled
+                        Text("") // Duplicate
+                        Text("") // Copy protected
+                        Text("") // Embedding
+                        Text("") // Glyph count
+                    }
+                }
             }
         }
     }
@@ -92,5 +116,28 @@ struct ItemTypeInfoPreview: View {
 //struct FontInfoPreviewView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        FontInfoPreviewView()
+//    }
+//}
+
+//
+//struct FontInfoPreview_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FontInfoPreview(font: Font(
+//            url: URL.init(fileURLWithPath: NSTemporaryDirectory()),
+//            name: "Chicken",
+//            familyName: "Cheese"))
+//    }
+//}
+//
+//struct FontFamilyInfoPreview: View {
+//    let family: FontFamily
+//
+//    var body: some View {
+//        List {
+//            ForEach(family.fonts, id: \.name) { font in
+//                FontInfoPreview(font: font)
+//                    .padding()
+//            }
+//        }
 //    }
 //}

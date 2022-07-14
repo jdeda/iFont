@@ -6,25 +6,71 @@
 //
 
 import Foundation
+import CoreText
 
-enum FontAttribute: String, CaseIterable {
-    case copyright = "kCTFontCopyrightNameKey"
-    case family = "kCTFontFamilyNameKey"
-    case subfamily = "kCTFontSubFamilyNameKey"
-    case style = "kCTFontStyleNameKey"
-    case unique = "kCTFontUniqueNameKey"
-    case full = "kCTFontFullNameKey"
-    case version = "kCTFontVersionNameKey"
-    case postScript = "kCTFontPostScriptNameKey"
-    case trademark = "kCTFontTrademarkNameKey"
-    case manufacturer = "kCTFontManufacturerNameKey"
-    case designer = "kCTFontDesignerNameKey"
-    case description = "kCTFontDescriptionNameKey"
-    case vendorURL = "kCTFontVendorURLNameKey"
-    case designerURL = "kCTFontDesignerURLNameKey"
-    case license = "kCTFontLicenseNameKey"
-    case licenseURL = "kCTFontLicenseURLNameKey"
-    case sampleText = "kCTFontSampleTextNameKey"
-    case postScriptCID = "kCTFontPostScriptCIDNameKey"
+enum FontAttributeKey: Equatable, CaseIterable {
+    case copyright
+    case family
+    case subfamily
+    case style
+    case unique
+    case full
+    case version
+    case postScript
+    case trademark
+    case manufacturer
+    case designer
+    case description
+    case vendorURL
+    case designerURL
+    case license
+    case licenseURL
+    case sampleText
+    case postScriptCID
 }
 
+extension FontAttributeKey {
+    var key: CFString { // TODO: Is this switch executed every call to .nameKey?
+        switch self {
+        case .copyright:     return kCTFontCopyrightNameKey
+        case .family:        return kCTFontFamilyNameKey
+        case .subfamily:     return kCTFontSubFamilyNameKey
+        case .style:         return kCTFontStyleNameKey
+        case .unique:        return kCTFontUniqueNameKey
+        case .full:          return kCTFontFullNameKey
+        case .version:       return kCTFontVersionNameKey
+        case .postScript:    return kCTFontPostScriptNameKey
+        case .trademark:     return kCTFontTrademarkNameKey
+        case .manufacturer:  return kCTFontManufacturerNameKey
+        case .designer:      return kCTFontDesignerNameKey
+        case .description:   return kCTFontDescriptionNameKey
+        case .vendorURL:     return kCTFontVendorURLNameKey
+        case .designerURL:   return kCTFontDesignerURLNameKey
+        case .license:       return kCTFontLicenseNameKey
+        case .licenseURL:    return kCTFontLicenseURLNameKey
+        case .sampleText:    return kCTFontSampleTextNameKey
+        case .postScriptCID: return kCTFontPostScriptCIDNameKey
+        }
+    }
+}
+
+//enum FontAttribute: String, CaseIterable {
+//    case copyright = "kCTFontCopyrightNameKey"
+//    case family = "kCTFontFamilyNameKey"
+//    case subfamily = "kCTFontSubFamilyNameKey"
+//    case style = "kCTFontStyleNameKey"
+//    case unique = "kCTFontUniqueNameKey"
+//    case full = "kCTFontFullNameKey"
+//    case version = "kCTFontVersionNameKey"
+//    case postScript = "kCTFontPostScriptNameKey"
+//    case trademark = "kCTFontTrademarkNameKey"
+//    case manufacturer = "kCTFontManufacturerNameKey"
+//    case designer = "kCTFontDesignerNameKey"
+//    case description = "kCTFontDescriptionNameKey"
+//    case vendorURL = "kCTFontVendorURLNameKey"
+//    case designerURL = "kCTFontDesignerURLNameKey"
+//    case license = "kCTFontLicenseNameKey"
+//    case licenseURL = "kCTFontLicenseURLNameKey"
+//    case sampleText = "kCTFontSampleTextNameKey"
+//    case postScriptCID = "kCTFontPostScriptCIDNameKey"
+//}

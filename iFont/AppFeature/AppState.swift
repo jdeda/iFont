@@ -10,13 +10,13 @@ import ComposableArchitecture
 
 // Single Source of Truth (SSOT) for the App.
 struct AppState: Equatable {
-        
+    
     // FIXME: jdeda
     // When in production, make sure all these paths are in
     var fontDirectories: Set<URL> = [
         .init(fileURLWithPath: "/System/Library/Fonts"),
-//        .init(fileURLWithPath: "/Library/Fonts"),
-//        .init(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Fonts"),
+        //        .init(fileURLWithPath: "/Library/Fonts"),
+        //        .init(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Fonts"),
         Bundle.main.resourceURL!.appendingPathComponent("Fonts")
     ]
     
@@ -24,7 +24,7 @@ struct AppState: Equatable {
     
     var selectedCollection: FontCollection? = nil // TODO: Combine these?
     var selectedCollectionState: FontCollectionState? = nil
-
+    
     var librarySection: [FontCollection] = [
         .init(type: .allFontsLibrary, fonts: []),
         .init(type: .computerLibrary, fonts: []),
@@ -72,7 +72,7 @@ extension AppState {
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
-                state.selectedCollection = .init(type: .allFontsLibrary, fonts: [])
+//                state.selectedCollection = .init(type: .allFontsLibrary, fonts: [])
                 return Effect(value: .fetchFonts)
                 
             case .fetchFonts:
@@ -88,30 +88,31 @@ extension AppState {
                 return foo
                 
             case let .fetchFontsResult(.success(newFonts)):
-                let startTime = Date()
-
-                defer {
-                    let elapsed = startTime.timeIntervalSinceNow * -1000
-                    let elapsedString = String(format: "%0.3f", elapsed)
-                    Logger.log("completed in: \(elapsedString) ms")
+                let debug = false
+                if debug {
+                    let startTime = Date()
+                    defer {
+                        let elapsed = startTime.timeIntervalSinceNow * -1000
+                        let elapsedString = String(format: "%0.3f", elapsed)
+                        Logger.log("completed in: \(elapsedString) ms")
+                    }
+                    Logger.log("received: \(newFonts.count)")
                 }
-                Logger.log("received: \(newFonts.count)")
                 state.fonts.append(contentsOf: newFonts)
-                let oldSelection = state.selectedCollection
-
-                state.librarySection = state.librarySection.map({ fontCollection in
+//                let oldSelection = state.selectedCollection
+                
+                state.librarySection = state.librarySection.map { fontCollection in
                     let collectionType = fontCollection.type
                     let fonts = fontCollection.fonts
                     let newFonts_ = newFonts.filter(collectionType.matchingFonts)
                     
                     return FontCollection(type: collectionType, fonts: fonts + newFonts_)
-                })
-                
-                if let oldSelection = oldSelection {
-                    // preserve it ...
-                    let updated = state.librarySection.first(where: { $0.type == oldSelection.type })
-                    return Effect(value: .madeSelection(updated))
                 }
+                
+//                if let oldSelection = oldSelection { // Preserve it ...
+//                    let updated = state.librarySection.first(where: { $0.type == oldSelection.type })
+//                    return Effect(value: .madeSelection(updated))
+//                }
                 return .none
                 
             case let .madeSelection(newSelection):
