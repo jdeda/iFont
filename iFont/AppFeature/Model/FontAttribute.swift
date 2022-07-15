@@ -29,8 +29,14 @@ enum FontAttributeKey: Equatable, CaseIterable {
     case postScriptCID
 }
 
+extension FontAttributeKey: Identifiable {
+    var id: Self {
+        self
+    }
+}
+
 extension FontAttributeKey {
-    var key: CFString { // TODO: Is this switch executed every call to .nameKey?
+    var key: CFString {
         switch self {
         case .copyright:     return kCTFontCopyrightNameKey
         case .family:        return kCTFontFamilyNameKey
@@ -52,25 +58,31 @@ extension FontAttributeKey {
         case .postScriptCID: return kCTFontPostScriptCIDNameKey
         }
     }
+    
+    // TODO: jdeda
+    // Please provide all strings here
+    var title: String {
+//        switch self {
+//            // we don't have these easily
+//            case .copyright:     return "PostScript name", fontAttribute: .postScript)
+//            case .family:        return "Full name", fontAttribute: .full)
+//            case .subfamily:     return "Family name", fontAttribute: .family)
+//            case .style:         return "Style", fontAttribute: .style)
+//            case .unique:        return "Kind", fontAttribute: .kind)
+//            case .full:          return "Language", fontAttribute: .language)
+//            case .version:       return "Script", fontAttribute: .script)
+//            case .postScript:    return "Version", fontAttribute: .version)
+//            case .trademark:     return "Location", fontAttribute: .location)
+//            case .manufacturer:  return "Unique name", fontAttribute: .unique)
+//            case .designer:      return "Designer", fontAttribute: .designer)
+//            case .description:   return "Copyright", fontAttribute: .copyright)
+//            case .vendorURL:     return "Trademark", fontAttribute: .trademark)
+//            case .designerURL:   return "Enabled", fontAttribute: .enabled)
+//            case .license:       return "Copy protected", fontAttribute: .copyright)
+//            case .licenseURL:    return "Embedding", fontAttribute: .embedding)
+//            case .sampleText:    return "Glyph count", fontAttribute: .glyphCount)
+//            case .postScriptCID: return ""
+//        }
+        return key as String
+    }
 }
-
-//enum FontAttribute: String, CaseIterable {
-//    case copyright = "kCTFontCopyrightNameKey"
-//    case family = "kCTFontFamilyNameKey"
-//    case subfamily = "kCTFontSubFamilyNameKey"
-//    case style = "kCTFontStyleNameKey"
-//    case unique = "kCTFontUniqueNameKey"
-//    case full = "kCTFontFullNameKey"
-//    case version = "kCTFontVersionNameKey"
-//    case postScript = "kCTFontPostScriptNameKey"
-//    case trademark = "kCTFontTrademarkNameKey"
-//    case manufacturer = "kCTFontManufacturerNameKey"
-//    case designer = "kCTFontDesignerNameKey"
-//    case description = "kCTFontDescriptionNameKey"
-//    case vendorURL = "kCTFontVendorURLNameKey"
-//    case designerURL = "kCTFontDesignerURLNameKey"
-//    case license = "kCTFontLicenseNameKey"
-//    case licenseURL = "kCTFontLicenseURLNameKey"
-//    case sampleText = "kCTFontSampleTextNameKey"
-//    case postScriptCID = "kCTFontPostScriptCIDNameKey"
-//}

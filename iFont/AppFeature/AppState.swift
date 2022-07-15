@@ -22,9 +22,11 @@ struct AppState: Equatable {
     
     var fonts: [Font] = []
     
-    var selectedCollection: FontCollection? = nil // TODO: Combine these?
+    var selectedCollection: FontCollection? = nil
     var selectedCollectionState: FontCollectionState? = nil
-    
+    // TODO: jdeda
+    // Combine these?
+
     var librarySection: [FontCollection] = [
         .init(type: .allFontsLibrary, fonts: []),
         .init(type: .computerLibrary, fonts: []),
@@ -116,6 +118,10 @@ extension AppState {
                 return .none
                 
             case let .madeSelection(newSelection):
+                // TODO: jdeda
+                // make it sticky
+                // 1) write it to the UserDefaults.standard
+                // 2) when the app starts, the state inits, you will than read this value from the UserDefaults.standard
                 state.selectedCollection = newSelection
                 if let unwrapped = newSelection {
                     state.selectedCollectionState = .init(collection: unwrapped)

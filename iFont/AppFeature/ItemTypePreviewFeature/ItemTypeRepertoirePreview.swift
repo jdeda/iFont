@@ -17,7 +17,8 @@ struct ItemTypeRepertoirePreview: View {
     }
 }
 
-// TODO: Jdeda Fix me
+// TODO: jdeda
+// Fix me
 //struct FontRepertoirePreviewView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        FontRepertoirePreviewView()

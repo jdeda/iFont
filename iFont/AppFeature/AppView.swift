@@ -66,7 +66,9 @@ struct AppView: View {
                             }, label: {
                                 Image(systemName: "sidebar.left")
                             })
-                            .help("Will show/hide the sidebar view") // TODO: Jdeda make conditional
+                            .help("Will show/hide the sidebar view")
+                            // TODO: jdeda
+                            // make conditional
                         }
                     }
                 IfLetStore(
@@ -79,7 +81,8 @@ struct AppView: View {
                 )
                 
                 .onAppear {
-                    // TODO: This is bad...
+                    // TODO: kdeda
+                    // When you hide/unhide the app we get here anew
                     // App should load fonts only on start up and never again!
                     viewStore.send(AppAction.onAppear)
                 }

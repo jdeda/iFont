@@ -10,26 +10,25 @@ import ComposableArchitecture
 
 fileprivate struct FontAttributePreview: View {
     let font: Font
-    let targetAttributeKey: FontAttributeKey
-    let title: String
+    private let fontAttribute: FontAttributeKey
     
-    init(_ font: Font, title: String, target: FontAttributeKey) {
+    init(_ font: Font, title: String, fontAttribute: FontAttributeKey) {
         self.font = font
-        self.title = title
-        self.targetAttributeKey = target
+        self.fontAttribute = fontAttribute
     }
     
     var body: some View {
         HStack {
-            Text("\(title)")
+            Text("\(fontAttribute.title)")
                 .foregroundColor(.secondary)
                 .frame(width: 150, alignment: .trailing)
-            Text(font.attributes[targetAttributeKey] ?? " ")
+            Text(font.attributes[fontAttribute] ?? " ")
                 .frame(alignment: .leading)
         }
     }
 }
-struct FontInfoPreview: View {
+
+fileprivate struct FontInfoPreview: View {
     let font: Font
     
     var body: some View {
@@ -44,25 +43,32 @@ struct FontInfoPreview: View {
             
             HStack {
                 VStack(alignment: .leading) {
+//                    // debug
+//                    ForEach(FontAttributeKey.allCases) { fontAttribute in
+//                        FontAttributePreview(font, title: fontAttribute.title, fontAttribute: fontAttribute)
+//                    }
+//                    Divider()
                     Group {
-                        FontAttributePreview(font, title: "PostScript name", target: .postScript)
-                        FontAttributePreview(font, title: "Full name", target: .full)
-                        FontAttributePreview(font, title: "Family name", target: .family)
-                        FontAttributePreview(font, title: "Style", target: .style)
-                        //                        FontAttributePreview(font, title: "Kind", target: .kind)
-                        //                        FontAttributePreview(font, title: "Language", target: .language)
-                        //                        FontAttributePreview(font, title: "Script", target: .script)
-                        FontAttributePreview(font, title: "Version", target: .version)
+                        // we don't have these easily
+                        FontAttributePreview(font, title: "PostScript name", fontAttribute: .postScript)
+                        FontAttributePreview(font, title: "Full name", fontAttribute: .full)
+                        FontAttributePreview(font, title: "Family name", fontAttribute: .family)
+                        FontAttributePreview(font, title: "Style", fontAttribute: .style)
+                        // FontAttributePreview(font, title: "Kind", fontAttribute: .kind)
+                        // FontAttributePreview(font, title: "Language", fontAttribute: .language)
+                        // FontAttributePreview(font, title: "Script", fontAttribute: .script)
+                        FontAttributePreview(font, title: "Version", fontAttribute: .version)
                     }
                     Group {
-                        //                        FontAttributePreview(font, title: "Location", target: .location)
-                        FontAttributePreview(font, title: "Unique name", target: .unique)
-                        FontAttributePreview(font, title: "Copyright", target: .copyright)
-                        FontAttributePreview(font, title: "Trademark", target: .trademark)
-                        //                        FontAttributePreview(font, title: "Enabled", target: .enabled)
-                        FontAttributePreview(font, title: "Copy protected", target: .copyright)
-                        //                        FontAttributePreview(font, title: "Embedding", target: .embedding)
-                        //                        FontAttributePreview(font, title: "Glyph count", target: .glyphCount)
+                        // FontAttributePreview(font, title: "Location", fontAttribute: .location)
+                        FontAttributePreview(font, title: "Unique name", fontAttribute: .unique)
+                        FontAttributePreview(font, title: "Designer", fontAttribute: .designer)
+                        FontAttributePreview(font, title: "Copyright", fontAttribute: .copyright)
+                        FontAttributePreview(font, title: "Trademark", fontAttribute: .trademark)
+                        // FontAttributePreview(font, title: "Enabled", fontAttribute: .enabled)
+                        FontAttributePreview(font, title: "Copy protected", fontAttribute: .copyright)
+                        // FontAttributePreview(font, title: "Embedding", fontAttribute: .embedding)
+                        // FontAttributePreview(font, title: "Glyph count", fontAttribute: .glyphCount)
                     }
                 }
             }
@@ -72,7 +78,6 @@ struct FontInfoPreview: View {
 }
 
 struct FontInfoPreview_Previews: PreviewProvider {
-    
     static var previews: some View {
         let attributes: [FontAttributeKey: String] =  {
             var ats = Dictionary(
@@ -85,17 +90,19 @@ struct FontInfoPreview_Previews: PreviewProvider {
             return ats
         }()
         
-        
-        FontInfoPreview(font: Font(
-            url: URL(fileURLWithPath: NSTemporaryDirectory()),
-            name: "Chicken",
-            familyName: "Cheese",
-            attributes: attributes
-        ))
+        VStack {
+            Text("FontInfoPreview")
+            FontInfoPreview(font: Font(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "Chicken",
+                familyName: "Cheese",
+                attributes: attributes
+            ))
+        }
     }
 }
 
-struct FontFamilyInfoPreview: View {
+fileprivate struct FontFamilyInfoPreview: View {
     let family: FontFamily
     
     var body: some View {
@@ -124,7 +131,8 @@ struct ItemTypeInfoPreview: View {
     }
 }
 
-// TODO: Jdeda Fix me
+// TODO: jdeda
+// Fix me
 //struct FontInfoPreviewView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        FontInfoPreviewView()

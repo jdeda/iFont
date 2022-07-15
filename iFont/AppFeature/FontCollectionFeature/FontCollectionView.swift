@@ -26,6 +26,7 @@ struct FontCollectionView: View {
 //        Logger.log("")
         WithViewStore(self.store) { viewStore in
             NavigationView {
+                // The First Column
                 VStack(spacing: 0) {
                     List(selection: viewStore.binding(
                         get: \.selectedItem,
@@ -52,6 +53,7 @@ struct FontCollectionView: View {
 //                    }
 //                }
                 
+                // The Second Column, or the detail
                 VStack {
                     switch viewStore.selectedItem {
                     case let .some(item):
@@ -70,6 +72,7 @@ struct FontCollectionView: View {
                     .pickerStyle(.segmented)
                 }
             }
+            .background(Color.init(NSColor.controlBackgroundColor))
 //            .onAppear {
 //                viewStore.send(FontCollectionAction.onAppear)
 //            }

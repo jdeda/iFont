@@ -8,7 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct FontRowView: View {
+fileprivate struct FontRowView: View {
     let font: Font
     
     var body: some View {
@@ -17,7 +17,7 @@ struct FontRowView: View {
     }
 }
 
-struct FontFamilyRowView: View {
+fileprivate struct FontFamilyRowView: View {
     let store: Store<FontCollectionState, FontCollectionAction>
     var fontFamily: FontFamily
     
@@ -41,14 +41,6 @@ struct FontFamilyRowView: View {
     }
 }
 
-// TODO: Jdeda: fix me
-//struct FontFamilyRowView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        // FontFamilyRowView(store: FontFamilyState.mockStore)
-//    }
-//}
-
-
 struct ItemTypeRowView: View {
     let store: Store<FontCollectionState, FontCollectionAction>
     var itemType: ItemType
@@ -64,3 +56,11 @@ struct ItemTypeRowView: View {
         }
     }
 }
+
+// TODO: jdeda
+// Fix me
+//struct FontFamilyRowView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        // FontFamilyRowView(store: FontFamilyState.mockStore)
+//    }
+//}

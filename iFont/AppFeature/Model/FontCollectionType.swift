@@ -52,13 +52,12 @@ extension FontCollectionType {
         }
     }
 
-    // TODO: This is not very good
     var labelString: String {
         switch self {
         case .unknown:             return "Unknown"
         case .allFontsLibrary:     return "All Fonts"
         case .computerLibrary:     return "Computer"
-        case .standardUserLibrary: return "Standard User Library"
+        case .standardUserLibrary: return "User"
         case .library:             return "Library"
         case .smart:               return "Smart"
         case .basic:               return "Basic"
@@ -201,7 +200,7 @@ extension FontCollectionType {
 
 
 // TODO: jdeda
-// Define more rules to CollectionType
+// Define more rules to CollectionType depending on self
 // can it be renamed ?
 // can it be removed ?
 // can it be modified ?

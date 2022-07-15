@@ -63,7 +63,8 @@ struct FontClientHelper {
                 return font
             }
         
-        // TODO: Glyphs
+        // TODO: kdeda
+        // Glyphs
         /**
          1. I have an ns font.
          2. I want all the glyphs associated with this font
@@ -87,7 +88,8 @@ struct FontClientHelper {
         
         let fonts = nsFonts
             .map { nsFont -> Font in
-                // TODO: Gettting attributes here is bogging the system...
+                // TODO: kdeda
+                // Gettting attributes here is bogging the system...
                 let attributes = FontAttributeKey.allCases.reduce(into: [FontAttributeKey: String](), { partial, key in
                     if let value = CTFontCopyName(nsFont, key.key as CFString) {
                         partial[key] = value as String

@@ -92,6 +92,8 @@ extension FontCollectionState {
                 //
                 //                // display SelectedFont for each font in this fam
             case let .selectedItem(selectedItemType):
+                // TODO: jdeda
+                // make it sticky
                 state.selectedItem = selectedItemType
                 if let selectedItem = selectedItemType {
                     Logger.log("selectedItemType: \(selectedItemType)")
