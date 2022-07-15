@@ -22,11 +22,10 @@ fileprivate struct FontAttributePreview: View {
     var body: some View {
         HStack {
             Text("\(title)")
+                .foregroundColor(.secondary)
                 .frame(width: 150, alignment: .trailing)
             Text(font.attributes[targetAttributeKey] ?? " ")
                 .frame(alignment: .leading)
-            
-            
         }
     }
 }
@@ -44,7 +43,7 @@ struct FontInfoPreview: View {
             .padding()
             
             HStack {
-                VStack {
+                VStack(alignment: .leading) {
                     Group {
                         FontAttributePreview(font, title: "PostScript name", target: .postScript)
                         FontAttributePreview(font, title: "Full name", target: .full)
@@ -67,7 +66,7 @@ struct FontInfoPreview: View {
                     }
                 }
             }
-            .frame(width: 250, height: 250)
+//            .frame(width: 250, height: 250)
         }
     }
 }
@@ -137,7 +136,6 @@ struct FontInfoPreview: View {
 //        }
 //    }
 //}
-
 
 struct FontInfoPreview_Previews: PreviewProvider {
     
