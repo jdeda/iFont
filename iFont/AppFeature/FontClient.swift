@@ -87,6 +87,7 @@ struct FontClientHelper {
         
         let fonts = nsFonts
             .map { nsFont -> Font in
+                // TODO: Gettting attributes here is bogging the system...
                 let attributes = FontAttributeKey.allCases.reduce(into: [FontAttributeKey: String](), { partial, key in
                     if let value = CTFontCopyName(nsFont, key.key as CFString) {
                         partial[key] = value as String
@@ -107,8 +108,8 @@ struct FontClientHelper {
                 Logger.log("here: \($0.name)")
             }
         }
-        //
-        //
+
+        
         //        let manager = NSLayoutManager.init()
         //        let drawGlyphs = manager.drawGlyphs(forGlyphRange: NSRange.init(), at: NSPoint.init(x: 1, y: 1  ))
         //        let glpyh = NSGlyph.init("Cheese")
