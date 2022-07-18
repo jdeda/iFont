@@ -12,6 +12,11 @@ struct FontCustomPreview: View {
     let font: Font
     
     var body: some View {
+        // TODO: jdeda
+        // make sure all text examples are bound to same width...
+        // hopefully this simuealtaneously fixes an issue
+        // where text refuses to break into a new line
+        // and all you see is something like "The quick bro..."
         VStack {
             Text("\(font.attributes[.full] ?? font.name)")
                 .font(.title)

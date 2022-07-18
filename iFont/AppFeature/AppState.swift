@@ -112,6 +112,9 @@ extension AppState {
                 }
                 
                 if let oldSelection = oldSelection { // Preserve it ...
+                    // TODO: jdeda
+                    // Setting defaults here every time slows runtime dramatically.
+                    // One should only save selection after everything has loaded in...
                     let updated = state.librarySection.first(where: { $0.type == oldSelection.type })
                     return Effect(value: .madeSelection(updated))
                 }
@@ -123,9 +126,6 @@ extension AppState {
                 // 1) write it to the UserDefaults.standard
                 // 2) when the app starts, the state inits, you will than read this value from the UserDefaults.standard
                 state.selectedCollection = newSelection
-                
-                // TODO: jdeda
-                // Setting defaults here every time slows runtime dramatically.
                 UserDefaults.standard.setCodable(forKey: "selectedCollection", value: newSelection)
                 if let unwrapped = newSelection {
                     state.selectedCollectionState = .init(collection: unwrapped)
