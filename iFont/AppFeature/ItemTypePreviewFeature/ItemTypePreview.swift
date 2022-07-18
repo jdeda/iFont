@@ -18,6 +18,7 @@ struct ItemTypePreview: View {
             
             // We previously said that these views will hold onto a store as we may have buttons in these views
             // i.e. resize slider.
+            
             switch selection {
             case .sample:
                 ItemTypeSamplePreview(store: store, item: item)

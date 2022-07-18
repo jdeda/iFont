@@ -41,6 +41,29 @@ fileprivate struct FontFamilyRowView: View {
     }
 }
 
+// TODO: jdeda
+// Fix me
+struct FontFamilyRowView_Previews: PreviewProvider {
+    static var previews: some View {
+        let fonts = (1...10).map { int in
+            Font(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "Chicken \(int)",
+                familyName: "Cheese"
+            )
+        }
+        // TODO: jdeda
+        // Is there a way to make macOS previews actually interactable? (like iOS)
+        FontFamilyRowView(
+            store: FontCollectionState.mockStore,
+            fontFamily: FontFamily(
+                name: "Chicken", fonts: fonts
+            )
+        )
+    }
+}
+
+
 struct ItemTypeRowView: View {
     let store: Store<FontCollectionState, FontCollectionAction>
     var itemType: ItemType
@@ -57,10 +80,21 @@ struct ItemTypeRowView: View {
     }
 }
 
-// TODO: jdeda
-// Fix me
-//struct FontFamilyRowView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        // FontFamilyRowView(store: FontFamilyState.mockStore)
-//    }
-//}
+struct ItemTypeRowView_Previews: PreviewProvider {
+    static var previews: some View {
+        let fonts = (1...10).map { int in
+            Font(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "Chicken \(int)",
+                familyName: "Cheese"
+            )
+        }
+        ItemTypeRowView(
+            store: FontCollectionState.mockStore,
+            itemType: ItemType.fontFamily(FontFamily(
+                name: "cheese",
+                fonts: fonts
+            ))
+        )
+    }
+}

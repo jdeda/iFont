@@ -22,7 +22,7 @@ struct ItemTypeInfoPreview: View {
     }
 }
 
-// TODO: jdeda
+// TODO: jdeda - done
 // Fix me
 struct ItemTypeInfoPreview_Previews: PreviewProvider {
     static var previews: some View {
@@ -39,6 +39,12 @@ struct ItemTypeInfoPreview_Previews: PreviewProvider {
         }()
         
         let fonts = (1...10).map { int in
+            // TODO: jdeda
+            // This URL initializer with name, familyName, etc...
+            // can lead to inconsistent states...
+            // i.e. You may initialize a font with a url leading to
+            // somwhere but its name, familyName, and or attributes
+            // do not match
             Font(
                 url: URL(fileURLWithPath: NSTemporaryDirectory()),
                 name: "Chicken \(int)",
