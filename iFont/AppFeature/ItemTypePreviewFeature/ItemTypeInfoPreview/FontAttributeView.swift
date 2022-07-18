@@ -18,11 +18,16 @@ struct FontAttributePreview: View {
     }
     
     var body: some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text("\(fontAttributeKey.title)")
-                .foregroundColor(.secondary)
-                .frame(width: 150, alignment: .topTrailing)
-            Text(font.attributes[fontAttributeKey] ?? " ")
+        if let attribute = font.attributes[fontAttributeKey] {
+            HStack(alignment: .firstTextBaseline) {
+                Text("\(fontAttributeKey.title)")
+                    .foregroundColor(.secondary)
+                    .frame(width: 150, alignment: .topTrailing)
+                Text(attribute)
+            }
+        }
+        else {
+            EmptyView()
         }
     }
 }
