@@ -17,17 +17,41 @@ fileprivate struct FontAttributePreview: View {
         self.fontAttributeKey = fontAttributeKey
     }
     
-    
-    // TODO: Jdeda
-    // Fix: the right side view (the attribute string) should always start flush with the left side
-    // and expand downwards into new lines if necessary
     var body: some View {
-        HStack {
+        HStack(alignment: .firstTextBaseline) {
             Text("\(fontAttributeKey.title)")
                 .foregroundColor(.secondary)
-                .frame(width: 150, alignment: .trailing)
+                .frame(width: 150, alignment: .topTrailing)
             Text(font.attributes[fontAttributeKey] ?? " ")
-                .frame(alignment: .leading)
+        }
+    }
+}
+
+struct FontAttributePreview_Previews: PreviewProvider {
+    static var previews: some View {
+        let attributes: [FontAttributeKey: String] =  {
+            var ats = Dictionary(
+                uniqueKeysWithValues: zip(
+                    FontAttributeKey.allCases,
+                    String.alphabet.accumulatingStrings()
+                )
+            )
+            ats[.copyright] = String.alphabet + String.alphabet + String.alphabet + String.alphabet
+            return ats
+        }()
+        
+        VStack {
+            Text("FontInfoPreview")
+            FontAttributePreview(
+                Font(
+                    url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                    name: "Chicken",
+                    familyName: "Cheese",
+                    attributes: attributes
+                ),
+                fontAttributeKey: .copyright
+            )
+            .frame(width: 400, height: 100)
         }
     }
 }

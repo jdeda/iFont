@@ -125,8 +125,8 @@
 			isa = PBXGroup;
 			children = (
 				97DFC5B22874A08700D2E845 /* ItemTypeInfoPreview.swift */,
-				977F8F3A28858DC200EE2893 /* FontInfoPreview.swift */,
 				977F8F3C28858ECA00EE2893 /* FontFamilyInfoPreview.swift */,
+				977F8F3A28858DC200EE2893 /* FontInfoPreview.swift */,
 			);
 			path = ItemTypeInfoPreview;
 			sourceTree = "<group>";
