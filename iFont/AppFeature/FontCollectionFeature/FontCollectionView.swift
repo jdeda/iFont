@@ -26,6 +26,7 @@ struct FontCollectionView: View {
 //        Logger.log("")
         WithViewStore(self.store) { viewStore in
             NavigationView {
+                
                 // The First Column
                 VStack(spacing: 0) {
                     List(selection: viewStore.binding(
@@ -41,7 +42,7 @@ struct FontCollectionView: View {
                     Text("Font count: \(viewStore.collection.fonts.count)")
                         .padding(5)
                 }
-                .frame(minWidth: 220, idealWidth: 280, maxWidth: 380)
+//                .frame(minWidth: 220, idealWidth: 280, maxWidth: 380)
 //                .toolbar {
 //                    ToolbarItem {
 //                        Button(action: {

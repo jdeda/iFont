@@ -72,7 +72,7 @@ struct AppView: View {
                         }
                     }
                 
-                // TODO: Jdeda
+                // TODO: Jdeda - done
                 // List needs to stick to left side of bounding box
                 // when view is stretched
                 IfLetStore(
