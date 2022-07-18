@@ -8,55 +8,6 @@
 import SwiftUI
 import ComposableArchitecture
 
-fileprivate struct FontAttributePreview: View {
-    private let font: Font
-    private let fontAttributeKey: FontAttributeKey
-    
-    init(_ font: Font, fontAttributeKey: FontAttributeKey) {
-        self.font = font
-        self.fontAttributeKey = fontAttributeKey
-    }
-    
-    var body: some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text("\(fontAttributeKey.title)")
-                .foregroundColor(.secondary)
-                .frame(width: 150, alignment: .topTrailing)
-            Text(font.attributes[fontAttributeKey] ?? " ")
-        }
-    }
-}
-
-struct FontAttributePreview_Previews: PreviewProvider {
-    static var previews: some View {
-        let attributes: [FontAttributeKey: String] =  {
-            var ats = Dictionary(
-                uniqueKeysWithValues: zip(
-                    FontAttributeKey.allCases,
-                    String.alphabet.accumulatingStrings()
-                )
-            )
-            ats[.copyright] = String.alphabet + String.alphabet + String.alphabet + String.alphabet
-            return ats
-        }()
-        
-        VStack {
-            Text("FontInfoPreview")
-            FontAttributePreview(
-                Font(
-                    url: URL(fileURLWithPath: NSTemporaryDirectory()),
-                    name: "Chicken",
-                    familyName: "Cheese",
-                    attributes: attributes
-                ),
-                fontAttributeKey: .copyright
-            )
-            .frame(width: 400, height: 100)
-        }
-    }
-}
-
-
 struct FontInfoPreview: View {
     let font: Font
     
