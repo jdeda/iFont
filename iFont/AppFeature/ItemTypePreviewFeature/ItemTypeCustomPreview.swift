@@ -13,7 +13,7 @@ struct FontCustomPreview: View {
     
     var body: some View {
         VStack {
-            Text(font.name)
+            Text("\(font.attributes[.full] ?? font.name)")
                 .font(.title)
                 .foregroundColor(.gray)
                 .padding(5)
@@ -28,8 +28,6 @@ struct FontFamilyCustomPreview: View {
     var family: FontFamily
     
     var body: some View {
-        VStack(alignment: .center) {
-            Text(family.name)
             HStack(alignment: .center) {
                 List {
                     HStack {
@@ -41,7 +39,6 @@ struct FontFamilyCustomPreview: View {
                         }
                         Spacer()
                     }
-                }
             }
         }
     }
@@ -65,8 +62,18 @@ struct ItemTypeCustomPreview: View {
 
 // TODO: jdeda
 // Fix me
-//struct FontCustomPreviewView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FontCustomPreviewView()
-//    }
-//}
+struct ItemTypeCustomPreview_Previews: PreviewProvider {
+    static var previews: some View {
+        let fonts = (1...10).map { int in
+            Font(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "Chicken \(int)",
+                familyName: "Cheese"
+            )
+        }
+        ItemTypeCustomPreview(
+            store: FontCollectionState.mockStore,
+            item: ItemType.fontFamily(FontFamily(name: "Chicken", fonts: fonts))
+        )
+    }
+}
