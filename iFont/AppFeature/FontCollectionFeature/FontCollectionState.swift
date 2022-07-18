@@ -4,10 +4,10 @@ import AppKit
 
 struct FontCollectionState: Equatable {
     
-    // Basically this is what is going on.
     var collection: FontCollection
-    var items: [ItemType]
-    var selectedItem: ItemType? = nil
+    var items: [ItemType] // Derived from self.collection
+//    var selectedItem: ItemType? = nil
+    var selectedItem: ItemType? = UserDefaults.standard.getCodable(forKey: "selectedItem")
     var selectedPreview: ItemPreviewType = .sample
     var selectedExpansions = Set<ItemType.ID>()
     
@@ -17,32 +17,9 @@ struct FontCollectionState: Equatable {
             .sorted(by: { $0.name < $1.name })
             .map(\.itemType)
     }
-    //    // FIXME: jdeda
-    //    // When in production
-    //    // these are some fonts in the project for quick turn around debug/test
-    //    // in production we would use the real machine font paths
-    ////    var fontPathURL = URL(fileURLWithPath: "/Users/kdeda/Library/Fonts")
-    ////    var fontPathURL = URL(fileURLWithPath: "/System/Library/Fonts")
-    //    var fontPathURL = Bundle.main.resourceURL!.appendingPathComponent("Fonts")
-    //
-    //    var fonts = [Font]()
-    //    var familyExpansionState = Set<ItemType.ID>()
-    //    var selectedItem: ItemType? = nil
-    //
-    //    /// derived
-    //    var fontFamilies = [FontFamily]()
-    //    /// derived
-    //    var items = [ItemType]()
-    //
-    //    var detailSelection: ItemPreviewType = .sample
 }
 
 enum FontCollectionAction: Equatable {
-//    case onAppear
-    //    case fetchFonts
-    //    case fetchFontsResult(Result<[Font], Never>)
-    //    case sidebar
-    //    case sidebarExpandCollapse
     case selectedItem(ItemType?)
     case toggleExpand(FontFamily)
     case selectedPreviewType(ItemPreviewType)
@@ -57,46 +34,13 @@ extension FontCollectionState {
     static let reducer = Reducer<FontCollectionState, FontCollectionAction, FontCollectionEnvironment>.combine(
         Reducer { state, action, environment in
             switch action {
-//            case .onAppear:
-//                state.items = state.collection.fontFamilies.reduce(into: [ItemType](), { partial, family in
-//                    partial.append(family.itemType)
-//                })
-//                return .none
-                //
-                //            case .fetchFonts:
-                //                return environment
-                //                    .fontClient
-                //                    .fetchFonts(state.fontPathURL)
-                //                    .receive(on: environment.mainQueue)
-                //                    .catchToEffect()
-                //                    .map(FontCollectionAction.fetchFontsResult)
-                //
-                //            case let .fetchFontsResult(.success(newFonts)):
-                //                Logger.log("received: \(newFonts.count)")
-                //                state.fonts.append(contentsOf: newFonts)
-                //                state.fontFamilies = state.fonts
-                //                    .groupedByFamily()
-                //                    .sorted(by: { $0.name.caseInsensitiveCompare($1.name) == .orderedAscending })
-                //
-                //                state.items = state.fontFamilies.reduce(into: [ItemType](), { partialResult, nextItem in
-                //                    partialResult.append(nextItem.itemType)
-                //                    // if family is expanded, add its children to display
-                //                    if state.familyExpansionState.contains(nextItem.id) {
-                //                        partialResult.append(contentsOf: nextItem.fonts.map(\.itemType))
-                //                    }
-                //                })
-                //                return .none
-                //
-                //            case .sidebar:
-                //                return .none
-                //
-                //                // display SelectedFont for each font in this fam
-            case let .selectedItem(selectedItemType):
-                // TODO: jdeda
+            case let .selectedItem(selectedItem):
+                // TODO: jdeda - review!
                 // make it sticky
-                state.selectedItem = selectedItemType
-                if let selectedItem = selectedItemType {
-                    Logger.log("selectedItemType: \(selectedItemType)")
+                state.selectedItem = selectedItem
+                UserDefaults.standard.setCodable(forKey: "selectedItem", value: selectedItem)
+                if let unwrapped = selectedItem {
+                    Logger.log("selectedItemType: \(unwrapped)")
                 }
                 return .none
                 
@@ -109,7 +53,7 @@ extension FontCollectionState {
                 
                 state.items = state.collection.fontFamilies.reduce(into: [ItemType](), { partialResult, nextItem in
                     partialResult.append(nextItem.itemType)
-                    // if family is expanded, add its children to display
+                    // If family is expanded, add its children to display.
                     if state.selectedExpansions.contains(nextItem.id) {
                         partialResult.append(contentsOf: nextItem.fonts.map(\.itemType))
                     }
@@ -117,19 +61,12 @@ extension FontCollectionState {
                 
                 return .none
                 
-                //            case .sidebarExpandCollapse:
-                //                NSApp.keyWindow?
-                //                    .firstResponder?
-                //                    .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
-                //                return .none
-                
             case let .selectedPreviewType(selectedPreview):
                 state.selectedPreview = selectedPreview
                 return .none
             }
         }
     )
-    // .debug()
 }
 
 extension FontCollectionState {
@@ -141,16 +78,6 @@ extension FontCollectionState {
             name: "KohinoorBangla",
             familyName: "KohinoorBangla")]
     ))
-    //    static let mockState = .init(collection:
-    //            .init(
-    //    )
-    //    static let mockState = FontCollectionState(
-    //        fontPathURL: URL(fileURLWithPath: "/Users/kdeda/Library/Fonts"),
-    //        fonts: [Font(
-    //            url: URL.init(fileURLWithPath: NSTemporaryDirectory()),
-    //            name: "KohinoorBangla",
-    //            familyName: "KohinoorBangla")]
-    //    )
 }
 
 extension FontCollectionState {

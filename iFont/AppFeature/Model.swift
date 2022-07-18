@@ -22,7 +22,7 @@ struct AppError: Equatable, Error {
 // TODO: kdeda
 // The name on this is strange
 // We ought to come up with better names
-enum ItemType: Equatable, Hashable {
+enum ItemType: Equatable, Hashable, Codable {
     case font(Font)
     case fontFamily(FontFamily)
 }

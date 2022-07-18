@@ -29,8 +29,9 @@ struct FontCollectionView: View {
                 // The First Column
                 VStack(spacing: 0) {
                     // TODO: Jdeda
-                    // Animate expansions
-                    // Display fonts face not ugly name
+                    // - Animate expansions
+                    // - There are duplicate fonts!
+                    // - On first click on expansion, fonts shuffle or sort of some order...fix this
                     List(selection: viewStore.binding(
                         get: \.selectedItem,
                         send: FontCollectionAction.selectedItem
