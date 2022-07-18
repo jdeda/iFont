@@ -8,7 +8,7 @@
 import Foundation
 import CoreText
 
-enum FontAttributeKey: Equatable, CaseIterable {
+enum FontAttributeKey: Equatable, CaseIterable, Codable {
     case copyright
     case family
     case subfamily

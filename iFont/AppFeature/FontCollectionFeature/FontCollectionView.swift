@@ -23,12 +23,14 @@ struct FontCollectionView: View {
     let store: Store<FontCollectionState, FontCollectionAction>
     
     var body: some View {
-//        Logger.log("")
         WithViewStore(self.store) { viewStore in
             NavigationView {
                 
                 // The First Column
                 VStack(spacing: 0) {
+                    // TODO: Jdeda
+                    // Animate expansions
+                    // Display fonts face not ugly name
                     List(selection: viewStore.binding(
                         get: \.selectedItem,
                         send: FontCollectionAction.selectedItem
@@ -42,17 +44,6 @@ struct FontCollectionView: View {
                     Text("Font count: \(viewStore.collection.fonts.count)")
                         .padding(5)
                 }
-//                .frame(minWidth: 220, idealWidth: 280, maxWidth: 380)
-//                .toolbar {
-//                    ToolbarItem {
-//                        Button(action: {
-//                            viewStore.send(.sidebarExpandCollapse)
-//                        }, label: {
-//                            Image(systemName: "sidebar.left")
-//                        })
-//                        .help("Will show/hide the sidebar view") // TODO: Jdeda make conditional
-//                    }
-//                }
                 
                 // The Second Column, or the detail
                 VStack {
@@ -74,9 +65,6 @@ struct FontCollectionView: View {
                 }
             }
             .background(Color.init(NSColor.controlBackgroundColor))
-//            .onAppear {
-//                viewStore.send(FontCollectionAction.onAppear)
-//            }
         }
     }
 }

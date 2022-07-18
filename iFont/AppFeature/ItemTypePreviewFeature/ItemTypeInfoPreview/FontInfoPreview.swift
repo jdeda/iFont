@@ -16,6 +16,10 @@ struct FontInfoPreview: View {
             
             // Title.
             VStack(alignment: .center) {
+                
+                // TODO: jdeda
+                // In rare cases there is a big space
+                // between these two text views.
                 Text(font.attributes[.full] ?? font.name)
                     .font(.custom(font.name, size: 20))
                 Text(font.attributes[.full] ?? font.name)

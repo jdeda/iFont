@@ -8,7 +8,7 @@
 import AppKit
 import CoreText
 
-struct Font: Equatable, Hashable {
+struct Font: Equatable, Hashable, Codable {
     var url: URL
     var name: String
     var familyName: String

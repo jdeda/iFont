@@ -12,7 +12,7 @@ import Foundation
 /// Where do these fonts come from ?
 /// They can be created empty and the user can add/remove fonts from it
 /// They canbe created on application start up, for example the Computer Collection
-struct FontCollection: Equatable, Hashable {
+struct FontCollection: Equatable, Hashable, Codable {
     let id = UUID()
     var type: FontCollectionType = .unknown
     // TODO: kdeda

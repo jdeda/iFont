@@ -74,7 +74,7 @@ extension AppState {
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
-//                state.selectedCollection = .init(type: .allFontsLibrary, fonts: [])
+                state.selectedCollection = UserDefaults.standard.getCodable(forKey: "selectedCollection")
                 return Effect(value: .fetchFonts)
                 
             case .fetchFonts:
@@ -101,7 +101,7 @@ extension AppState {
                     Logger.log("received: \(newFonts.count)")
                 }
                 state.fonts.append(contentsOf: newFonts)
-//                let oldSelection = state.selectedCollection
+                let oldSelection = state.selectedCollection
                 
                 state.librarySection = state.librarySection.map { fontCollection in
                     let collectionType = fontCollection.type
@@ -111,18 +111,22 @@ extension AppState {
                     return FontCollection(type: collectionType, fonts: fonts + newFonts_)
                 }
                 
-//                if let oldSelection = oldSelection { // Preserve it ...
-//                    let updated = state.librarySection.first(where: { $0.type == oldSelection.type })
-//                    return Effect(value: .madeSelection(updated))
-//                }
+                if let oldSelection = oldSelection { // Preserve it ...
+                    let updated = state.librarySection.first(where: { $0.type == oldSelection.type })
+                    return Effect(value: .madeSelection(updated))
+                }
                 return .none
                 
             case let .madeSelection(newSelection):
-                // TODO: jdeda
+                // TODO: jdeda - review!
                 // make it sticky
                 // 1) write it to the UserDefaults.standard
                 // 2) when the app starts, the state inits, you will than read this value from the UserDefaults.standard
                 state.selectedCollection = newSelection
+                
+                // TODO: jdeda
+                // Setting defaults here every time slows runtime dramatically.
+                UserDefaults.standard.setCodable(forKey: "selectedCollection", value: newSelection)
                 if let unwrapped = newSelection {
                     state.selectedCollectionState = .init(collection: unwrapped)
                 }
@@ -134,6 +138,9 @@ extension AppState {
             case let .fontCollection(fontCollectionAction):
                 return .none
                 
+                // TODO: Jdeda
+                // This is doing a lot of magic behind the scenes
+                // This must be refactored to SwiftUI
             case .sidebarToggle:
                 NSApp.keyWindow?
                     .firstResponder?

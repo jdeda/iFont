@@ -25,7 +25,7 @@ import SwiftUI
 /**
  Represents possible categories a FontCollection may be. A FontCollection may only be one category.
  */
-enum FontCollectionType: Equatable {
+enum FontCollectionType: Equatable, Codable {
     case unknown
     case allFontsLibrary       // builtin, contains all fonts from all libraries, user cannot add/edit/delete this.
     case computerLibrary       // builtin, contains all fonts from system locations, user cannot add/edit/delete this.
