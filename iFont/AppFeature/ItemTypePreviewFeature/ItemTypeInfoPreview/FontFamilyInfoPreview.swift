@@ -44,12 +44,9 @@ struct FontFamilyInfoPreview_Previews: PreviewProvider {
             )
         }
         
-        VStack {
-            Text("FontFamilyInfoPreview")
             FontFamilyInfoPreview(family: FontFamily(
                 name: "Cheese",
                 fonts: fonts
             ))
-        }
     }
 }

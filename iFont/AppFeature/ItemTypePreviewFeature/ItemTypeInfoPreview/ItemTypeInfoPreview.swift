@@ -11,7 +11,7 @@ import ComposableArchitecture
 struct ItemTypeInfoPreview: View {
     let store: Store<FontCollectionState, FontCollectionAction>
     var item: ItemType
-    
+        
     var body: some View {
         switch item {
         case let .font(font):
@@ -39,12 +39,6 @@ struct ItemTypeInfoPreview_Previews: PreviewProvider {
         }()
         
         let fonts = (1...10).map { int in
-            // TODO: jdeda
-            // This URL initializer with name, familyName, etc...
-            // can lead to inconsistent states...
-            // i.e. You may initialize a font with a url leading to
-            // somwhere but its name, familyName, and or attributes
-            // do not match
             Font(
                 url: URL(fileURLWithPath: NSTemporaryDirectory()),
                 name: "Chicken \(int)",

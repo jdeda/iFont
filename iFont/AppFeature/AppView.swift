@@ -71,6 +71,10 @@ struct AppView: View {
                             // make conditional
                         }
                     }
+                
+                // TODO: Jdeda
+                // List needs to stick to left side of bounding box
+                // when view is stretched
                 IfLetStore(
                     store.scope(
                         state: \.selectedCollectionState,
