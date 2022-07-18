@@ -8,8 +8,6 @@
 import SwiftUI
 import ComposableArchitecture
 
-// TODO: Jdeda
-// Bug where if fontFamily has 1 font it does not center align in
 struct FontInfoPreview: View {
     let font: Font
 
