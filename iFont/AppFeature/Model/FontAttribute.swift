@@ -62,27 +62,25 @@ extension FontAttributeKey {
     // TODO: jdeda
     // Please provide all strings here
     var title: String {
-//        switch self {
-//            // we don't have these easily
-//            case .copyright:     return "PostScript name", fontAttribute: .postScript)
-//            case .family:        return "Full name", fontAttribute: .full)
-//            case .subfamily:     return "Family name", fontAttribute: .family)
-//            case .style:         return "Style", fontAttribute: .style)
-//            case .unique:        return "Kind", fontAttribute: .kind)
-//            case .full:          return "Language", fontAttribute: .language)
-//            case .version:       return "Script", fontAttribute: .script)
-//            case .postScript:    return "Version", fontAttribute: .version)
-//            case .trademark:     return "Location", fontAttribute: .location)
-//            case .manufacturer:  return "Unique name", fontAttribute: .unique)
-//            case .designer:      return "Designer", fontAttribute: .designer)
-//            case .description:   return "Copyright", fontAttribute: .copyright)
-//            case .vendorURL:     return "Trademark", fontAttribute: .trademark)
-//            case .designerURL:   return "Enabled", fontAttribute: .enabled)
-//            case .license:       return "Copy protected", fontAttribute: .copyright)
-//            case .licenseURL:    return "Embedding", fontAttribute: .embedding)
-//            case .sampleText:    return "Glyph count", fontAttribute: .glyphCount)
-//            case .postScriptCID: return ""
-//        }
-        return key as String
+        switch self {             // we don't have these easily
+            case .copyright:     return "Copyright"
+            case .family:        return "Family name"
+            case .subfamily:     return "Sub Familly name"
+            case .style:         return "Style"
+            case .unique:        return "Unique"
+            case .full:          return "Full Name"
+            case .version:       return "Version"
+            case .postScript:    return "PostScript name"
+            case .trademark:     return "Trademark"
+            case .manufacturer:  return "Manufacturer"
+            case .designer:      return "Designer"
+            case .description:   return "Description"
+            case .vendorURL:     return "Vender URL"
+            case .designerURL:   return "Designer URL"
+            case .license:       return "License"
+            case .licenseURL:    return "License URL"
+            case .sampleText:    return "Sample text"
+            case .postScriptCID: return ""
+        }
     }
 }
