@@ -2,7 +2,8 @@ import Foundation
 import ComposableArchitecture
 import AppKit
 
-struct FontCollectionState: Equatable {
+struct FontCollectionState: Identifiable, Equatable {
+    var id: FontCollection.ID { collection.id }
     
     var collection: FontCollection
     var items: [ItemType] // Derived from self.collection

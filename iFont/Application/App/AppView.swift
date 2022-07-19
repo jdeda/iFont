@@ -24,13 +24,11 @@ private struct Sidebar: View {
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
-            List(selection: viewStore.binding(
-                get: \.selectedCollection,
-                send: AppAction.madeSelection
-            )) {
-                fontSection("Library", collection: viewStore.librarySection)
-                fontSection("Smart Collections", collection: viewStore.smartSection)
-                fontSection("Collections", collection: viewStore.normalSection)
+            List {
+                ForEachStore(store.scope(
+                    state: \.fontCollections,
+                    action: AppAction.fontCollections
+                ), content: collectionLink)
             }
             .toolbar {
                 Button(action: toggleSidebar) {
@@ -40,18 +38,20 @@ private struct Sidebar: View {
         }
     }
     
-    private func fontSection(_ header: String, collection: [FontCollection]) -> some View {
-        Section(header) {
-            ForEach(collection) { collection in
+    private func collectionLink(
+        _ childStore: Store<FontCollectionState, FontCollectionAction>
+    ) -> some View {
+        WithViewStore(childStore) { childViewStore in
+            NavigationLink(destination: FontCollectionView(store: childStore)) {
                 HStack {
-                    Image(systemName: collection.type.imageSystemName)
-                        .foregroundColor(collection.type.accentColor)
+                    Image(systemName: childViewStore.collection.type.imageSystemName)
+                        .foregroundColor(childViewStore.collection.type.accentColor)
                         .frame(width: 20, height: 20)
-                    Text(collection.type.labelString)
-                    Text("\(collection.fonts.count)")
+                    Text(childViewStore.collection.type.labelString)
+                    Text("\(childViewStore.collection.fonts.count)")
                         .bold()
                 }
-                .tag(collection)
+                .tag(childViewStore.collection)
             }
         }
     }
@@ -70,15 +70,15 @@ private struct Content: View {
 
     var body: some View {
         WithViewStore(store) { viewStore in
-            IfLetStore(
-                store.scope(
-                    state: \.selectedCollectionState,
-                    action: AppAction.fontCollection
-                ),
-                then: FontCollectionView.init(store:),
-                else: { Text("No collection selected") }
-            )
-            
+//            IfLetStore(
+//                store.scope(
+//                    state: \.selectedCollectionState,
+//                    action: AppAction.fontCollection
+//                ),
+//                then: FontCollectionView.init(store:),
+//                else: { Text("No collection selected") }
+//            )
+            Text("No collection selected")
             .onAppear {
                 // TODO: kdeda
                 // When you hide/unhide the app we get here anew
