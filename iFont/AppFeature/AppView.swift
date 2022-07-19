@@ -15,18 +15,6 @@ struct AppView: View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
                 FontCollectionsSideBarView(store: store)
-                    .toolbar {
-                        ToolbarItem(placement: .primaryAction) {
-                            Button(action: {
-                                viewStore.send(.sidebarToggle)
-                            }, label: {
-                                Image(systemName: "sidebar.left")
-                            })
-                            .help("Will show/hide the sidebar view")
-                            // TODO: jdeda
-                            // make conditional
-                        }
-                    }
                 
                 IfLetStore(
                     store.scope(
@@ -94,6 +82,13 @@ struct FontCollectionsSideBarView: View {
                 FontCollectionSection(collection: viewStore.librarySection, header: "Library")
                 FontCollectionSection(collection: viewStore.smartSection, header: "Smart Collections")
                 FontCollectionSection(collection: viewStore.normalSection, header: "Collections")
+            }
+            .toolbar {
+                    Button(action: {
+                        viewStore.send(.sidebarToggle)
+                    }, label: {
+                        Image(systemName: "sidebar.left")
+                    })
             }
         }
     }
