@@ -8,20 +8,6 @@
 import Foundation
 import SwiftUI
 
-//enum FontCollectionType {
-//    case unknown
-//    case allFontLibrary         // builtin, contains all fonts from all over
-//    case computerLibrary        // builtin, contains all fonts from system locations
-//    case standardUserLibrary    // builtin, contains all fonts from current User's locations
-//    case userDefinedLibrary            // user added, to contain fonts from a particular directory (or many)
-//    case standardSmart          // a few build in ones, like english or fixed width ...
-//    case userDefinedSmart
-//    // plus, user can also add to this list
-//    case userDefinedNormal            // a few build in ones, plus whatever the user wants
-//    case standardNormal
-//}
-//
-
 /**
  Represents possible categories a FontCollection may be. A FontCollection may only be one category.
  */
@@ -34,7 +20,6 @@ enum FontCollectionType: Equatable, Codable {
     case smart                 // some builtin, user can add, edit, or delete any that exist.
     case basic                 // some builtin, user can add, edit, or delete any that exist.
 }
-
 
 
 extension FontCollectionType: Hashable {}
