@@ -14,7 +14,7 @@ struct AppView: View {
     var body: some View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
-                FontCollectionsSideBarView(store: store)
+                SidebarView(store: store)
 
                 IfLetStore(
                     store.scope(
@@ -27,8 +27,8 @@ struct AppView: View {
 
                 .onAppear {
                     // TODO: kdeda
-                    // When you hide/unhide the app we get here anew
-                    // App should load fonts only on start up and never again!
+                    // When you hide/unhide the app we get here...
+                    // App should load fonts only on start up and or if asked!
                     viewStore.send(AppAction.onAppear)
                 }
             }
@@ -42,44 +42,23 @@ struct AppView_Previews: PreviewProvider {
     }
 }
 
-
-struct FontCollectionSection: View {
-    var header: String
-    var collection: [FontCollection]
-    
-    var body: some View {
-        Section(header) {
-            ForEach(collection) {
-                labeledImage($0)
-                    .tag($0)
-            }
-        }
-    }
-    
-    private func labeledImage(_ fontCollection: FontCollection) -> some View {
-        HStack {
-            Image(systemName: fontCollection.type.imageSystemName)
-                .foregroundColor(fontCollection.type.accentColor)
-                .frame(width: 20, height: 20)
-            Text(fontCollection.type.labelString)
-            Text("\(fontCollection.fonts.count)")
-                .bold()
-        }
-    }
-}
-
-struct FontCollectionsSideBarView: View {
+// TODO: jdeda
+// This view's logic isn't very clear:
+// - we should have a ForEach here but we don't
+// - there are tags hidden in these extra views which is unsettling
+// - seems to fit the purview of navigation links, something to think about.
+fileprivate struct SidebarView: View {
     let store: Store<AppState, AppAction>
-    
+
     var body: some View {
         WithViewStore(self.store) { viewStore in
             List(selection: viewStore.binding(
                 get: \.selectedCollection,
                 send: AppAction.madeSelection
             )) {
-                FontCollectionSection(header: "Library", collection: viewStore.librarySection)
-                FontCollectionSection(header: "Smart Collections", collection: viewStore.smartSection)
-                FontCollectionSection(header: "Collections", collection: viewStore.normalSection)
+                fontCollectionsSection(header: "Library", viewStore.librarySection)
+                fontCollectionsSection(header: "Smart Collections", viewStore.smartSection)
+                fontCollectionsSection(header: "Collections", viewStore.normalSection)
             }
             .toolbar {
                     Button(action: {
@@ -87,6 +66,22 @@ struct FontCollectionsSideBarView: View {
                     }, label: {
                         Image(systemName: "sidebar.left")
                     })
+            }
+        }
+    }
+
+    private func fontCollectionsSection(header: String, _ collections: [FontCollection]) -> some View {
+        Section(header) {
+            ForEach(collections) { collection in
+                HStack {
+                    Image(systemName: collection.type.imageSystemName)
+                        .foregroundColor(collection.type.accentColor)
+                        .frame(width: 20, height: 20)
+                    Text(collection.type.labelString)
+                    Text("\(collection.fonts.count)")
+                        .bold()
+                }
+                    .tag(collection)
             }
         }
     }

@@ -21,7 +21,6 @@ enum FontCollectionType: Equatable, Codable {
     case basic                 // some builtin, user can add, edit, or delete any that exist.
 }
 
-
 extension FontCollectionType: Hashable {}
 
 extension FontCollectionType {
