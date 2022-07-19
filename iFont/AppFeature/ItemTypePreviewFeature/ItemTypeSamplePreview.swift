@@ -25,6 +25,25 @@ struct ItemTypeSamplePreview: View {
 }
 
 
+struct ItemTypeSamplePreview_Previews: PreviewProvider {
+    static var previews: some View {
+        let fonts = (1...10).map { int in
+            Font(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "Chicken \(int)",
+                familyName: "Cheese"
+            )
+        }
+        
+        ItemTypeSamplePreview(
+            store: FontCollectionState.mockStore,
+            item: ItemType.fontFamily(FontFamily(name: "Cheese", fonts: fonts))
+        )
+    }
+}
+
+// MARK: - Helper Views
+
 fileprivate struct FontSamplePreview: View {
     let font: Font
     
@@ -68,33 +87,30 @@ fileprivate struct FontFamilySamplePreview: View {
     }
 }
 
-fileprivate struct FontFamilySamplePreview_Previews: PreviewProvider {
+struct FontFamilySamplePreview_Previews: PreviewProvider {
     static var previews: some View {
-        VStack {
-            FontSamplePreview(
-                font: Font(
-                    url: URL.init(fileURLWithPath: NSTemporaryDirectory()),
-                    name: "Cheese",
-                    familyName: "Chicken")
-            )
-            FontFamilySamplePreview(
-                family: FontFamily(
-                    name: "Chicken",
-                    fonts: [Font(
+        FontFamilySamplePreview.init(
+            family: FontFamily.init(
+                name: "Cheese",
+                fonts: [
+                    Font(
                         url: URL.init(fileURLWithPath: NSTemporaryDirectory()),
                         name: "Cheese",
-                        familyName: "Chicken")]
-                )
+                        familyName: "Chicken")
+                ]
             )
-        }
-        .frame(width: 800, height: 600)
+        )
     }
 }
 
-// TODO: jdeda
+
+// TODO: jdeda - done
 // Fix me
-//struct FontSamplePreviewView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FontSamplePreviewView()
-//    }
-//}
+struct FontSamplePreview_Previews: PreviewProvider {
+    static var previews: some View {
+        FontSamplePreview(font: Font(
+            url: URL.init(fileURLWithPath: NSTemporaryDirectory()),
+            name: "Cheese",
+            familyName: "Chicken"))
+    }
+}

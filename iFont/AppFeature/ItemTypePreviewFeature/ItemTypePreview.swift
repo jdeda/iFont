@@ -32,3 +32,22 @@ struct ItemTypePreview: View {
         }
     }
 }
+
+
+struct ItemTypePreview_Previews: PreviewProvider {
+    static var previews: some View {
+        let fonts = (1...10).map { int in
+            Font(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "Chicken \(int)",
+                familyName: "Cheese"
+            )
+        }
+        
+        ItemTypePreview(
+            store: FontCollectionState.mockStore,
+            selection: .sample,
+            item: ItemType.fontFamily(FontFamily(name: "Cheese", fonts: fonts))
+        )
+    }
+}
