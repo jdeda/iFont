@@ -22,10 +22,14 @@ struct AppState: Equatable {
     
     var fonts: [Font] = []
     
+    // TODO: Jdeda
+    // Combine these?
+    // This does not support saving expansions and or selections
+    // in other FontCollection selections...i.e. if you switch
+    // from "Computer" to anything else, then you lose the selection
+    // and expansions you had in "Computer".
     var selectedCollection: FontCollection? = nil
     var selectedCollectionState: FontCollectionState? = nil
-    // TODO: jdeda
-    // Combine these?
 
     var librarySection: [FontCollection] = [
         .init(type: .allFontsLibrary, fonts: []),

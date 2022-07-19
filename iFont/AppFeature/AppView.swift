@@ -10,6 +10,8 @@ import ComposableArchitecture
 
 struct FontCollectionSection: View {
     private func labeledImage(_ fontCollection: FontCollection) -> some View {
+//        Label(fontCollection.type.labelString, systemImage: fontCollection.type.imageSystemName)
+//            .tint(fontCollection.type.accentColor)
         HStack {
             Image(systemName: fontCollection.type.imageSystemName)
                 .foregroundColor(fontCollection.type.accentColor)
@@ -51,6 +53,31 @@ struct FontCollectionsSideBarView: View {
         }
     }
 }
+
+
+/*
+ 
+ AppView {
+    NavigationView {
+        Sidebar
+        Main
+        Detail
+    }
+ }
+ 
+ 
+ ...
+ Sidebar
+ ...
+ 
+ var body: some View {
+    ForEach(viewStore.navigationLinks) {
+        NavigationLink(destination: Foo) {
+            Label("A", systemName: "A")
+        }
+    }
+ }
+ */
 
 struct AppView: View {
     let store: Store<AppState, AppAction>

@@ -44,6 +44,13 @@ extension FontCollectionState {
                 }
                 return .none
                 
+                // TODO: jdeda
+                // Fix bug where upon the first time making a new expansion, the list resorts of the sort.
+                // The list is probably being updated entirely when it shouldn't
+                // There is another bug where there are duplicate fonts which break expansions
+                // i.e. the fonts will display after expanded, but remain displayed even if
+                // expansion is unexpanded, and which consecutive expansions wil show other
+                // fonts...maybe this is some id issues between families and or fonts...
             case let .toggleExpand(family):
                 if state.selectedExpansions.contains(family.id) {
                     state.selectedExpansions.remove(family.id)
@@ -51,11 +58,14 @@ extension FontCollectionState {
                     state.selectedExpansions.insert(family.id)
                 }
                 
-                state.items = state.collection.fontFamilies.reduce(into: [ItemType](), { partialResult, nextItem in
-                    partialResult.append(nextItem.itemType)
+                // The "resorting/reshuffling" is occuring because you are reducing over the state.fontFamilies
+                // which has no particular order but the state.items does...thus obviously you lose order and
+                // this explains why it only happens once...items are sorted at init time
+                state.items = state.collection.fontFamilies.reduce(into: [ItemType](), { partialResult, fontFamily in
+                    partialResult.append(fontFamily.itemType)
                     // If family is expanded, add its children to display.
-                    if state.selectedExpansions.contains(nextItem.id) {
-                        partialResult.append(contentsOf: nextItem.fonts.map(\.itemType))
+                    if state.selectedExpansions.contains(fontFamily.id) {
+                        partialResult.append(contentsOf: fontFamily.fonts.map(\.itemType))
                     }
                 })
                 
