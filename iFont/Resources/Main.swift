@@ -2,9 +2,9 @@ import SwiftUI
 
 @main
 struct Main: App {
-    var body: some Scene {
-        WindowGroup {
-            AppView(store: AppState.liveStore)
-        }
+  var body: some Scene {
+    WindowGroup {
+      AppView()
     }
+  }
 }
