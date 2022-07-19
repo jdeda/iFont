@@ -90,18 +90,24 @@ struct FontClientHelper {
             .map { nsFont -> Font in
                 // TODO: kdeda
                 // Gettting attributes here is bogging the system...
-                let attributes = FontAttributeKey.allCases.reduce(into: [FontAttributeKey: String](), { partial, key in
-                    if let value = CTFontCopyName(nsFont, key.key as CFString) {
-                        partial[key] = value as String
-                    }
-                })
-                
-                return Font(
-                    url: url,
-                    name: nsFont.fontName,
-                    familyName: nsFont.familyName ?? "None",
-                    attributes: attributes
-                )
+//                let attributes = FontAttributeKey.allCases.reduce(into: [FontAttributeKey: String](), { partial, key in
+//                    if let value = CTFontCopyName(nsFont, key.key as CFString) {
+//                        partial[key] = value as String
+//                    }
+//                })
+//
+//                return Font(
+//                    url: url,
+//                    name: nsFont.fontName,
+//                    familyName: nsFont.familyName ?? "None",
+//                    attributes: attributes
+//                )
+                                return Font(
+                                    url: url,
+                                    name: nsFont.fontName,
+                                    familyName: nsFont.familyName ?? "None",
+                                    attributes: .init()
+                                )
             }
         
         if debug {

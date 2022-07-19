@@ -6,16 +6,14 @@ struct FontCollectionState: Equatable {
     
     var collection: FontCollection
     var items: [ItemType] // Derived from self.collection
-//    var selectedItem: ItemType? = nil
-    var selectedItem: ItemType? = UserDefaults.standard.getCodable(forKey: "selectedItem")
+    var selectedItem: ItemType? = nil
+//    var selectedItem: ItemType? = UserDefaults.standard.getCodable(forKey: "selectedItem")
     var selectedPreview: ItemPreviewType = .sample
     var selectedExpansions = Set<ItemType.ID>()
     
     init(collection: FontCollection) {
         self.collection = collection
-        self.items = self.collection.fontFamilies
-            .sorted(by: { $0.name < $1.name })
-            .map(\.itemType)
+        self.items = self.collection.fontFamilies.map(\.itemType)
     }
 }
 
@@ -44,7 +42,7 @@ extension FontCollectionState {
                 }
                 return .none
                 
-                // TODO: jdeda
+                // TODO: jdeda - review!
                 // Fix bug where upon the first time making a new expansion, the list resorts of the sort.
                 // The list is probably being updated entirely when it shouldn't
                 // There is another bug where there are duplicate fonts which break expansions

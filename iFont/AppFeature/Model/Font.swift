@@ -28,6 +28,7 @@ extension Array where Element == Font {
                 partial[font.familyName, default: []].append(font)
             }
             .map { FontFamily.init(name: $0.0, fonts: $0.1) }
+            .sorted(by: { $0.name < $1.name })
         return foo
     }
 }

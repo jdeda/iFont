@@ -78,7 +78,7 @@ extension AppState {
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
-                state.selectedCollection = UserDefaults.standard.getCodable(forKey: "selectedCollection")
+//                state.selectedCollection = UserDefaults.standard.getCodable(forKey: "selectedCollection")
                 return Effect(value: .fetchFonts)
                 
             case .fetchFonts:
@@ -130,7 +130,7 @@ extension AppState {
                 // 1) write it to the UserDefaults.standard
                 // 2) when the app starts, the state inits, you will than read this value from the UserDefaults.standard
                 state.selectedCollection = newSelection
-                UserDefaults.standard.setCodable(forKey: "selectedCollection", value: newSelection)
+//                UserDefaults.standard.setCodable(forKey: "selectedCollection", value: newSelection)
                 if let unwrapped = newSelection {
                     state.selectedCollectionState = .init(collection: unwrapped)
                 }
