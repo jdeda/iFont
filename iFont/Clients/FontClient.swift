@@ -15,18 +15,29 @@ struct FontClient {
     struct FetchFontsID: Hashable {}
     
     var fetchFonts: (_ directory: URL) -> Effect<[Font], Never>
+    var fetchAllFonts: ([URL]) -> Effect<[Font], Never>
 }
 
 extension FontClient {
     public static let live = Self.init(
         fetchFonts: { directory in
-            let effect = directory
+            directory
                 .lazyFontFilePublisher
                 .filter(FontClientHelper.isFont)
                 .map(FontClientHelper.makeFonts)
                 .eraseToAnyPublisher()
                 .eraseToEffect()
-            return effect
+        },
+        fetchAllFonts: { urls in
+            urls.publisher.flatMap {
+                $0
+                    .lazyFontFilePublisher
+                    .filter(FontClientHelper.isFont)
+                    .map(FontClientHelper.makeFonts)
+                    .eraseToAnyPublisher()
+                    .eraseToEffect()
+            }
+            .eraseToEffect()
         }
     )
 }
@@ -90,17 +101,17 @@ struct FontClientHelper {
             .map { nsFont -> Font in
                 // TODO: kdeda
                 // Gettting attributes here is bogging the system...
-                let attributes = FontAttributeKey.allCases.reduce(into: [FontAttributeKey: String](), { partial, key in
-                    if let value = CTFontCopyName(nsFont, key.key as CFString) {
-                        partial[key] = value as String
-                    }
-                })
+//                let attributes = FontAttributeKey.allCases.reduce(into: [FontAttributeKey: String](), { partial, key in
+//                    if let value = CTFontCopyName(nsFont, key.key as CFString) {
+//                        partial[key] = value as String
+//                    }
+//                })
                 
                 return Font(
                     url: url,
                     name: nsFont.fontName,
                     familyName: nsFont.familyName ?? "None",
-                    attributes: attributes
+                    attributes: [:]
                 )
             }
         

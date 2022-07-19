@@ -44,7 +44,7 @@
 		973B894828230DD700A2AB72 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		973B894C28230DD800A2AB72 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		973B894F28230DD800A2AB72 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		973B895128230DD800A2AB72 /* iFont.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iFont.entitlements; sourceTree = "<group>"; };
+		973B895128230DD800A2AB72 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		975B792F284912DA0012C273 /* FontClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontClient.swift; sourceTree = "<group>"; };
 		977F8F3A28858DC200EE2893 /* FontInfoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontInfoPreview.swift; sourceTree = "<group>"; };
 		977F8F3C28858ECA00EE2893 /* FontFamilyInfoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontFamilyInfoPreview.swift; sourceTree = "<group>"; };
@@ -105,11 +105,11 @@
 		973B894728230DD700A2AB72 /* iFont */ = {
 			isa = PBXGroup;
 			children = (
-				973B894828230DD700A2AB72 /* Main.swift */,
-				FB294A9C28577DB700C8F8D9 /* Common */,
-				97D0E26328414F9100F4BA77 /* AppFeature */,
-				973B894C28230DD800A2AB72 /* Assets.xcassets */,
-				973B895128230DD800A2AB72 /* iFont.entitlements */,
+				978C8A862886F494000D31B8 /* Application */,
+				FB5B2E1B2874C80000BE7F8E /* Models */,
+				978C8A882886F4AF000D31B8 /* Clients */,
+				FB294A9C28577DB700C8F8D9 /* Extensions */,
+				978C8A892886F567000D31B8 /* Resources */,
 				973B894E28230DD800A2AB72 /* Preview Content */,
 			);
 			path = iFont;
@@ -134,23 +134,44 @@
 			path = ItemTypeInfoPreview;
 			sourceTree = "<group>";
 		};
-		97D0E26328414F9100F4BA77 /* AppFeature */ = {
+		978C8A862886F494000D31B8 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				97D0E26328414F9100F4BA77 /* App */,
+				97DFC5A92874944B00D2E845 /* ItemTypePreview */,
+				FB5B2E222874C9B900BE7F8E /* FontCollection */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		978C8A882886F4AF000D31B8 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				975B792F284912DA0012C273 /* FontClient.swift */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		978C8A892886F567000D31B8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				973B894828230DD700A2AB72 /* Main.swift */,
+				973B894C28230DD800A2AB72 /* Assets.xcassets */,
+				973B895128230DD800A2AB72 /* macOS.entitlements */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		97D0E26328414F9100F4BA77 /* App */ = {
 			isa = PBXGroup;
 			children = (
 				FB5B2E242874CAE100BE7F8E /* AppState.swift */,
 				FB5B2E262874CAEA00BE7F8E /* AppView.swift */,
-				975B792F284912DA0012C273 /* FontClient.swift */,
-				FB5B2E1B2874C80000BE7F8E /* Model */,
-				FBA3B5DB285B9DB3002C771F /* Model.swift */,
-				97D0E26B284152D500F4BA77 /* Model+Extensions.swift */,
-				FB5B2E222874C9B900BE7F8E /* FontCollectionFeature */,
-				97DFC5A92874944B00D2E845 /* ItemTypePreviewFeature */,
-				FBD5DC162869E8810031EFA3 /* ItemTypeRowView */,
 			);
-			path = AppFeature;
+			path = App;
 			sourceTree = "<group>";
 		};
-		97DFC5A92874944B00D2E845 /* ItemTypePreviewFeature */ = {
+		97DFC5A92874944B00D2E845 /* ItemTypePreview */ = {
 			isa = PBXGroup;
 			children = (
 				97DFC5AA2874949400D2E845 /* ItemPreviewType.swift */,
@@ -160,46 +181,41 @@
 				97DFC5B62874A0A200D2E845 /* ItemTypeCustomPreview.swift */,
 				977F8F3728858D1700EE2893 /* ItemTypeInfoPreview */,
 			);
-			path = ItemTypePreviewFeature;
+			path = ItemTypePreview;
 			sourceTree = "<group>";
 		};
-		FB294A9C28577DB700C8F8D9 /* Common */ = {
+		FB294A9C28577DB700C8F8D9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				FB294A9D28577DB700C8F8D9 /* Logger.swift */,
 				FB294A9F28577DD800C8F8D9 /* String+Extensions.swift */,
 				977F8F402885DCA100EE2893 /* UserDefaults+Extensions.swift */,
 			);
-			path = Common;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
-		FB5B2E1B2874C80000BE7F8E /* Model */ = {
+		FB5B2E1B2874C80000BE7F8E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				FBA3B5DB285B9DB3002C771F /* Model.swift */,
+				97D0E26B284152D500F4BA77 /* Model+Extensions.swift */,
 				FB5B2E1E2874C82400BE7F8E /* Font.swift */,
 				FB5B2E282874CC6500BE7F8E /* FontAttribute.swift */,
 				FB5B2E1C2874C81000BE7F8E /* FontCollection.swift */,
 				FB5B2E202874C82E00BE7F8E /* FontFamily.swift */,
 				FBAE323D28786DD7004DAEB4 /* FontCollectionType.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
-		FB5B2E222874C9B900BE7F8E /* FontCollectionFeature */ = {
+		FB5B2E222874C9B900BE7F8E /* FontCollection */ = {
 			isa = PBXGroup;
 			children = (
 				97D0E26628414FA400F4BA77 /* FontCollectionState.swift */,
 				97D0E26428414F9E00F4BA77 /* FontCollectionView.swift */,
-			);
-			path = FontCollectionFeature;
-			sourceTree = "<group>";
-		};
-		FBD5DC162869E8810031EFA3 /* ItemTypeRowView */ = {
-			isa = PBXGroup;
-			children = (
 				FBD01F7C286F3B2C00857988 /* ItemTypeRowView.swift */,
 			);
-			path = ItemTypeRowView;
+			path = FontCollection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -429,7 +445,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = iFont/iFont.entitlements;
+				CODE_SIGN_ENTITLEMENTS = iFont/Resources/macOS.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iFont/Preview Content\"";
@@ -454,7 +470,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = iFont/iFont.entitlements;
+				CODE_SIGN_ENTITLEMENTS = iFont/Resources/macOS.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iFont/Preview Content\"";

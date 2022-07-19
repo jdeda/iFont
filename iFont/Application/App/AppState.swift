@@ -5,7 +5,6 @@
 //  Created by Klajd Deda on 7/5/22.
 //
 
-import AppKit
 import ComposableArchitecture
 
 // Single Source of Truth (SSOT) for the App.
@@ -30,7 +29,7 @@ struct AppState: Equatable {
     // and expansions you had in "Computer".
     var selectedCollection: FontCollection? = nil
     var selectedCollectionState: FontCollectionState? = nil
-
+    
     var librarySection: [FontCollection] = [
         .init(type: .allFontsLibrary, fonts: []),
         .init(type: .computerLibrary, fonts: []),
@@ -55,7 +54,6 @@ enum AppAction: Equatable {
     case fetchFontsResult(Result<[Font], Never>)
     case madeSelection(FontCollection?)
     case fontCollection(FontCollectionAction)
-    case sidebarToggle
 }
 
 struct AppEnvironment {
@@ -78,20 +76,13 @@ extension AppState {
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
-                state.selectedCollection = UserDefaults.standard.getCodable(forKey: "selectedCollection")
+//                state.selectedCollection = UserDefaults.standard.getCodable(forKey: "selectedCollection")
                 return Effect(value: .fetchFonts)
                 
             case .fetchFonts:
-                let foo = state.fontDirectories
-                    .publisher
-                    .flatMap {
-                        environment.fontClient.fetchFonts($0)
-                    }
+                return environment.fontClient.fetchAllFonts(Array(state.fontDirectories))
                     .receive(on: environment.mainQueue)
-                    .catchToEffect()
-                    .map(AppAction.fetchFontsResult)
-                
-                return foo
+                    .catchToEffect(AppAction.fetchFontsResult)
                 
             case let .fetchFontsResult(.success(newFonts)):
                 let debug = false
@@ -105,7 +96,7 @@ extension AppState {
                     Logger.log("received: \(newFonts.count)")
                 }
                 state.fonts.append(contentsOf: newFonts)
-                let oldSelection = state.selectedCollection
+//                let oldSelection = state.selectedCollection
                 
                 state.librarySection = state.librarySection.map { fontCollection in
                     let collectionType = fontCollection.type
@@ -115,13 +106,13 @@ extension AppState {
                     return FontCollection(type: collectionType, fonts: fonts + newFonts_)
                 }
                 
-                if let oldSelection = oldSelection { // Preserve it ...
-                    // TODO: jdeda
-                    // Setting defaults here every time slows runtime dramatically.
-                    // One should only save selection after everything has loaded in...
-                    let updated = state.librarySection.first(where: { $0.type == oldSelection.type })
-                    return Effect(value: .madeSelection(updated))
-                }
+//                if let oldSelection = oldSelection { // Preserve it ...
+//                    // TODO: jdeda
+//                    // Setting defaults here every time slows runtime dramatically.
+//                    // One should only save selection after everything has loaded in...
+//                    let updated = state.librarySection.first(where: { $0.type == oldSelection.type })
+//                    return Effect(value: .madeSelection(updated))
+//                }
                 return .none
                 
             case let .madeSelection(newSelection):
@@ -130,7 +121,7 @@ extension AppState {
                 // 1) write it to the UserDefaults.standard
                 // 2) when the app starts, the state inits, you will than read this value from the UserDefaults.standard
                 state.selectedCollection = newSelection
-                UserDefaults.standard.setCodable(forKey: "selectedCollection", value: newSelection)
+//                UserDefaults.standard.setCodable(forKey: "selectedCollection", value: newSelection)
                 if let unwrapped = newSelection {
                     state.selectedCollectionState = .init(collection: unwrapped)
                 }
@@ -145,30 +136,16 @@ extension AppState {
                 // TODO: Jdeda
                 // This is doing a lot of magic behind the scenes
                 // This must be refactored to SwiftUI
-            case .sidebarToggle:
-                NSApp.keyWindow?
-                    .firstResponder?
-                    .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
-                return .none
             }
         }
     )
 }
 
-extension AppState {
-    static let liveState = AppState(fonts: [Font]())
-    static let mockState = AppState(
-        fontDirectories: [URL(fileURLWithPath: "/Users/kdeda/Library/Fonts")],
-        fonts: [Font(
-            url: URL(fileURLWithPath: NSTemporaryDirectory()),
-            name: "KohinoorBangla",
-            familyName: "KohinoorBangla")]
-    )
-}
+
 
 extension AppState {
     static let liveStore = Store(
-        initialState: liveState,
+        initialState: AppState(fonts: [Font]()),
         reducer: AppState.reducer,
         environment: AppEnvironment(
             mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
@@ -177,7 +154,13 @@ extension AppState {
     )
     
     static let mockStore = Store(
-        initialState: mockState,
+        initialState: AppState(
+            fontDirectories: [URL(fileURLWithPath: "/Users/kdeda/Library/Fonts")],
+            fonts: [Font(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "KohinoorBangla",
+                familyName: "KohinoorBangla")]
+        ),
         reducer: AppState.reducer,
         environment: AppEnvironment(
             mainQueue: DispatchQueue.main.eraseToAnyScheduler(),

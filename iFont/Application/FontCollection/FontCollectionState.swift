@@ -6,8 +6,8 @@ struct FontCollectionState: Equatable {
     
     var collection: FontCollection
     var items: [ItemType] // Derived from self.collection
-//    var selectedItem: ItemType? = nil
-    var selectedItem: ItemType? = UserDefaults.standard.getCodable(forKey: "selectedItem")
+    var selectedItem: ItemType? = nil
+//    var selectedItem: ItemType? = UserDefaults.standard.getCodable(forKey: "selectedItem")
     var selectedPreview: ItemPreviewType = .sample
     var selectedExpansions = Set<ItemType.ID>()
     
@@ -78,30 +78,24 @@ extension FontCollectionState {
         }
     )
 }
-
-extension FontCollectionState {
-    static let liveState =  FontCollectionState(collection: .init())
-    static let mockState = FontCollectionState(collection: .init(
-        type: .library(URL(fileURLWithPath: NSTemporaryDirectory())),
-        fonts: [Font(
-            url: URL(fileURLWithPath: NSTemporaryDirectory()),
-            name: "KohinoorBangla",
-            familyName: "KohinoorBangla")]
-    ))
-}
-
 extension FontCollectionState {
     static let liveStore = Store(
-        initialState: liveState,
+        initialState: FontCollectionState(collection: .init()),
         reducer: FontCollectionState.reducer,
         environment: FontCollectionEnvironment(
-            mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
-            fontClient: FontClient.live
+            mainQueue: .main,
+            fontClient: .live
         )
     )
     
     static let mockStore = Store(
-        initialState: mockState,
+        initialState: FontCollectionState(collection: .init(
+            type: .library(URL(fileURLWithPath: NSTemporaryDirectory())),
+            fonts: [Font(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "KohinoorBangla",
+                familyName: "KohinoorBangla")]
+        )),
         reducer: FontCollectionState.reducer,
         environment: FontCollectionEnvironment(
             mainQueue: DispatchQueue.main.eraseToAnyScheduler(),

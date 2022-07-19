@@ -8,6 +8,43 @@
 import SwiftUI
 import ComposableArchitecture
 
+struct ItemTypeRowView: View {
+    let store: Store<FontCollectionState, FontCollectionAction>
+    var itemType: ItemType
+    
+    var body: some View {
+        WithViewStore(self.store) { viewStore in
+            switch itemType {
+            case let .font(font):
+                FontRowView(font: font)
+            case let .fontFamily(fontFamily):
+                FontFamilyRowView(store: store, fontFamily: fontFamily)
+            }
+        }
+    }
+}
+
+struct ItemTypeRowView_Previews: PreviewProvider {
+    static var previews: some View {
+        let fonts = (1...10).map { int in
+            Font(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "Chicken \(int)",
+                familyName: "Cheese"
+            )
+        }
+        ItemTypeRowView(
+            store: FontCollectionState.mockStore,
+            itemType: ItemType.fontFamily(FontFamily(
+                name: "cheese",
+                fonts: fonts
+            ))
+        )
+    }
+}
+
+// MARK: Private Helpers
+
 fileprivate struct FontRowView: View {
     let font: Font
     
@@ -64,37 +101,3 @@ struct FontFamilyRowView_Previews: PreviewProvider {
 }
 
 
-struct ItemTypeRowView: View {
-    let store: Store<FontCollectionState, FontCollectionAction>
-    var itemType: ItemType
-    
-    var body: some View {
-        WithViewStore(self.store) { viewStore in
-            switch itemType {
-            case let .font(font):
-                FontRowView(font: font)
-            case let .fontFamily(fontFamily):
-                FontFamilyRowView(store: store, fontFamily: fontFamily)
-            }
-        }
-    }
-}
-
-struct ItemTypeRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        let fonts = (1...10).map { int in
-            Font(
-                url: URL(fileURLWithPath: NSTemporaryDirectory()),
-                name: "Chicken \(int)",
-                familyName: "Cheese"
-            )
-        }
-        ItemTypeRowView(
-            store: FontCollectionState.mockStore,
-            itemType: ItemType.fontFamily(FontFamily(
-                name: "cheese",
-                fonts: fonts
-            ))
-        )
-    }
-}
