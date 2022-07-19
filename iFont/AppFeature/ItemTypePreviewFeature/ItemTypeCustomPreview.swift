@@ -24,7 +24,7 @@ struct ItemTypeCustomPreview: View {
     }
 }
 
-// TODO: jdeda
+// TODO: jdeda - done
 // Fix me
 struct ItemTypeCustomPreview_Previews: PreviewProvider {
     static var previews: some View {
