@@ -8,7 +8,24 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct FontSamplePreview: View {
+struct ItemTypeSamplePreview: View {
+    let store: Store<FontCollectionState, FontCollectionAction>
+    var item: ItemType
+    
+    var body: some View {
+        WithViewStore(self.store) { viewStore in
+            switch item {
+            case let .font(font):
+                FontSamplePreview(font: font)
+            case let .fontFamily(fontFamily):
+                FontFamilySamplePreview(family: fontFamily)
+            }
+        }
+    }
+}
+
+
+fileprivate struct FontSamplePreview: View {
     let font: Font
     
     var body: some View {
@@ -28,7 +45,7 @@ struct FontSamplePreview: View {
     }
 }
 
-struct FontFamilySamplePreview: View {
+fileprivate struct FontFamilySamplePreview: View {
     var family: FontFamily
     
     var body: some View {
@@ -51,7 +68,7 @@ struct FontFamilySamplePreview: View {
     }
 }
 
-struct FontFamilySamplePreview_Previews: PreviewProvider {
+fileprivate struct FontFamilySamplePreview_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             FontSamplePreview(
@@ -81,19 +98,3 @@ struct FontFamilySamplePreview_Previews: PreviewProvider {
 //        FontSamplePreviewView()
 //    }
 //}
-
-struct ItemTypeSamplePreview: View {
-    let store: Store<FontCollectionState, FontCollectionAction>
-    var item: ItemType
-    
-    var body: some View {
-        WithViewStore(self.store) { viewStore in
-            switch item {
-            case let .font(font):
-                FontSamplePreview(font: font)
-            case let .fontFamily(fontFamily):
-                FontFamilySamplePreview(family: fontFamily)
-            }
-        }
-    }
-}

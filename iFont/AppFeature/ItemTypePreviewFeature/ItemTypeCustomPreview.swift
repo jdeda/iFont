@@ -8,46 +8,6 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct FontCustomPreview: View {
-    let font: Font
-    
-    var body: some View {
-        VStack {
-            Text("\(font.attributes[.full] ?? font.name)")
-                .font(.title)
-                .foregroundColor(.gray)
-                .padding(5)
-            HStack {
-            Text(String.quickBrownFox)
-                .fixedSize(horizontal: false, vertical: true)
-                Spacer()
-            }
-            Spacer(minLength: 64)
-        }
-        .font(.custom(font.name, size: 32))
-    }
-}
-
-struct FontFamilyCustomPreview: View {
-    var family: FontFamily
-    
-    var body: some View {
-            HStack(alignment: .center) {
-                List {
-                    HStack {
-                        Spacer()
-                        VStack {
-                            ForEach(family.fonts, id: \.name) { font in
-                                FontCustomPreview(font: font)
-                            }
-                        }
-                        Spacer()
-                    }
-            }
-        }
-    }
-}
-
 struct ItemTypeCustomPreview: View {
     let store: Store<FontCollectionState, FontCollectionAction>
     var item: ItemType
@@ -79,5 +39,46 @@ struct ItemTypeCustomPreview_Previews: PreviewProvider {
             store: FontCollectionState.mockStore,
             item: ItemType.fontFamily(FontFamily(name: "Chicken", fonts: fonts))
         )
+    }
+}
+
+
+fileprivate struct FontCustomPreview: View {
+    let font: Font
+    
+    var body: some View {
+        VStack {
+            Text("\(font.attributes[.full] ?? font.name)")
+                .font(.title)
+                .foregroundColor(.gray)
+                .padding(5)
+            HStack {
+            Text(String.quickBrownFox)
+                .fixedSize(horizontal: false, vertical: true)
+                Spacer()
+            }
+            Spacer(minLength: 64)
+        }
+        .font(.custom(font.name, size: 32))
+    }
+}
+
+fileprivate struct FontFamilyCustomPreview: View {
+    var family: FontFamily
+    
+    var body: some View {
+            HStack(alignment: .center) {
+                List {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            ForEach(family.fonts, id: \.name) { font in
+                                FontCustomPreview(font: font)
+                            }
+                        }
+                        Spacer()
+                    }
+            }
+        }
     }
 }
