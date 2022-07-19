@@ -10,12 +10,12 @@ import ComposableArchitecture
 
 struct AppView: View {
     let store: Store<AppState, AppAction>
-    
+
     var body: some View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
                 FontCollectionsSideBarView(store: store)
-                
+
                 IfLetStore(
                     store.scope(
                         state: \.selectedCollectionState,
@@ -24,7 +24,7 @@ struct AppView: View {
                     then: FontCollectionView.init(store:),
                     else: { Text("No collection selected") }
                 )
-                
+
                 .onAppear {
                     // TODO: kdeda
                     // When you hide/unhide the app we get here anew
@@ -44,6 +44,18 @@ struct AppView_Previews: PreviewProvider {
 
 
 struct FontCollectionSection: View {
+    var header: String
+    var collection: [FontCollection]
+    
+    var body: some View {
+        Section(header) {
+            ForEach(collection) {
+                labeledImage($0)
+                    .tag($0)
+            }
+        }
+    }
+    
     private func labeledImage(_ fontCollection: FontCollection) -> some View {
         HStack {
             Image(systemName: fontCollection.type.imageSystemName)
@@ -52,20 +64,6 @@ struct FontCollectionSection: View {
             Text(fontCollection.type.labelString)
             Text("\(fontCollection.fonts.count)")
                 .bold()
-        }
-    }
-    
-    var collection: [FontCollection]
-    var header: String
-    
-    var body: some View {
-        Section {
-            ForEach(collection) {
-                labeledImage($0)
-                    .tag($0)
-            }
-        } header: {
-            Text(header)
         }
     }
 }
@@ -79,9 +77,9 @@ struct FontCollectionsSideBarView: View {
                 get: \.selectedCollection,
                 send: AppAction.madeSelection
             )) {
-                FontCollectionSection(collection: viewStore.librarySection, header: "Library")
-                FontCollectionSection(collection: viewStore.smartSection, header: "Smart Collections")
-                FontCollectionSection(collection: viewStore.normalSection, header: "Collections")
+                FontCollectionSection(header: "Library", collection: viewStore.librarySection)
+                FontCollectionSection(header: "Smart Collections", collection: viewStore.smartSection)
+                FontCollectionSection(header: "Collections", collection: viewStore.normalSection)
             }
             .toolbar {
                     Button(action: {

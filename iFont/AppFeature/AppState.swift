@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 // Single Source of Truth (SSOT) for the App.
 struct AppState: Equatable {
-    
+
     // FIXME: jdeda
     // When in production, make sure all these paths are in
     var fontDirectories: Set<URL> = [
@@ -19,9 +19,9 @@ struct AppState: Equatable {
         //        .init(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Fonts"),
         Bundle.main.resourceURL!.appendingPathComponent("Fonts")
     ]
-    
+
     var fonts: [Font] = []
-    
+
     // TODO: Jdeda
     // Combine these?
     // This does not support saving expansions and or selections
@@ -36,12 +36,12 @@ struct AppState: Equatable {
         .init(type: .computerLibrary, fonts: []),
         .init(type: .standardUserLibrary, fonts: [])
     ]
-    
+
     var smartSection: [FontCollection] = [
         .init(type: .smart, fonts: []),
         .init(type: .smart, fonts: []),
     ]
-    
+
     var normalSection: [FontCollection] = [
         .init(type: .basic, fonts: []),
         .init(type: .basic, fonts: []),
@@ -78,7 +78,7 @@ extension AppState {
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
-//                state.selectedCollection = UserDefaults.standard.getCodable(forKey: "selectedCollection")
+                //                state.selectedCollection = UserDefaults.standard.getCodable(forKey: "selectedCollection")
                 return Effect(value: .fetchFonts)
                 
             case .fetchFonts:
@@ -130,7 +130,7 @@ extension AppState {
                 // 1) write it to the UserDefaults.standard
                 // 2) when the app starts, the state inits, you will than read this value from the UserDefaults.standard
                 state.selectedCollection = newSelection
-//                UserDefaults.standard.setCodable(forKey: "selectedCollection", value: newSelection)
+                //                UserDefaults.standard.setCodable(forKey: "selectedCollection", value: newSelection)
                 if let unwrapped = newSelection {
                     state.selectedCollectionState = .init(collection: unwrapped)
                 }
@@ -142,9 +142,6 @@ extension AppState {
             case let .fontCollection(fontCollectionAction):
                 return .none
                 
-                // TODO: Jdeda
-                // This is doing a lot of magic behind the scenes
-                // This must be refactored to SwiftUI
             case .sidebarToggle:
                 NSApp.keyWindow?
                     .firstResponder?
