@@ -33,6 +33,8 @@
 		FB5B2E252874CAE100BE7F8E /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5B2E242874CAE100BE7F8E /* AppState.swift */; };
 		FB5B2E272874CAEA00BE7F8E /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5B2E262874CAEA00BE7F8E /* AppView.swift */; };
 		FB5B2E292874CC6500BE7F8E /* FontAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5B2E282874CC6500BE7F8E /* FontAttribute.swift */; };
+		FB8948EF28899FFA00F81574 /* SwiftCommons in Frameworks */ = {isa = PBXBuildFile; productRef = FB8948EE28899FFA00F81574 /* SwiftCommons */; };
+		FB8948F12889ADF200F81574 /* ItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8948F02889ADF200F81574 /* ItemType.swift */; };
 		FB90B821286A077900C5141B /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = FB90B820286A077900C5141B /* Fonts */; };
 		FBA3B5DC285B9DB3002C771F /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA3B5DB285B9DB3002C771F /* Model.swift */; };
 		FBAE323E28786DD7004DAEB4 /* FontCollectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAE323D28786DD7004DAEB4 /* FontCollectionType.swift */; };
@@ -67,6 +69,7 @@
 		FB5B2E242874CAE100BE7F8E /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		FB5B2E262874CAEA00BE7F8E /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		FB5B2E282874CC6500BE7F8E /* FontAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontAttribute.swift; sourceTree = "<group>"; };
+		FB8948F02889ADF200F81574 /* ItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemType.swift; sourceTree = "<group>"; };
 		FB90B820286A077900C5141B /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		FBA3B5DB285B9DB3002C771F /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		FBAE323D28786DD7004DAEB4 /* FontCollectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontCollectionType.swift; sourceTree = "<group>"; };
@@ -79,6 +82,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				973B895B28230F7C00A2AB72 /* ComposableArchitecture in Frameworks */,
+				FB8948EF28899FFA00F81574 /* SwiftCommons in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,8 +183,9 @@
 				FB5B2E1E2874C82400BE7F8E /* Font.swift */,
 				FB5B2E282874CC6500BE7F8E /* FontAttribute.swift */,
 				FB5B2E1C2874C81000BE7F8E /* FontCollection.swift */,
-				FB5B2E202874C82E00BE7F8E /* FontFamily.swift */,
 				FBAE323D28786DD7004DAEB4 /* FontCollectionType.swift */,
+				FB5B2E202874C82E00BE7F8E /* FontFamily.swift */,
+				FB8948F02889ADF200F81574 /* ItemType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -220,6 +225,7 @@
 			name = iFont;
 			packageProductDependencies = (
 				973B895A28230F7C00A2AB72 /* ComposableArchitecture */,
+				FB8948EE28899FFA00F81574 /* SwiftCommons */,
 			);
 			productName = iFont;
 			productReference = 973B894528230DD700A2AB72 /* iFont.app */;
@@ -251,6 +257,7 @@
 			mainGroup = 973B893C28230DD700A2AB72;
 			packageReferences = (
 				973B895928230F7C00A2AB72 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				FB8948ED28899FFA00F81574 /* XCRemoteSwiftPackageReference "idd-swift-commons" */,
 			);
 			productRefGroup = 973B894628230DD700A2AB72 /* Products */;
 			projectDirPath = "";
@@ -299,6 +306,7 @@
 				973B894928230DD700A2AB72 /* Main.swift in Sources */,
 				97DFC5AF28749CEC00D2E845 /* ItemTypePreview.swift in Sources */,
 				FB5B2E212874C82E00BE7F8E /* FontFamily.swift in Sources */,
+				FB8948F12889ADF200F81574 /* ItemType.swift in Sources */,
 				FB5B2E1F2874C82400BE7F8E /* Font.swift in Sources */,
 				FB5B2E272874CAEA00BE7F8E /* AppView.swift in Sources */,
 				FBAE323E28786DD7004DAEB4 /* FontCollectionType.swift in Sources */,
@@ -506,6 +514,14 @@
 				minimumVersion = 0.9.0;
 			};
 		};
+		FB8948ED28899FFA00F81574 /* XCRemoteSwiftPackageReference "idd-swift-commons" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kdeda/idd-swift-commons.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -513,6 +529,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 973B895928230F7C00A2AB72 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		FB8948EE28899FFA00F81574 /* SwiftCommons */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB8948ED28899FFA00F81574 /* XCRemoteSwiftPackageReference "idd-swift-commons" */;
+			productName = SwiftCommons;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

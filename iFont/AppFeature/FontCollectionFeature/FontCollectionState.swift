@@ -6,11 +6,16 @@ struct FontCollectionState: Equatable {
     
     var collection: FontCollection
     var items: [ItemType] // Derived from self.collection
-    var selectedItem: ItemType? = nil
-//    var selectedItem: ItemType? = UserDefaults.standard.getCodable(forKey: "selectedItem")
+    var selectedItemID: ItemType.ID? = nil
+    // var selectedItem: ItemType? = UserDefaults.standard.getCodable(forKey: "selectedItem")
+    // wip
     var selectedPreview: ItemPreviewType = .sample
     var selectedExpansions = Set<ItemType.ID>()
     
+    var selectedItem: ItemType? {
+        items.first(where: { $0.id == selectedItemID })
+    }
+
     init(collection: FontCollection) {
         self.collection = collection
         self.items = self.collection.fontFamilies.map(\.itemType)
@@ -18,7 +23,7 @@ struct FontCollectionState: Equatable {
 }
 
 enum FontCollectionAction: Equatable {
-    case selectedItem(ItemType?)
+    case selectedItemID(ItemType.ID?)
     case toggleExpand(FontFamily)
     case selectedPreviewType(ItemPreviewType)
 }
@@ -32,13 +37,23 @@ extension FontCollectionState {
     static let reducer = Reducer<FontCollectionState, FontCollectionAction, FontCollectionEnvironment>.combine(
         Reducer { state, action, environment in
             switch action {
-            case let .selectedItem(selectedItem):
+            case let .selectedItemID(selectedItemID):
                 // TODO: jdeda - review!
                 // make it sticky
-                state.selectedItem = selectedItem
-                UserDefaults.standard.setCodable(forKey: "selectedItem", value: selectedItem)
-                if let unwrapped = selectedItem {
-                    Logger.log("selectedItemType: \(unwrapped)")
+                
+                state.selectedItemID = selectedItemID
+                // UserDefaults.standard.setCodable(forKey: "selectedItem", value: selectedItem)
+                // wip
+                
+                if let index = state.items.firstIndex(where: { $0.id == selectedItemID }) {
+                    let itemType = state.items[index]
+
+                    Logger.log("selectedItemType: \(itemType)")
+                    switch itemType {
+                    case .font: ()
+                    case let .fontFamily(fontFamily):
+                        state.items[index] = fontFamily.fontsSortedByName.itemType
+                    }
                 }
                 return .none
                 
@@ -61,9 +76,10 @@ extension FontCollectionState {
                 // this explains why it only happens once...items are sorted at init time
                 state.items = state.collection.fontFamilies.reduce(into: [ItemType](), { partialResult, fontFamily in
                     partialResult.append(fontFamily.itemType)
+                    
                     // If family is expanded, add its children to display.
                     if state.selectedExpansions.contains(fontFamily.id) {
-                        partialResult.append(contentsOf: fontFamily.fonts.map(\.itemType))
+                        partialResult.append(contentsOf: fontFamily.fontsSortedByName.fonts.map(\.itemType))
                     }
                 })
                 

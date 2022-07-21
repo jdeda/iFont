@@ -24,6 +24,7 @@ struct FontAttributePreview: View {
                     .foregroundColor(.secondary)
                     .frame(width: 150, alignment: .topTrailing)
                 Text(attribute)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
         else {

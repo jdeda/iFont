@@ -7,6 +7,8 @@
 
 import AppKit
 import ComposableArchitecture
+import Log4swift
+import SwiftCommons
 
 // Single Source of Truth (SSOT) for the App.
 struct AppState: Equatable {
@@ -78,7 +80,7 @@ extension AppState {
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
-                //                state.selectedCollection = UserDefaults.standard.getCodable(forKey: "selectedCollection")
+                // state.selectedCollection = UserDefaults.standard.getCodable(forKey: "selectedCollection")
                 return Effect(value: .fetchFonts)
                 
             case .fetchFonts:
@@ -94,15 +96,13 @@ extension AppState {
                 return foo
                 
             case let .fetchFontsResult(.success(newFonts)):
-                let debug = false
+                let debug = true // false
                 if debug {
                     let startTime = Date()
                     defer {
-                        let elapsed = startTime.timeIntervalSinceNow * -1000
-                        let elapsedString = String(format: "%0.3f", elapsed)
-                        Logger.log("completed in: \(elapsedString) ms")
+                        Log4swift[Self.self].debug("completed in: \(startTime.elapsedTime) ms")
                     }
-                    Logger.log("received: \(newFonts.count)")
+                    Log4swift[Self.self].debug("received: \(newFonts.count)")
                 }
                 state.fonts.append(contentsOf: newFonts)
                 let oldSelection = state.selectedCollection
@@ -130,9 +130,11 @@ extension AppState {
                 // 1) write it to the UserDefaults.standard
                 // 2) when the app starts, the state inits, you will than read this value from the UserDefaults.standard
                 state.selectedCollection = newSelection
-                //                UserDefaults.standard.setCodable(forKey: "selectedCollection", value: newSelection)
-                if let unwrapped = newSelection {
-                    state.selectedCollectionState = .init(collection: unwrapped)
+
+                // UserDefaults.standard.setCodable(forKey: "selectedCollection", value: newSelection)
+                if var fontCollection = newSelection {
+                    fontCollection.fontFamilies = fontCollection.fonts.groupedByFamily()
+                    state.selectedCollectionState = .init(collection: fontCollection)
                 }
                 else {
                     state.selectedCollectionState = nil

@@ -15,12 +15,12 @@ struct FontCollectionView: View {
                     // - There are duplicate fonts!
                     // - (FIXED) On first click on expansion, fonts shuffle or sort of some order...fix this
                     List(selection: viewStore.binding(
-                        get: \.selectedItem,
-                        send: FontCollectionAction.selectedItem
+                        get: \.selectedItemID,
+                        send: FontCollectionAction.selectedItemID
                     )) {
                         ForEach(viewStore.items) { item in
                             ItemTypeRowView(store: store, itemType: item)
-                                .tag(item)
+                                .tag(item.id)
                         }
                     }
                     Divider()

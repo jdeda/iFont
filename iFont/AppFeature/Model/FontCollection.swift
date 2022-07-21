@@ -17,19 +17,19 @@ struct FontCollection: Equatable, Hashable, Codable {
     var type: FontCollectionType = .unknown
     // TODO: kdeda
     // Rename to something like "FontCollectionCategory"
-    var fonts = [Font]()
-    lazy var fontFamilies: [FontFamily] = {
-        fonts.groupedByFamily()
-    }()
+    var fonts: [Font]
+    var fontFamilies: [FontFamily]
     
     init(
         type: FontCollectionType = .unknown,
-        fonts: [Font] = [Font]()
+        fonts: [Font] = [Font](),
+        fontFamilies: [FontFamily] = [FontFamily]()
     ) {
         self.type = type
         self.fonts = fonts
-        // self.fontFamilies = self.fonts.groupedByFamily()
+        self.fontFamilies = fontFamilies
     }
+        
 //    let id = UUID()
 //    var type: FontCollectionType = .unknown // TODO: Rename to something like "FontCollectionCategory"
 //    var fonts = [Font]()

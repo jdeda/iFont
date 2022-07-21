@@ -41,4 +41,15 @@ extension FontFamily {
         }
         return map
     }
+    
+    func fontsSorted(by sortFunc:(_ lhs: Font, _ rhs: Font) -> Bool) -> FontFamily {
+        var newFamily = self
+        
+        newFamily.fonts = self.fonts.sorted(by: sortFunc)
+        return newFamily
+    }
+    
+    var fontsSortedByName: FontFamily {
+        fontsSorted(by: { $0.name < $1.name })
+    }
 }

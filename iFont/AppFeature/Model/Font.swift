@@ -33,8 +33,12 @@ extension Array where Element == Font {
     }
 }
 
-//extension Font {
-//    var fontAttributes: [String: String] {
+extension Font {
+    // For more look into
+    // CTFont.h
+    // CTFontDescriptor.h
+    var fontAttributesV2: [FontAttributeKey: String] {
+        return [FontAttributeKey: String]()
 //        let ctFont = CTFontCreateWithName(self.name as CFString, 12.0, nil)
 //        // this does not fail because it will return a substitute font
 //        // ie: Helvetica
@@ -47,11 +51,11 @@ extension Array where Element == Font {
 //
 //        // TODO: kdeda
 //        // extract as much as possible info from the NSFont
-//        return FontAttribute.allCases.reduce(into: [String: String](), { partialResult, nextItem in
+//        return FontAttributeKey.allCases.reduce(into: [String: String](), { partialResult, nextItem in
 //            if let value = CTFontCopyName(ctFont, nextItem.nameKey) as String? {
 //                Logger.log("\(nextItem.nameKey): \(value)")
 //                partialResult[nextItem.nameKeyString] = value
 //            }
 //        })
-//    }
-//}
+    }
+}
