@@ -12,7 +12,7 @@ import SwiftCommons
 
 // Single Source of Truth (SSOT) for the App.
 struct AppState: Equatable {
-
+    
     // FIXME: jdeda
     // When in production, make sure all these paths are in
     var fontDirectories: Set<URL> = [
@@ -21,9 +21,9 @@ struct AppState: Equatable {
         //        .init(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Fonts"),
         Bundle.main.resourceURL!.appendingPathComponent("Fonts")
     ]
-
+    
     var fonts: [Font] = []
-
+    
     // TODO: Jdeda
     // Combine these?
     // This does not support saving expansions and or selections
@@ -32,18 +32,18 @@ struct AppState: Equatable {
     // and expansions you had in "Computer".
     var selectedCollection: FontCollection? = nil
     var selectedCollectionState: FontCollectionState? = nil
-
+    
     var librarySection: [FontCollection] = [
         .init(type: .allFontsLibrary, fonts: []),
         .init(type: .computerLibrary, fonts: []),
         .init(type: .standardUserLibrary, fonts: [])
     ]
-
+    
     var smartSection: [FontCollection] = [
         .init(type: .smart, fonts: []),
         .init(type: .smart, fonts: []),
     ]
-
+    
     var normalSection: [FontCollection] = [
         .init(type: .basic, fonts: []),
         .init(type: .basic, fonts: []),
@@ -96,42 +96,45 @@ extension AppState {
                 return foo
                 
             case let .fetchFontsResult(.success(newFonts)):
-                let debug = true // false
-                if debug {
-                    let startTime = Date()
-                    defer {
-                        Log4swift[Self.self].debug("completed in: \(startTime.elapsedTime) ms")
-                    }
-                    Log4swift[Self.self].debug("received: \(newFonts.count)")
-                }
+                
+                // Debug.
+                let startTime = Date()
+                defer { Log4swift[Self.self].debug("completed in: \(startTime.elapsedTime) ms") }
+                Log4swift[Self.self].debug("received: \(newFonts.count)")
+                
+                // Add new fonts and update libraries.
                 state.fonts.append(contentsOf: newFonts)
-                let oldSelection = state.selectedCollection
-                
-                state.librarySection = state.librarySection.map { fontCollection in
-                    let collectionType = fontCollection.type
-                    let fonts = fontCollection.fonts
-                    let newFonts_ = newFonts.filter(collectionType.matchingFonts)
-                    
-                    return FontCollection(type: collectionType, fonts: fonts + newFonts_)
+                state.librarySection = state.librarySection.map {
+                    .init(type: $0.type, fonts: $0.fonts + newFonts.filter($0.type.matchingFonts))
                 }
                 
-                if let oldSelection = oldSelection { // Preserve it ...
-                    // TODO: jdeda
-                    // Setting defaults here every time slows runtime dramatically.
-                    // One should only save selection after everything has loaded in...
-                    let updated = state.librarySection.first(where: { $0.type == oldSelection.type })
+                // TODO: jdeda
+                // UserDefaults should only save selection when program ends...it is very slow.
+                if let selectedCollection = state.selectedCollection { // Preserve it ...
+                    let updated = state.librarySection.first(where: { $0.type == selectedCollection.type })
                     return Effect(value: .madeSelection(updated))
                 }
                 return .none
                 
+                // TODO: jdeda
+                // If the user clicks the library in the UI, 2this runs twice.
+                // if the user uses the keyboard, this runs once.
             case let .madeSelection(newSelection):
+                
+                // Debug.
+                let startTime = Date()
+                print("\nstarted action: .madeSelection")
+                defer { print("completed in: \(startTime.elapsedTime) ms\n") }
+                
                 // TODO: jdeda - review!
-                // make it sticky
+                // Make the selection sticky
                 // 1) write it to the UserDefaults.standard
                 // 2) when the app starts, the state inits, you will than read this value from the UserDefaults.standard
-                state.selectedCollection = newSelection
-
+                
                 // UserDefaults.standard.setCodable(forKey: "selectedCollection", value: newSelection)
+                
+                // Set new selection.
+                state.selectedCollection = newSelection
                 if var fontCollection = newSelection {
                     fontCollection.fontFamilies = fontCollection.fonts.groupedByFamily()
                     state.selectedCollectionState = .init(collection: fontCollection)

@@ -5,16 +5,16 @@ import AppKit
 struct FontCollectionState: Equatable {
     
     var collection: FontCollection
+    
     var items: [ItemType] // Derived from self.collection
     var selectedItemID: ItemType.ID? = nil
-    // var selectedItem: ItemType? = UserDefaults.standard.getCodable(forKey: "selectedItem")
-    // wip
-    var selectedPreview: ItemPreviewType = .sample
-    var selectedExpansions = Set<ItemType.ID>()
-    
     var selectedItem: ItemType? {
         items.first(where: { $0.id == selectedItemID })
     }
+    // var selectedItem: ItemType? = UserDefaults.standard.getCodable(forKey: "selectedItem")
+    // wip
+    var selectedExpansions = Set<ItemType.ID>()
+    var selectedPreview: ItemPreviewType = .sample
 
     init(collection: FontCollection) {
         self.collection = collection
