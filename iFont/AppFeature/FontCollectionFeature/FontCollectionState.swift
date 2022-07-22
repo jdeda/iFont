@@ -57,13 +57,10 @@ extension FontCollectionState {
                 }
                 return .none
                 
-                // TODO: jdeda - review!
-                // Fix bug where upon the first time making a new expansion, the list resorts of the sort.
-                // The list is probably being updated entirely when it shouldn't
-                // There is another bug where there are duplicate fonts which break expansions
-                // i.e. the fonts will display after expanded, but remain displayed even if
-                // expansion is unexpanded, and which consecutive expansions wil show other
-                // fonts...maybe this is some id issues between families and or fonts...
+                // TODO: jdeda
+                // There is a bug where expanding a family causes that family fonts to merge into another family
+                // (perhaps the one selected before it) and the family dissapears (the one that was supposed to be expanded).
+                // Upon unexpanding the family that merged the other family, there are duplicates left.
             case let .toggleExpand(family):
                 if state.selectedExpansions.contains(family.id) {
                     state.selectedExpansions.remove(family.id)
@@ -71,9 +68,6 @@ extension FontCollectionState {
                     state.selectedExpansions.insert(family.id)
                 }
                 
-                // The "resorting/reshuffling" is occuring because you are reducing over the state.fontFamilies
-                // which has no particular order but the state.items does...thus obviously you lose order and
-                // this explains why it only happens once...items are sorted at init time
                 state.items = state.collection.fontFamilies.reduce(into: [ItemType](), { partialResult, fontFamily in
                     partialResult.append(fontFamily.itemType)
                     

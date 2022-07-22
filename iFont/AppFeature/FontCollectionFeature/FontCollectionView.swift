@@ -12,8 +12,7 @@ struct FontCollectionView: View {
                 VStack(spacing: 0) {
                     // TODO: Jdeda
                     // - Animate expansions
-                    // - There are duplicate fonts!
-                    // - (FIXED) On first click on expansion, fonts shuffle or sort of some order...fix this
+                    // - There are duplicate fonts?
                     List(selection: viewStore.binding(
                         get: \.selectedItemID,
                         send: FontCollectionAction.selectedItemID

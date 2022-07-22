@@ -116,9 +116,9 @@ extension AppState {
                 }
                 return .none
                 
-                // TODO: jdeda
-                // If the user clicks the library in the UI, 2this runs twice.
-                // if the user uses the keyboard, this runs once.
+            // TODO: jdeda
+            // If the user clicks the library in the UI, this runs twice.
+            // if the user uses the keyboard, this runs once.
             case let .madeSelection(newSelection):
                 
                 // Debug.
