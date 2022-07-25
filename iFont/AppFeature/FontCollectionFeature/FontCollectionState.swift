@@ -3,14 +3,12 @@ import ComposableArchitecture
 import AppKit
 
 struct FontCollectionState: Equatable {
-    
     var collection: FontCollection
     
     var items: [FontCollectionItem] // Derived from self.collection
-    var selectedItemID: FontCollectionItem.ID? = nil
-    var selectedItem: FontCollectionItem? {
-        items.first(where: { $0.id == selectedItemID })
-    }
+    @BindableState var selectedItemID: FontCollectionItem.ID?
+    var selectedItem: FontCollectionItem?
+    
     // var selectedItem: ItemType? = UserDefaults.standard.getCodable(forKey: "selectedItem")
     // wip
     var selectedExpansions = Set<FontCollectionItem.ID>()
@@ -22,8 +20,8 @@ struct FontCollectionState: Equatable {
     }
 }
 
-enum FontCollectionAction: Equatable {
-    case selectedItemID(FontCollectionItem.ID?)
+enum FontCollectionAction: BindableAction, Equatable {
+    case binding(BindingAction<FontCollectionState>)
     case toggleExpand(FontFamily)
     case selectedPreviewType(FontCollectionItemPreviewType)
 }
@@ -37,24 +35,28 @@ extension FontCollectionState {
     static let reducer = Reducer<FontCollectionState, FontCollectionAction, FontCollectionEnvironment>.combine(
         Reducer { state, action, environment in
             switch action {
-            case let .selectedItemID(selectedItemID):
+            case .binding(\.$selectedItemID):
                 // TODO: jdeda - review!
                 // make it sticky
-                
-                state.selectedItemID = selectedItemID
                 // UserDefaults.standard.setCodable(forKey: "selectedItem", value: selectedItem)
                 // wip
                 
-                if let index = state.items.firstIndex(where: { $0.id == selectedItemID }) {
+                if let index = state.items.firstIndex(where: { $0.id == state.selectedItemID }) {
                     let itemType = state.items[index]
 
+                    state.selectedItem = itemType
                     Logger.log("selectedItemType: \(itemType)")
                     switch itemType {
                     case .font: ()
                     case let .fontFamily(fontFamily):
                         state.items[index] = fontFamily.fontsSortedByName.itemType
                     }
+                } else {
+                    state.selectedItem = nil
                 }
+                return .none
+
+            case .binding:
                 return .none
                 
                 // TODO: jdeda
@@ -84,6 +86,7 @@ extension FontCollectionState {
                 return .none
             }
         }
+            .binding()
     )
 }
 

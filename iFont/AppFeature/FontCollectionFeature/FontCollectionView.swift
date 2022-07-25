@@ -12,10 +12,7 @@ struct FontCollectionView: View {
                     // TODO: Jdeda
                     // - Animate expansions
                     // - There are duplicate fonts?
-                    List(selection: viewStore.binding(
-                        get: \.selectedItemID,
-                        send: FontCollectionAction.selectedItemID
-                    )) {
+                    List(selection: viewStore.binding(\.$selectedItemID)) {
                         ForEach(viewStore.items) { item in
                             FontCollectionItemRowView(store: store, itemType: item)
                                 .tag(item.id)
