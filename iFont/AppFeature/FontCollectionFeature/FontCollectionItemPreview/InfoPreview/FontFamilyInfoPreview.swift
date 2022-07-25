@@ -1,30 +1,26 @@
 //
-//  ItemTypeInfoPreview.swift
+//  FontFamilyInfoPreview.swift
 //  iFont
 //
-//  Created by Jesse Deda on 7/5/22.
+//  Created by Jesse Deda on 7/18/22.
 //
 
 import SwiftUI
 import ComposableArchitecture
 
-struct ItemTypeInfoPreview: View {
-    let store: Store<FontCollectionState, FontCollectionAction>
-    var item: ItemType
-        
+struct FontFamilyInfoPreview: View {
+    let family: FontFamily
+    
     var body: some View {
-        switch item {
-        case let .font(font):
-            FontInfoPreview(font: font)
-        case let .fontFamily(fontFamily):
-            FontFamilyInfoPreview(family: fontFamily)
+        List {
+            ForEach(family.fonts, id: \.name) { font in
+                FontInfoPreview(font: font)
+            }
         }
     }
 }
 
-// TODO: jdeda - done
-// Fix me
-struct ItemTypeInfoPreview_Previews: PreviewProvider {
+struct FontFamilyInfoPreview_Previews: PreviewProvider {
     static var previews: some View {
         
         let attributes: [FontAttributeKey: String] =  {
@@ -46,14 +42,9 @@ struct ItemTypeInfoPreview_Previews: PreviewProvider {
                 attributes: attributes
             )
         }
-        
-        ItemTypeInfoPreview(
-            store: FontCollectionState.mockStore,
-            item: ItemType.fontFamily(FontFamily(
-                name: "Cheese",
-                fonts: fonts)
-            )
-        )
+        FontFamilyInfoPreview(family: FontFamily(
+            name: "Cheese",
+            fonts: fonts
+        ))
     }
 }
-    

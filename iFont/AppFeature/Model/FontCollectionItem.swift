@@ -7,15 +7,12 @@
 
 import Foundation
 
-// TODO: kdeda
-// The name on this is strange
-// We ought to come up with better names
-enum ItemType: Equatable, Hashable, Codable {
+enum FontCollectionItem: Equatable, Hashable, Codable {
     case font(Font)
     case fontFamily(FontFamily)
 }
 
-extension ItemType: Identifiable {
+extension FontCollectionItem: Identifiable {
     var id: String {
         switch self {
         case let .font(font): return font.id
@@ -25,13 +22,13 @@ extension ItemType: Identifiable {
 }
 
 extension FontFamily {
-    var itemType: ItemType {
+    var itemType: FontCollectionItem {
         .fontFamily(self)
     }
 }
 
 extension Font {
-    var itemType: ItemType {
+    var itemType: FontCollectionItem {
         .font(self)
     }
 }

@@ -13,7 +13,6 @@ struct FontInfoPreview: View {
 
     var body: some View {
         VStack {
-            
             // Title.
             VStack(alignment: .center) {
                 
@@ -55,11 +54,11 @@ struct FontInfoPreview_Previews: PreviewProvider {
             ats[.copyright] = String.alphabet + String.alphabet + String.alphabet + String.alphabet
             return ats
         }()
-            FontInfoPreview(font: Font(
-                url: URL(fileURLWithPath: NSTemporaryDirectory()),
-                name: "Chicken",
-                familyName: "Cheese",
-                attributes: attributes
-            ))
+        FontInfoPreview(font: Font(
+            url: URL(fileURLWithPath: NSTemporaryDirectory()),
+            name: "Chicken",
+            familyName: "Cheese",
+            attributes: attributes
+        ))
     }
 }

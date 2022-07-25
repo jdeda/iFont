@@ -8,24 +8,31 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct ItemTypeSamplePreview: View {
+struct SamplePreview: View {
     let store: Store<FontCollectionState, FontCollectionAction>
-    var item: ItemType
+    var item: FontCollectionItem
+    @State var fontSize: Double = 12
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
-            switch item {
-            case let .font(font):
-                FontSamplePreview(font: font)
-            case let .fontFamily(fontFamily):
-                FontFamilySamplePreview(family: fontFamily)
+            HStack {
+                switch item {
+                case let .font(font):
+                    FontSamplePreview(font: font)
+                case let .fontFamily(fontFamily):
+                    FontFamilySamplePreview(family: fontFamily)
+                }
+                
+                // https://stackoverflow.com/questions/58073203/how-can-i-make-a-bunch-of-vertical-sliders-in-swiftui
+                Slider(value: $fontSize, in: 12 ... 64)
+                    .rotationEffect(.degrees(90))
             }
         }
     }
 }
 
 
-struct ItemTypeSamplePreview_Previews: PreviewProvider {
+struct SamplePreview_Previews: PreviewProvider {
     static var previews: some View {
         let fonts = (1...10).map { int in
             Font(
@@ -35,9 +42,9 @@ struct ItemTypeSamplePreview_Previews: PreviewProvider {
             )
         }
         
-        ItemTypeSamplePreview(
+        SamplePreview(
             store: FontCollectionState.mockStore,
-            item: ItemType.fontFamily(FontFamily(name: "Cheese", fonts: fonts))
+            item: FontCollectionItem.fontFamily(FontFamily(name: "Cheese", fonts: fonts))
         )
     }
 }
@@ -61,6 +68,15 @@ fileprivate struct FontSamplePreview: View {
             Spacer(minLength: 64)
         }
         .font(.custom(font.name, size: 32))
+    }
+}
+
+struct FontSamplePreview_Previews: PreviewProvider {
+    static var previews: some View {
+        FontSamplePreview(font: Font(
+            url: URL.init(fileURLWithPath: NSTemporaryDirectory()),
+            name: "Cheese",
+            familyName: "Chicken"))
     }
 }
 
@@ -100,17 +116,5 @@ struct FontFamilySamplePreview_Previews: PreviewProvider {
                 ]
             )
         )
-    }
-}
-
-
-// TODO: jdeda - done
-// Fix me
-struct FontSamplePreview_Previews: PreviewProvider {
-    static var previews: some View {
-        FontSamplePreview(font: Font(
-            url: URL.init(fileURLWithPath: NSTemporaryDirectory()),
-            name: "Cheese",
-            familyName: "Chicken"))
     }
 }

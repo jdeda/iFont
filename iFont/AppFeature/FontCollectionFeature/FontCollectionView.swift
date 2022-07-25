@@ -17,7 +17,7 @@ struct FontCollectionView: View {
                         send: FontCollectionAction.selectedItemID
                     )) {
                         ForEach(viewStore.items) { item in
-                            ItemTypeRowView(store: store, itemType: item)
+                            FontCollectionItemRowView(store: store, itemType: item)
                                 .tag(item.id)
                         }
                     }
@@ -39,7 +39,7 @@ struct FontCollectionView: View {
                 VStack {
                     switch viewStore.selectedItem {
                     case let .some(item):
-                        ItemTypePreview(store: store, selection: viewStore.selectedPreview, item: item)
+                        FontCollectionItemPreview(store: store, selection: viewStore.selectedPreview, item: item)
                     case .none:
                         Text("No fonts selected")
                     }
@@ -49,7 +49,7 @@ struct FontCollectionView: View {
                         get: \.selectedPreview,
                         send: FontCollectionAction.selectedPreviewType)
                     ) {
-                        ForEach(ItemPreviewType.allCases, id: \.self) { $0.image }
+                        ForEach(FontCollectionItemPreviewType.allCases, id: \.self) { $0.image }
                     }
                     .pickerStyle(.segmented)
                 }

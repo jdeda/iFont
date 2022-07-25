@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-enum ItemPreviewType: CaseIterable {
+enum FontCollectionItemPreviewType: CaseIterable {
     case sample
     case repertoire
     case custom
     case info
 }
 
-extension ItemPreviewType {
+extension FontCollectionItemPreviewType {
     var image: Image {
         switch self {
         case .sample:

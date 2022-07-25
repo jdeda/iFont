@@ -8,9 +8,9 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct ItemTypeRepertoirePreview: View {
+struct RepertoirePreview: View {
     let store: Store<FontCollectionState, FontCollectionAction>
-    var item: ItemType
+    var item: FontCollectionItem
     
     var body: some View {
         Text("FontRepertoirePreviewView")
@@ -29,9 +29,9 @@ struct ItemTypeRepertoirePreview_Previews: PreviewProvider {
             )
         }
         
-        ItemTypeRepertoirePreview(
+        RepertoirePreview(
             store: FontCollectionState.mockStore,
-            item: ItemType.fontFamily(FontFamily(name: "Cheese", fonts: fonts))
+            item: FontCollectionItem.fontFamily(FontFamily(name: "Cheese", fonts: fonts))
         )
     }
 }

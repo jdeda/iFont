@@ -8,10 +8,10 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct ItemTypePreview: View {
+struct FontCollectionItemPreview: View {
     let store: Store<FontCollectionState, FontCollectionAction>
-    var selection: ItemPreviewType
-    var item: ItemType
+    var selection: FontCollectionItemPreviewType
+    var item: FontCollectionItem
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
@@ -21,13 +21,13 @@ struct ItemTypePreview: View {
             
             switch selection {
             case .sample:
-                ItemTypeSamplePreview(store: store, item: item)
+                SamplePreview(store: store, item: item)
             case .repertoire:
-                ItemTypeRepertoirePreview(store: store, item: item)
+                RepertoirePreview(store: store, item: item)
             case .custom:
-                ItemTypeCustomPreview(store: store, item: item)
+                CustomPreview(store: store, item: item)
             case .info:
-                ItemTypeInfoPreview(store: store, item: item)
+                InfoPreview(store: store, item: item)
             }
         }
     }
@@ -44,10 +44,10 @@ struct ItemTypePreview_Previews: PreviewProvider {
             )
         }
         
-        ItemTypePreview(
+        FontCollectionItemPreview(
             store: FontCollectionState.mockStore,
             selection: .sample,
-            item: ItemType.fontFamily(FontFamily(name: "Cheese", fonts: fonts))
+            item: FontCollectionItem.fontFamily(FontFamily(name: "Cheese", fonts: fonts))
         )
     }
 }

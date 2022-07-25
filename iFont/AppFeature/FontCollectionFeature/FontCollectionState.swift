@@ -6,15 +6,15 @@ struct FontCollectionState: Equatable {
     
     var collection: FontCollection
     
-    var items: [ItemType] // Derived from self.collection
-    var selectedItemID: ItemType.ID? = nil
-    var selectedItem: ItemType? {
+    var items: [FontCollectionItem] // Derived from self.collection
+    var selectedItemID: FontCollectionItem.ID? = nil
+    var selectedItem: FontCollectionItem? {
         items.first(where: { $0.id == selectedItemID })
     }
     // var selectedItem: ItemType? = UserDefaults.standard.getCodable(forKey: "selectedItem")
     // wip
-    var selectedExpansions = Set<ItemType.ID>()
-    var selectedPreview: ItemPreviewType = .sample
+    var selectedExpansions = Set<FontCollectionItem.ID>()
+    var selectedPreview: FontCollectionItemPreviewType = .sample
 
     init(collection: FontCollection) {
         self.collection = collection
@@ -23,9 +23,9 @@ struct FontCollectionState: Equatable {
 }
 
 enum FontCollectionAction: Equatable {
-    case selectedItemID(ItemType.ID?)
+    case selectedItemID(FontCollectionItem.ID?)
     case toggleExpand(FontFamily)
-    case selectedPreviewType(ItemPreviewType)
+    case selectedPreviewType(FontCollectionItemPreviewType)
 }
 
 struct FontCollectionEnvironment {
@@ -68,7 +68,7 @@ extension FontCollectionState {
                     state.selectedExpansions.insert(family.id)
                 }
                 
-                state.items = state.collection.fontFamilies.reduce(into: [ItemType](), { partialResult, fontFamily in
+                state.items = state.collection.fontFamilies.reduce(into: [FontCollectionItem](), { partialResult, fontFamily in
                     partialResult.append(fontFamily.itemType)
                     
                     // If family is expanded, add its children to display.

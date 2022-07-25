@@ -8,9 +8,9 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct ItemTypeCustomPreview: View {
+struct CustomPreview: View {
     let store: Store<FontCollectionState, FontCollectionAction>
-    var item: ItemType
+    var item: FontCollectionItem
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
@@ -35,9 +35,9 @@ struct ItemTypeCustomPreview_Previews: PreviewProvider {
                 familyName: "Cheese"
             )
         }
-        ItemTypeCustomPreview(
+        CustomPreview(
             store: FontCollectionState.mockStore,
-            item: ItemType.fontFamily(FontFamily(name: "Chicken", fonts: fonts))
+            item: FontCollectionItem.fontFamily(FontFamily(name: "Chicken", fonts: fonts))
         )
     }
 }
