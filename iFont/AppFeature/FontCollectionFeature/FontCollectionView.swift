@@ -7,7 +7,6 @@ struct FontCollectionView: View {
     var body: some View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
-                
                 // The First Column
                 VStack(spacing: 0) {
                     // TODO: Jdeda
@@ -26,7 +25,16 @@ struct FontCollectionView: View {
                     Text("Font count: \(viewStore.collection.fonts.count)")
                         .padding(5)
                 }
-                
+                .frame(minWidth: 260, maxWidth: 380)
+//                .toolbar {
+//                    Button(action: {}) {
+//                        Label("", systemImage: "plus")
+//                    }
+//                    Button(action: {}) {
+//                        Label("", systemImage: "checkmark.square")
+//                    }
+//                }
+
                 // The Second Column, or the detail
                 VStack {
                     switch viewStore.selectedItem {
