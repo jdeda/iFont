@@ -35,17 +35,6 @@ extension Array where Element == Font {
     }
 }
 
-//extension Array where Element == Font {
-//    func groupedByFamily() -> [FontFamily] {
-//        return self
-//            .reduce(into: [String: FontFamily]()) { partial, font in
-//                partial[font.familyName, default: FontFamily(name: font.familyName, fonts: [])].fonts.append(font)
-//            }
-//            .values
-//            .sorted(by: { $0.name < $1.name })
-//    }
-//}
-
 extension Font {
     // For more look into
     // CTFont.h
