@@ -22,7 +22,6 @@ struct FontCollectionView: View {
                     Text("Font count: \(viewStore.collection.fonts.count)")
                         .padding(5)
                 }
-                .frame(minWidth: 260, maxWidth: 380)
                 
                 Group {
                     switch viewStore.selectedItem {

@@ -15,7 +15,6 @@ struct AppView: View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
                 SidebarView(store: store)
-                    .frame(minWidth: 220, maxWidth: 300)
 
                 IfLetStore(
                     store.scope(
