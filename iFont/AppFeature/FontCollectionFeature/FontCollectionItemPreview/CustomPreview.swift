@@ -12,11 +12,13 @@ struct CustomPreview: View {
     var item: FontCollectionItem
     
     var body: some View {
-        switch item {
-        case let .font(font):
-            FontCustomPreview(font: font)
-        case let .fontFamily(fontFamily):
-            FontFamilyCustomPreview(family: fontFamily)
+        ScrollView {
+            switch item {
+            case let .font(font):
+                FontCustomPreview(font: font)
+            case let .fontFamily(fontFamily):
+                FontFamilyCustomPreview(family: fontFamily)
+            }
         }
     }
 }
@@ -52,7 +54,7 @@ fileprivate struct FontCustomPreview: View {
             }
             Spacer(minLength: 64)
         }
-        .font(.custom(font.name, size: 32))
+//        .font(.custom(font.name, size: 32))
     }
 }
 
@@ -60,18 +62,14 @@ fileprivate struct FontFamilyCustomPreview: View {
     var family: FontFamily
     
     var body: some View {
-        HStack(alignment: .center) {
-            List {
-                HStack {
-                    Spacer()
-                    VStack {
-                        ForEach(family.fonts, id: \.name) { font in
-                            FontCustomPreview(font: font)
-                        }
-                    }
-                    Spacer()
+        HStack {
+            Spacer()
+            LazyVStack {
+                ForEach(family.fonts, id: \.name) { font in
+                    FontCustomPreview(font: font)
                 }
             }
+            Spacer()
         }
     }
 }

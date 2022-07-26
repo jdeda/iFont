@@ -24,8 +24,8 @@ struct SamplePreview: View {
             Spacer()
             
             VSlider(value: $fontSize, in: 12 ... 288)
-                .frame(minWidth: 30, maxWidth: 30, maxHeight: .infinity)
-                .padding()
+                .frame(minWidth: 20, maxWidth: 30, maxHeight: .infinity)
+                // .padding()
         }
     }
 }
@@ -115,6 +115,11 @@ fileprivate struct FontSamplePreview: View {
     let font: Font
     var fontSize: Double = 32
     
+    private var swiftUIFont: SwiftUI.Font {
+        let rv = SwiftUI.Font.custom(font.name, size: fontSize)
+        return rv
+    }
+    
     var body: some View {
         VStack {
             Text(font.name)
@@ -128,7 +133,7 @@ fileprivate struct FontSamplePreview: View {
             Text(String.digits)
             Spacer(minLength: 64)
         }
-        .font(.custom(font.name, size: fontSize))
+        .font(self.swiftUIFont)
     }
 }
 
@@ -144,6 +149,7 @@ struct FontSamplePreview_Previews: PreviewProvider {
 fileprivate struct FontFamilySamplePreview: View {
     var family: FontFamily
     var fontSize: Double = 32
+    
     var body: some View {
         VStack(alignment: .center) {
             Text(family.name)

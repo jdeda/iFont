@@ -95,13 +95,16 @@ struct VSlider<V: BinaryFloatingPoint>: View {
     private let lineWidth: CGFloat = 4.5
 
     @State private var validDrag = false
-    
     @Environment(\.colorScheme) var colorScheme
 
-
-    init(value: Binding<V>, in range: ClosedRange<V> = 0...1, step: V.Stride? = nil, onEditingChanged: @escaping (Bool) -> Void = { _ in }) {
+    init(
+        value: Binding<V>,
+        in range: ClosedRange<V> = 0...1,
+        step: V.Stride? = nil,
+        onEditingChanged: @escaping (Bool) -> Void = { _ in }
+    ) {
         self.value = value
-
+        
         if let step = step {
             self.step = step
             var newUpperbound = range.lowerBound
@@ -112,13 +115,13 @@ struct VSlider<V: BinaryFloatingPoint>: View {
         } else {
             self.range = range
         }
-
+        
         self.onEditingChanged = onEditingChanged
     }
 
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
+            ZStack(alignment: .center) {
                 VStack(spacing: 0) {
                     // Gray section of line
                     Rectangle()
@@ -155,6 +158,7 @@ struct VSlider<V: BinaryFloatingPoint>: View {
                             .onChanged(self.handleDragged(in: geometry))
                 )
             }
+            // .border(Color.yellow)
         }
     }
 }
@@ -165,6 +169,7 @@ extension VSlider {
         let location = value.wrappedValue - range.lowerBound
         let scale = V(2 * drawRadius - geometry.size.height) / (range.upperBound - range.lowerBound)
         let y = CGFloat(location * scale) + geometry.size.height - drawRadius
+        
         return CGPoint(x: x, y: y)
     }
 
@@ -195,5 +200,13 @@ extension VSlider {
 extension CGPoint {
     func distance(to point: CGPoint) -> CGFloat {
         sqrt(pow(x - point.x, 2) + pow(y - point.y, 2))
+    }
+}
+
+struct VSlider_Previews: PreviewProvider {
+    static var previews: some View {
+        VSlider(value: .constant(20), in: 12 ... 288)
+            .frame(minWidth: 20, maxWidth: 30, maxHeight: .infinity)
+            // .padding()
     }
 }

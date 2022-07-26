@@ -50,25 +50,24 @@ extension Font {
     // For more look into
     // CTFont.h
     // CTFontDescriptor.h
-    var fontAttributesV2: [FontAttributeKey: String] {
-        return [FontAttributeKey: String]()
-        //        let ctFont = CTFontCreateWithName(self.name as CFString, 12.0, nil)
-        //        // this does not fail because it will return a substitute font
-        //        // ie: Helvetica
-        //        // so make sure we get our guy here ...
-        //        guard (ctFont as NSFont).fontName == self.name
-        //        else {
-        //            Logger.log("error: 'could not create the proper font: \(self.name)'")
-        //            return [String: String]()
-        //        }
-        //
-        //        // TODO: kdeda
-        //        // extract as much as possible info from the NSFont
-        //        return FontAttributeKey.allCases.reduce(into: [String: String](), { partialResult, nextItem in
-        //            if let value = CTFontCopyName(ctFont, nextItem.nameKey) as String? {
-        //                Logger.log("\(nextItem.nameKey): \(value)")
-        //                partialResult[nextItem.nameKeyString] = value
-        //            }
-        //        })
+    var fetchFontAttributes: [FontAttributeKey: String] {
+        let ctFont = CTFontCreateWithName(self.name as CFString, 12.0, nil)
+        // this does not fail because it will return a substitute font
+        // ie: Helvetica
+        // so make sure we get our guy here ...
+        guard (ctFont as NSFont).fontName == self.name
+        else {
+            Logger.log("error: 'could not create the proper font: \(self.name)'")
+            return [FontAttributeKey: String]()
+        }
+        
+        // TODO: kdeda
+        // extract as much as possible info from the NSFont
+        return FontAttributeKey.allCases.reduce(into: [FontAttributeKey: String](), { partialResult, nextItem in
+            if let value = CTFontCopyName(ctFont, nextItem.key) as String? {
+                Logger.log("\(nextItem.title): \(value)")
+                partialResult[nextItem] = value
+            }
+        })
     }
 }

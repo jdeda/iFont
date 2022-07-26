@@ -12,11 +12,13 @@ struct InfoPreview: View {
     var item: FontCollectionItem
     
     var body: some View {
-        switch item {
-        case let .font(font):
-            FontInfoPreview(font: font)
-        case let .fontFamily(fontFamily):
-            FontFamilyInfoPreview(family: fontFamily)
+        ScrollView {
+            switch item {
+            case let .font(font):
+                FontInfoPreview(font: font)
+            case let .fontFamily(fontFamily):
+                FontFamilyInfoPreview(family: fontFamily)
+            }
         }
     }
 }

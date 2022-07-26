@@ -12,7 +12,7 @@ struct FontFamilyInfoPreview: View {
     let family: FontFamily
     
     var body: some View {
-        List {
+        LazyVStack {
             ForEach(family.fonts, id: \.name) { font in
                 FontInfoPreview(font: font)
             }

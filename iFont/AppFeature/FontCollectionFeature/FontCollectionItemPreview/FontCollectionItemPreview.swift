@@ -13,16 +13,16 @@ struct FontCollectionItemPreview: View {
     var item: FontCollectionItem
     
     var body: some View {
-            switch selection {
-            case .sample:
-                SamplePreview(item: item)
-            case .repertoire:
-                RepertoirePreview(item: item)
-            case .custom:
-                CustomPreview(item: item)
-            case .info:
-                InfoPreview(item: item)
-            }
+        switch selection {
+        case .sample:
+            SamplePreview(item: item)
+        case .repertoire:
+            RepertoirePreview(item: item)
+        case .custom:
+            CustomPreview(item: item)
+        case .info:
+            InfoPreview(item: item)
+        }
     }
 }
 

@@ -9,8 +9,13 @@ import SwiftUI
 import ComposableArchitecture
 
 struct FontInfoPreview: View {
-    let font: Font
-
+    var font: Font
+    
+    init(font: Font) {
+        self.font = font
+        self.font.attributes = font.fetchFontAttributes
+    }
+    
     var body: some View {
         VStack {
             // Title.

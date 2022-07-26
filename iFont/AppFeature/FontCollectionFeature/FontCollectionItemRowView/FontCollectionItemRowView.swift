@@ -48,7 +48,7 @@ fileprivate struct FontRowView: View {
     
     var body: some View {
         Text("\(font.attributes[.style] ?? font.name)")
-            .padding(.leading, 40)
+            .padding(.leading, 30)
     }
 }
 

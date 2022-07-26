@@ -35,6 +35,8 @@ extension FontAttributeKey: Identifiable {
     }
 }
 
+extension FontAttributeKey: Hashable {}
+
 extension FontAttributeKey {
     var key: CFString {
         switch self {
