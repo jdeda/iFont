@@ -13,7 +13,7 @@ struct FontCollectionState: Equatable {
     // wip
     var selectedExpansions = Set<FontCollectionItem.ID>()
     var selectedPreview: FontCollectionItemPreviewType = .sample
-
+    
     init(collection: FontCollection) {
         self.collection = collection
         self.items = self.collection.fontFamilies.map(\.itemType)
@@ -43,7 +43,7 @@ extension FontCollectionState {
                 
                 if let index = state.items.firstIndex(where: { $0.id == state.selectedItemID }) {
                     let itemType = state.items[index]
-
+                    
                     state.selectedItem = itemType
                     Logger.log("selectedItemType: \(itemType)")
                     switch itemType {
@@ -55,7 +55,7 @@ extension FontCollectionState {
                     state.selectedItem = nil
                 }
                 return .none
-
+                
             case .binding:
                 return .none
                 
@@ -94,10 +94,20 @@ extension FontCollectionState {
     static let liveState =  FontCollectionState(collection: .init())
     static let mockState = FontCollectionState(collection: .init(
         type: .library(URL(fileURLWithPath: NSTemporaryDirectory())),
-        fonts: [Font(
-            url: URL(fileURLWithPath: NSTemporaryDirectory()),
-            name: "KohinoorBangla",
-            familyName: "KohinoorBangla")]
+        fonts: (1...10).map {
+            .init(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "Chicken \($0)",
+                familyName: "Cheese \($0)"
+            )
+        },
+        fontFamilies: (1...10).map {
+            .init(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "Chicken \($0)",
+                familyName: "Cheese \($0)"
+            )
+        }.groupedByFamily()
     ))
 }
 
