@@ -9,32 +9,63 @@ import SwiftUI
 import ComposableArchitecture
 
 struct FontCollectionItemPreview: View {
-    var selection: FontCollectionItemPreviewType
-    var item: FontCollectionItem
+    let selection: FontCollectionItemPreviewType
+    let item: FontCollectionItem
+    
+    init(selection: FontCollectionItemPreviewType, item: FontCollectionItem) {
+        self.selection = selection
+        self.item = item
+    }
     
     var body: some View {
         switch selection {
         case .sample:
-            SamplePreview(item: item)
+            SamplePreview(fonts: itemToFonts(item))
         case .repertoire:
-            RepertoirePreview(item: item)
+            RepertoirePreview(fonts: itemToFonts(item))
         case .custom:
-            CustomPreview(item: item)
+            CustomPreview(fonts: itemToFonts(item))
         case .info:
-            InfoPreview(item: item)
+            InfoPreview(fonts: itemToFonts(item))
+        }
+    }
+    
+    private func itemToFonts(_ item: FontCollectionItem) -> [Font] {
+        switch item {
+        case let .font(font):
+            return [font]
+        case let .fontFamily(family):
+            return family.fonts
         }
     }
 }
-
 
 struct ItemTypePreview_Previews: PreviewProvider {
     static var previews: some View {
         FontCollectionItemPreview(
             selection: .sample,
-            item: FontCollectionItem.fontFamily(FontFamily(name: "Cheese", fonts: mock_fonts))
+            item: .fontFamily(FontFamily(name: "Cheese", fonts: mock_fonts))
         )
     }
 }
+
+//struct FontCollectionItemPreview: View {
+//    var selection: FontCollectionItemPreviewType
+//    var item: FontCollectionItem
+//
+//    var body: some View {
+//        switch selection {
+//        case .sample:
+//            SamplePreview(item: item)
+//        case .repertoire:
+//            RepertoirePreview(item: item)
+//        case .custom:
+//            CustomPreview(item: item)
+//        case .info:
+//            InfoPreview(item: item)
+//        }
+//    }
+//}
 
 //struct FontCollectionItemPreview: View {
 //    let store: Store<FontCollectionState, FontCollectionAction>

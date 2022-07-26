@@ -9,15 +9,14 @@ import SwiftUI
 import ComposableArchitecture
 
 struct InfoPreview: View {
-    var item: FontCollectionItem
+    let fonts: [Font]
     
     var body: some View {
         ScrollView {
-            switch item {
-            case let .font(font):
-                FontInfoPreview(font: font)
-            case let .fontFamily(fontFamily):
-                FontFamilyInfoPreview(family: fontFamily)
+            LazyVStack {
+                ForEach(fonts) { font in
+                    FontInfoPreview(font: font)
+                }
             }
         }
     }
@@ -25,9 +24,7 @@ struct InfoPreview: View {
 
 struct ItemTypeInfoPreview_Previews: PreviewProvider {
     static var previews: some View {
-        InfoPreview(
-            item: .fontFamily(.init(name: "Cheese",fonts: mock_fonts))
-        )
+        InfoPreview(fonts: mock_fonts)
     }
 }
 

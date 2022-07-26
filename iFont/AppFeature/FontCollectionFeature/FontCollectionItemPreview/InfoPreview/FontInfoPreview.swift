@@ -18,12 +18,9 @@ struct FontInfoPreview: View {
     
     var body: some View {
         VStack {
+            
             // Title.
             VStack(alignment: .center) {
-                
-                // TODO: jdeda
-                // In rare cases there is a big space
-                // between these two text views.
                 Text(font.attributes[.full] ?? font.name)
                     .font(.custom(font.name, size: 20))
                 Text(font.attributes[.full] ?? font.name)
@@ -55,5 +52,45 @@ struct FontInfoPreview_Previews: PreviewProvider {
             familyName: "Cheese",
             attributes: mock_font_attributes
         ))
+    }
+}
+
+
+fileprivate struct FontAttributePreview: View {
+    private let font: Font
+    private let fontAttributeKey: FontAttributeKey
+    
+    init(_ font: Font, fontAttributeKey: FontAttributeKey) {
+        self.font = font
+        self.fontAttributeKey = fontAttributeKey
+    }
+    
+    var body: some View {
+        if let attribute = font.attributes[fontAttributeKey] {
+            HStack(alignment: .firstTextBaseline) {
+                Text("\(fontAttributeKey.title)")
+                    .foregroundColor(.secondary)
+                    .frame(width: 150, alignment: .topTrailing)
+                Text(attribute)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        else {
+            EmptyView()
+        }
+    }
+}
+
+fileprivate struct FontAttributePreview_Previews: PreviewProvider {
+    static var previews: some View {
+        FontAttributePreview(
+            Font(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "Chicken",
+                familyName: "Cheese",
+                attributes: mock_font_attributes
+            ),
+            fontAttributeKey: .copyright
+        )
     }
 }

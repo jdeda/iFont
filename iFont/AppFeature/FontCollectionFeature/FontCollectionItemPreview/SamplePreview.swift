@@ -9,18 +9,8 @@ import SwiftUI
 import ComposableArchitecture
 
 struct SamplePreview: View {
-    let fonts: [Font]
-    
     @State var fontSize: Double = 32
-    
-    init(item: FontCollectionItem) {
-        switch item {
-        case let .font(font):
-            self.fonts = [font]
-        case let .fontFamily(family):
-            self.fonts = family.fonts
-        }
-    }
+    let fonts: [Font]
     
     var body: some View {
         HStack {
@@ -68,7 +58,7 @@ struct SamplePreview: View {
 
 struct SamplePreview_Previews: PreviewProvider {
     static var previews: some View {
-        SamplePreview(item: FontCollectionItem.fontFamily(FontFamily(name: "Cheese", fonts: mock_fonts)))
+        SamplePreview(fonts: mock_fonts)
     }
 }
 

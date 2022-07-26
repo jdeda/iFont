@@ -11,15 +11,6 @@ import ComposableArchitecture
 struct CustomPreview: View {
     let fonts: [Font]
     
-    init(item: FontCollectionItem) {
-        switch item {
-        case let .font(font):
-            self.fonts = [font]
-        case let.fontFamily(family):
-            self.fonts = family.fonts
-        }
-    }
-    
     var body: some View {
         ScrollView {
             ForEach(fonts) { font in
@@ -52,7 +43,7 @@ struct CustomPreview: View {
 
 struct ItemTypeCustomPreview_Previews: PreviewProvider {
     static var previews: some View {
-        CustomPreview(item: .fontFamily(.init(name: "Chicken", fonts: mock_fonts)))
+        CustomPreview(fonts: mock_fonts)
     }
 }
 

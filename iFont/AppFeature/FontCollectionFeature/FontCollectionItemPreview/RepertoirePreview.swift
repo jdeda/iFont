@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct RepertoirePreview: View {
-    var item: FontCollectionItem
+    let fonts: [Font]
     
     var body: some View {
         Text("FontRepertoirePreviewView")
@@ -18,6 +18,6 @@ struct RepertoirePreview: View {
 
 struct ItemTypeRepertoirePreview_Previews: PreviewProvider {
     static var previews: some View {
-        RepertoirePreview(item: .fontFamily(.init(name: "Cheese",fonts: mock_fonts)))
+        RepertoirePreview(fonts: mock_fonts)
     }
 }
