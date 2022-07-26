@@ -75,7 +75,7 @@ struct ItemTypeInfoPreview_Previews: PreviewProvider {
 //    }
 //}
 
-struct FontInfoPreview: View {
+fileprivate struct FontInfoPreview: View {
     var font: Font
     
     init(font: Font) {
@@ -111,7 +111,7 @@ struct FontInfoPreview: View {
     }
 }
 
-struct FontInfoPreview_Previews: PreviewProvider {
+fileprivate struct FontInfoPreview_Previews: PreviewProvider {
     static var previews: some View {
         FontInfoPreview(font: Font(
             url: URL(fileURLWithPath: NSTemporaryDirectory()),
