@@ -11,21 +11,45 @@ import ComposableArchitecture
 struct SamplePreview: View {
     let store: Store<FontCollectionState, FontCollectionAction>
     var item: FontCollectionItem
-    @State var fontSize: Double = 12
+    @State var fontSize: Double = 32
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
+            //                .rotated()
             HStack {
                 switch item {
                 case let .font(font):
-                    FontSamplePreview(font: font)
+                    FontSamplePreview(font: font, fontSize: fontSize)
                 case let .fontFamily(fontFamily):
-                    FontFamilySamplePreview(family: fontFamily)
+                    FontFamilySamplePreview(family: fontFamily, fontSize: fontSize)
                 }
+  
                 
-                // https://stackoverflow.com/questions/58073203/how-can-i-make-a-bunch-of-vertical-sliders-in-swiftui
-                Slider(value: $fontSize, in: 12 ... 64)
-                    .rotationEffect(.degrees(90))
+                Spacer()
+                
+                VSlider(value: $fontSize, in: 12 ... 288)
+                    .frame(minWidth: 30, maxWidth: 30, maxHeight: .infinity)
+                    .padding()
+                
+//                Slider(value: $fontSize, in: 12 ... 288)
+//                    .rotationEffect(.degrees(-90))
+//                    .frame(minWidth: 300, maxWidth: 300)
+//                    .frame(maxHeight: .infinity)
+//                    .padding(.bottom, 10)
+                
+            //https://stackoverflow.com/questions/58073203/how-can-i-make-a-bunch-of-vertical-sliders-in-swiftui
+                //                Slider(value: $fontSize, in: 12 ... 64)
+                ////                    .rotated()
+                ////                    .rotationEffect(.degrees(-90))
+                ////                    .readSize { newSize in
+                ////                        sliderSize = newSize
+                ////                        print("new size: \(newSize)")
+                ////                    }
+                ////                    .frame(
+                ////                        width: sliderSize.width,
+                ////                        height: sliderSize.height
+                ////                    )
+                //            }
             }
         }
     }
@@ -53,6 +77,7 @@ struct SamplePreview_Previews: PreviewProvider {
 
 fileprivate struct FontSamplePreview: View {
     let font: Font
+    var fontSize: Double = 32
     
     var body: some View {
         VStack {
@@ -67,7 +92,7 @@ fileprivate struct FontSamplePreview: View {
             Text(String.digits)
             Spacer(minLength: 64)
         }
-        .font(.custom(font.name, size: 32))
+        .font(.custom(font.name, size: fontSize))
     }
 }
 
@@ -82,7 +107,7 @@ struct FontSamplePreview_Previews: PreviewProvider {
 
 fileprivate struct FontFamilySamplePreview: View {
     var family: FontFamily
-    
+    var fontSize: Double = 32
     var body: some View {
         VStack(alignment: .center) {
             Text(family.name)
@@ -92,7 +117,7 @@ fileprivate struct FontFamilySamplePreview: View {
                         Spacer()
                         VStack {
                             ForEach(family.fonts, id: \.name) { font in
-                                FontSamplePreview(font: font)
+                                FontSamplePreview(font: font, fontSize: fontSize)
                             }
                         }
                         Spacer()
