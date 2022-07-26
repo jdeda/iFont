@@ -34,20 +34,22 @@ struct AppState: Equatable {
     var selectedCollectionState: FontCollectionState? = nil
     
     var librarySection: [FontCollection] = [
-        .init(type: .allFontsLibrary, fonts: []),
-        .init(type: .computerLibrary, fonts: []),
-        .init(type: .standardUserLibrary, fonts: [])
+        .init(type: .allFontsLibrary, fonts: [], name: "All Fonts"),
+        .init(type: .computerLibrary, fonts: [], name: "Computer"),
+        .init(type: .standardUserLibrary, fonts: [], name: "User"),
     ]
     
     var smartSection: [FontCollection] = [
-        .init(type: .smart, fonts: []),
-        .init(type: .smart, fonts: []),
+        .init(type: .smart, fonts: [], name: "English"),
+        .init(type: .smart, fonts: [], name: "Fixed Width")
     ]
     
     var normalSection: [FontCollection] = [
-        .init(type: .basic, fonts: []),
-        .init(type: .basic, fonts: []),
-        .init(type: .basic, fonts: [])
+        .init(type: .basic, fonts: [], name: "Fun"),
+        .init(type: .basic, fonts: [], name: "Modern"),
+        .init(type: .basic, fonts: [], name: "PDF"),
+        .init(type: .basic, fonts: [], name: "Traditional"),
+        .init(type: .basic, fonts: [], name: "Web")
     ]
 }
 
@@ -105,7 +107,7 @@ extension AppState {
                 // Add new fonts and update libraries.
                 state.fonts.append(contentsOf: newFonts)
                 state.librarySection = state.librarySection.map {
-                    .init(type: $0.type, fonts: $0.fonts + newFonts.filter($0.type.matchingFonts))
+                    .init(type: $0.type, fonts: $0.fonts + newFonts.filter($0.type.matchingFonts), name: $0.name)
                 }
                 
                 // TODO: jdeda

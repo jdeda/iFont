@@ -30,7 +30,7 @@ struct FontCollectionView: View {
                     Text("No fonts selected")
                 }
             }
-            .navigationTitle(viewStore.state.collection.type.imageSystemName)
+            .navigationTitle(viewStore.state.collection.name)
             .navigationSubtitle("\(viewStore.collection.fonts.count) fonts")
             .toolbar {
                 Picker("Detail View", selection: viewStore.binding(

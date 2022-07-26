@@ -57,7 +57,7 @@ fileprivate struct SidebarView: View {
                 get: \.selectedCollection,
                 send: AppAction.madeSelection
             )) {
-                fontCollectionsSection(header: "Library", viewStore.librarySection)
+                fontCollectionsSection(header: "Libraries", viewStore.librarySection)
                 fontCollectionsSection(header: "Smart Collections", viewStore.smartSection)
                 fontCollectionsSection(header: "Collections", viewStore.normalSection)
             }
@@ -78,7 +78,7 @@ fileprivate struct SidebarView: View {
                     Image(systemName: collection.type.imageSystemName)
                         .foregroundColor(collection.type.accentColor)
                         .frame(width: 20, height: 20)
-                    Text(collection.type.labelString)
+                    Text(collection.name)
                     Text("\(collection.fonts.count)")
                         .bold()
                 }

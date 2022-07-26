@@ -36,18 +36,6 @@ extension FontCollectionType {
         }
     }
 
-    var labelString: String {
-        switch self {
-        case .unknown:             return "Unknown"
-        case .allFontsLibrary:     return "All Fonts"
-        case .computerLibrary:     return "Computer"
-        case .standardUserLibrary: return "User"
-        case .library:             return "Library"
-        case .smart:               return "Smart"
-        case .basic:               return "Basic"
-        }
-    }
-
     var accentColor: Color {
         switch self {
         case .unknown:             return .gray

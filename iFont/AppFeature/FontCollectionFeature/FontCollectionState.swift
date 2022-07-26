@@ -94,20 +94,21 @@ extension FontCollectionState {
     static let liveState =  FontCollectionState(collection: .init())
     static let mockState = FontCollectionState(collection: .init(
         type: .library(URL(fileURLWithPath: NSTemporaryDirectory())),
-        fonts: (1...10).map {
+        fonts: (0...10).map {
             .init(
                 url: URL(fileURLWithPath: NSTemporaryDirectory()),
                 name: "Chicken \($0)",
                 familyName: "Cheese \($0)"
             )
         },
-        fontFamilies: (1...10).map {
+        fontFamilies: (0...10).map {
             .init(
                 url: URL(fileURLWithPath: NSTemporaryDirectory()),
                 name: "Chicken \($0)",
-                familyName: "Cheese \($0)"
+                familyName: "Cheese"
             )
-        }.groupedByFamily()
+        }.groupedByFamily(),
+        name: "Sushi Combo Fonts"
     ))
 }
 

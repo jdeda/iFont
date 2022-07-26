@@ -15,34 +15,21 @@ import Foundation
 struct FontCollection: Equatable, Hashable, Codable {
     let id = UUID()
     var type: FontCollectionType = .unknown
-    // TODO: kdeda
-    // Rename to something like "FontCollectionCategory"
     var fonts: [Font]
     var fontFamilies: [FontFamily]
+    var name: String
     
     init(
         type: FontCollectionType = .unknown,
         fonts: [Font] = [Font](),
-        fontFamilies: [FontFamily] = [FontFamily]()
+        fontFamilies: [FontFamily] = [FontFamily](),
+        name: String = "Untitled"
     ) {
         self.type = type
         self.fonts = fonts
         self.fontFamilies = fontFamilies
+        self.name = name
     }
-        
-//    let id = UUID()
-//    var type: FontCollectionType = .unknown // TODO: Rename to something like "FontCollectionCategory"
-//    var fonts = [Font]()
-//    public private(set) var fontFamilies = [FontFamily]()   /// derived
-//
-//    init(
-//        type: FontCollectionType = .unknown,
-//        fonts: [Font] = [Font]()
-//    ) {
-//        self.type = type
-//        self.fonts = fonts
-//        self.fontFamilies = self.fonts.groupedByFamily()
-//    }
 }
 
 extension FontCollection: Identifiable {}
