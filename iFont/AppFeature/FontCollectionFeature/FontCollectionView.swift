@@ -23,15 +23,15 @@ struct FontCollectionView: View {
                         .padding(5)
                 }
                 .frame(minWidth: 260, maxWidth: 380)
-//                .toolbar {
-//                    Button(action: {}) {
-//                        Label("", systemImage: "plus")
-//                    }
-//                    Button(action: {}) {
-//                        Label("", systemImage: "checkmark.square")
-//                    }
-//                }
-
+                //                .toolbar {
+                //                    Button(action: {}) {
+                //                        Label("", systemImage: "plus")
+                //                    }
+                //                    Button(action: {}) {
+                //                        Label("", systemImage: "checkmark.square")
+                //                    }
+                //                }
+                
                 // The Second Column, or the detail
                 VStack {
                     switch viewStore.selectedItem {
@@ -41,6 +41,8 @@ struct FontCollectionView: View {
                         Text("No fonts selected")
                     }
                 }
+                .navigationTitle(viewStore.state.collection.type.imageSystemName)
+                .navigationSubtitle("\(viewStore.collection.fonts.count) fonts")
                 .toolbar {
                     Picker("Detail View", selection: viewStore.binding(
                         get: \.selectedPreview,
