@@ -68,15 +68,7 @@ struct SamplePreview: View {
 
 struct SamplePreview_Previews: PreviewProvider {
     static var previews: some View {
-        let fonts = (1...10).map { int in
-            Font(
-                url: URL(fileURLWithPath: NSTemporaryDirectory()),
-                name: "Chicken \(int)",
-                familyName: "Cheese"
-            )
-        }
-        
-        SamplePreview(item: FontCollectionItem.fontFamily(FontFamily(name: "Cheese", fonts: fonts)))
+        SamplePreview(item: FontCollectionItem.fontFamily(FontFamily(name: "Cheese", fonts: mock_fonts)))
     }
 }
 

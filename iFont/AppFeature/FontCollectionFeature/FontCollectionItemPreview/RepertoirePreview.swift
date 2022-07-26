@@ -18,14 +18,6 @@ struct RepertoirePreview: View {
 
 struct ItemTypeRepertoirePreview_Previews: PreviewProvider {
     static var previews: some View {
-        let fonts = (1...10).map { int in
-            Font(
-                url: URL(fileURLWithPath: NSTemporaryDirectory()),
-                name: "Chicken \(int)",
-                familyName: "Cheese"
-            )
-        }
-        
-        RepertoirePreview(item: FontCollectionItem.fontFamily(FontFamily(name: "Cheese", fonts: fonts)))
+        RepertoirePreview(item: .fontFamily(.init(name: "Cheese",fonts: mock_fonts)))
     }
 }

@@ -49,21 +49,11 @@ struct FontInfoPreview: View {
 
 struct FontInfoPreview_Previews: PreviewProvider {
     static var previews: some View {
-        let attributes: [FontAttributeKey: String] =  {
-            var ats = Dictionary(
-                uniqueKeysWithValues: zip(
-                    FontAttributeKey.allCases,
-                    String.alphabet.accumulatingStrings()
-                )
-            )
-            ats[.copyright] = String.alphabet + String.alphabet + String.alphabet + String.alphabet
-            return ats
-        }()
         FontInfoPreview(font: Font(
             url: URL(fileURLWithPath: NSTemporaryDirectory()),
             name: "Chicken",
             familyName: "Cheese",
-            attributes: attributes
+            attributes: mock_font_attributes
         ))
     }
 }

@@ -21,30 +21,10 @@ struct FontFamilyInfoPreview: View {
 }
 
 struct FontFamilyInfoPreview_Previews: PreviewProvider {
-    static var previews: some View {
-        
-        let attributes: [FontAttributeKey: String] =  {
-            var ats = Dictionary(
-                uniqueKeysWithValues: zip(
-                    FontAttributeKey.allCases,
-                    String.alphabet.accumulatingStrings()
-                )
-            )
-            ats[.copyright] = String.alphabet + String.alphabet + String.alphabet + String.alphabet
-            return ats
-        }()
-        
-        let fonts = (1...10).map { int in
-            Font(
-                url: URL(fileURLWithPath: NSTemporaryDirectory()),
-                name: "Chicken \(int)",
-                familyName: "Cheese",
-                attributes: attributes
-            )
-        }
+    static var previews: some View {        
         FontFamilyInfoPreview(family: FontFamily(
             name: "Cheese",
-            fonts: fonts
+            fonts: mock_fonts
         ))
     }
 }
