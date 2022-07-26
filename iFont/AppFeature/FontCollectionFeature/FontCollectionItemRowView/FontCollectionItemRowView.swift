@@ -69,8 +69,6 @@ fileprivate struct FontFamilyRowView: View {
     }
 }
 
-// TODO: jdeda - done
-// Fix me
 fileprivate struct FontFamilyRowView_Previews: PreviewProvider {
     static var previews: some View {
         FontFamilyRowView(

@@ -61,10 +61,8 @@ extension FontAttributeKey {
         }
     }
     
-    // TODO: jdeda - done
-    // Please provide all strings here
     var title: String {
-        switch self {             // we don't have these easily
+        switch self {            
             case .copyright:     return "Copyright"
             case .family:        return "Family name"
             case .subfamily:     return "Sub Familly name"
