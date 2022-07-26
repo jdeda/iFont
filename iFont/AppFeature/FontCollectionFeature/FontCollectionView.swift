@@ -23,25 +23,23 @@ struct FontCollectionView: View {
                         .padding(5)
                 }
                 
-                Group {
-                    switch viewStore.selectedItem {
-                    case let .some(item):
-                        FontCollectionItemPreview(selection: viewStore.selectedPreview, item: item)
-                    case .none:
-                        Text("No fonts selected")
-                    }
+                switch viewStore.selectedItem {
+                case let .some(item):
+                    FontCollectionItemPreview(selection: viewStore.selectedPreview, item: item)
+                case .none:
+                    Text("No fonts selected")
                 }
-                .navigationTitle(viewStore.state.collection.type.imageSystemName)
-                .navigationSubtitle("\(viewStore.collection.fonts.count) fonts")
-                .toolbar {
-                    Picker("Detail View", selection: viewStore.binding(
-                        get: \.selectedPreview,
-                        send: FontCollectionAction.selectedPreviewType)
-                    ) {
-                        ForEach(FontCollectionItemPreviewType.allCases, id: \.self) { $0.image }
-                    }
-                    .pickerStyle(.segmented)
+            }
+            .navigationTitle(viewStore.state.collection.type.imageSystemName)
+            .navigationSubtitle("\(viewStore.collection.fonts.count) fonts")
+            .toolbar {
+                Picker("Detail View", selection: viewStore.binding(
+                    get: \.selectedPreview,
+                    send: FontCollectionAction.selectedPreviewType)
+                ) {
+                    ForEach(FontCollectionItemPreviewType.allCases, id: \.self) { $0.image }
                 }
+                .pickerStyle(.segmented)
             }
             .background(Color.init(NSColor.controlBackgroundColor))
         }
