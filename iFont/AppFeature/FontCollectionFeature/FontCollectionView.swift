@@ -23,20 +23,11 @@ struct FontCollectionView: View {
                         .padding(5)
                 }
                 .frame(minWidth: 260, maxWidth: 380)
-                //                .toolbar {
-                //                    Button(action: {}) {
-                //                        Label("", systemImage: "plus")
-                //                    }
-                //                    Button(action: {}) {
-                //                        Label("", systemImage: "checkmark.square")
-                //                    }
-                //                }
                 
-                // The Second Column, or the detail
-                VStack {
+                Group {
                     switch viewStore.selectedItem {
                     case let .some(item):
-                        FontCollectionItemPreview(store: store, selection: viewStore.selectedPreview, item: item)
+                        FontCollectionItemPreview(selection: viewStore.selectedPreview, item: item)
                     case .none:
                         Text("No fonts selected")
                     }

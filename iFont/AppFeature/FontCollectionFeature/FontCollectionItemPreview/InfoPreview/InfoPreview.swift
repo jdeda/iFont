@@ -9,9 +9,8 @@ import SwiftUI
 import ComposableArchitecture
 
 struct InfoPreview: View {
-    let store: Store<FontCollectionState, FontCollectionAction>
     var item: FontCollectionItem
-        
+    
     var body: some View {
         switch item {
         case let .font(font):
@@ -22,8 +21,6 @@ struct InfoPreview: View {
     }
 }
 
-// TODO: jdeda - done
-// Fix me
 struct ItemTypeInfoPreview_Previews: PreviewProvider {
     static var previews: some View {
         
@@ -48,7 +45,6 @@ struct ItemTypeInfoPreview_Previews: PreviewProvider {
         }
         
         InfoPreview(
-            store: FontCollectionState.mockStore,
             item: FontCollectionItem.fontFamily(FontFamily(
                 name: "Cheese",
                 fonts: fonts)

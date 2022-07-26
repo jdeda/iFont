@@ -9,7 +9,6 @@ import SwiftUI
 import ComposableArchitecture
 
 struct RepertoirePreview: View {
-    let store: Store<FontCollectionState, FontCollectionAction>
     var item: FontCollectionItem
     
     var body: some View {
@@ -17,8 +16,6 @@ struct RepertoirePreview: View {
     }
 }
 
-// TODO: jdeda - done
-// Fix me
 struct ItemTypeRepertoirePreview_Previews: PreviewProvider {
     static var previews: some View {
         let fonts = (1...10).map { int in
@@ -29,9 +26,6 @@ struct ItemTypeRepertoirePreview_Previews: PreviewProvider {
             )
         }
         
-        RepertoirePreview(
-            store: FontCollectionState.mockStore,
-            item: FontCollectionItem.fontFamily(FontFamily(name: "Cheese", fonts: fonts))
-        )
+        RepertoirePreview(item: FontCollectionItem.fontFamily(FontFamily(name: "Cheese", fonts: fonts)))
     }
 }
