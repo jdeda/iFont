@@ -35,15 +35,14 @@ struct FontAttributePreview: View {
 
 struct FontAttributePreview_Previews: PreviewProvider {
     static var previews: some View {
-            FontAttributePreview(
-                Font(
-                    url: URL(fileURLWithPath: NSTemporaryDirectory()),
-                    name: "Chicken",
-                    familyName: "Cheese",
-                    attributes: mock_font_attributes
-                ),
-                fontAttributeKey: .copyright
-            )
-        }
+        FontAttributePreview(
+            Font(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "Chicken",
+                familyName: "Cheese",
+                attributes: mock_font_attributes
+            ),
+            fontAttributeKey: .copyright
+        )
     }
 }
