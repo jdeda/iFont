@@ -12,7 +12,7 @@ struct SamplePreview: View {
     let fonts: [Font]
     
     @State var fontSize: Double = 32
-
+    
     init(item: FontCollectionItem) {
         switch item {
         case let .font(font):
@@ -21,15 +21,18 @@ struct SamplePreview: View {
             self.fonts = family.fonts
         }
     }
-        
+    
     var body: some View {
         HStack {
             List {
                 ForEach(fonts, id: \.name) { font in
-                    HStack {
-                        Spacer()
-                        FontSamplePreview(font: font, fontSize: fontSize)
-                        Spacer()
+                    VStack {
+                        HStack {
+                            Spacer()
+                            FontSamplePreview(font: font, fontSize: fontSize)
+                            Spacer()
+                        }
+                        Spacer(minLength: 25)
                     }
                 }
             }
@@ -74,7 +77,7 @@ struct SamplePreview_Previews: PreviewProvider {
                 familyName: "Cheese"
             )
         }
-                
+        
         SamplePreview(item: FontCollectionItem.fontFamily(FontFamily(name: "Cheese", fonts: fonts)))
     }
 }
