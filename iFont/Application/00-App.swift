@@ -34,7 +34,6 @@ private struct Sidebar: View {
                             Label("All Fonts", systemImage: "f.square")
                             Text("123")
                         }
-                        .background(Color.red)
                     }
                 )
                 NavigationLink(
