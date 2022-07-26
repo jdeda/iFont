@@ -26,14 +26,12 @@ struct SamplePreview: View {
         HStack {
             List {
                 ForEach(fonts, id: \.name) { font in
-                    VStack {
-                        HStack {
-                            Spacer()
-                            FontSamplePreview(font: font, fontSize: fontSize)
-                            Spacer()
-                        }
-                        Spacer(minLength: 25)
+                    HStack {
+                        Spacer()
+                        FontSamplePreview(font: font, fontSize: fontSize)
+                        Spacer()
                     }
+                    .padding(.bottom, 30)
                 }
             }
             VSlider(value: $fontSize, in: 12 ... 288)
