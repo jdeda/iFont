@@ -13,7 +13,7 @@ struct CompactPicker: View {
     
     @Binding var selection: Int
     @State var data: [Int]
-    @State var expanded: Bool = false
+    @State var expanded: Bool = true
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -31,7 +31,8 @@ struct CompactPicker: View {
                     }
                 ))
                 .textFieldStyle(PlainTextFieldStyle())
-                .frame(width: 25)
+                .frame(width: 20)
+                .padding(.horizontal, 5)
                 Button {
                     expanded.toggle()
                 } label: {
@@ -46,7 +47,7 @@ struct CompactPicker: View {
                 .buttonStyle(.plain)
             }
             .padding(2)
-//            .background(Color(NSColor.windowBackground))  // MARK: Light, dark
+            .background(Color(NSColor.windowBackground))  // MARK: Light, dark
             .cornerRadius(6)
             .overlay(
                 RoundedRectangle(cornerRadius: 6)
@@ -60,10 +61,13 @@ struct CompactPicker: View {
                     List(selection: .init($selection)) {
                         ForEach(data, id: \.self) { int in
                             Text("\(int)").tag(int)
-                                .padding(.top, -5)
-                                .padding(.horizontal,1)
+                                .padding(.bottom, -5)
                             }
+                        .frame(width: 75, alignment: .leading)
+                        .padding(.horizontal, 7)
                     }
+                    .listStyle(PlainListStyle())
+//                    .listStyle(SidebarListStyle())
                     .cornerRadius(8)
                     // .scrollContentBackground(Color(NSColor.windowBackground))
                     // XCode14b3...  // MARK: Light, dark
