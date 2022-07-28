@@ -52,49 +52,44 @@ struct ItemTypePreview_Previews: PreviewProvider {
 // MARK: Sample, Repetoire, and Custom previews are really just a list of individual font detail views
 // MARK: stuffed next to a slider and picker that can resize them (well, their fonts).
 //struct FontResizeView: View {
-//    @State var fontSize: Double = 32
-//    let fonts: [Font]
-//    let selection: FontCollectionItemPreviewType
-//    
-//    var body: some View {
-//        VStack(spacing: 10) {
-//            HStack {
-//                Spacer()
-//                Picker("Size:", selection: Binding<Int>(
+//@State var fontSize: Double = 32
+//let fonts: [Font]
+//let fontSizes = [9,10,11,12,14,18,24,36,48,64, 72, 96, 144, 288].sorted()
+//
+//var body: some View {
+//    VStack(spacing: 10) {
+//        HStack {
+//            Spacer()
+//            CompactPicker(
+//                label: "Size:",
+//                selection: Binding<Int>(
 //                    get: { Int(fontSize) },
 //                    set: { fontSize = Double($0) }
-//                )) {
-//                    ForEach(12...288, id: \.self) {
-//                        Text("\($0)").tag($0)
-//                    }
-//                }
-//                .frame(width: 95, height: 30)
-//            }
-//            HStack {
-//                //                List {
-//                //                    ForEach(fonts) { font in
-//                //                        HStack {
-//                //                            Spacer()
-//                //                            SamplePreview(fonts: fonts)
-//                ////                            switch selection {
-//                ////                                case .sample:       SamplePreview(fonts: fonts)
-//                ////                                case .repertoire:   RepertoirePreview(fonts: fonts)
-//                ////                                case .custom:       CustomPreview(fonts: fonts)
-//                ////                                default:            EmptyView()
-//                ////                            }
-//                //                            Spacer()
-//                //                        }
-//                //                        .padding(.bottom, 30)
-//                //                    }
-//                
-//                VSlider(value: $fontSize, in: 12 ... 288)
-//                    .frame(minWidth: 25, maxWidth: 25, maxHeight: .infinity)
-//                    .padding(.horizontal, 10)
-//            }
-//            .padding(.bottom, 15)
+//                ),
+//                data: fontSizes
+//            )
+//            .frame(width: 120, height: 30)
 //        }
-//        .padding()
+//        .zIndex(1)
+//        HStack {
+//            List {
+//                ForEach(fonts) { font in
+//                    HStack {
+//                        Spacer()
+//                        FontSamplePreview(font: font, fontSize: fontSize)
+//                        Spacer()
+//                    }
+//                    .padding(.bottom, 30)
+//                }
+//            }
+//            VSlider(value: $fontSize, in: 12 ... 288)
+//                .frame(minWidth: 25, maxWidth: 25, maxHeight: .infinity)
+//                .padding(.horizontal, 10)
+//        }
+//        .padding(.bottom, 15)
 //    }
+//    .padding()
+//}
 //}
 
 //struct FontCollectionItemPreview: View {

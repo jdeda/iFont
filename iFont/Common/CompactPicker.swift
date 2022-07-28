@@ -13,7 +13,7 @@ struct CompactPicker: View {
     
     @Binding var selection: Int
     @State var data: [Int]
-    @State var expanded: Bool = true
+    @State var expanded: Bool = false
     
     @Environment(\.colorScheme) var colorScheme
     
