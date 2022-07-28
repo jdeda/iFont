@@ -18,8 +18,10 @@ struct FontCollectionItemPreview: View {
         self.item = item
         self.fonts = {
             switch item {
-            case let .font(font):           return [font]
-            case let .fontFamily(family):   return family.fonts
+            case let .font(font):
+                return [font]
+            case let .fontFamily(family):
+                return family.fonts
             }
         }()
     }

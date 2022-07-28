@@ -180,8 +180,8 @@
 			isa = PBXGroup;
 			children = (
 				97D0E26628414FA400F4BA77 /* FontCollectionState.swift */,
-				97DFC5AA2874949400D2E845 /* FontCollectionItemPreviewType.swift */,
 				97D0E26428414F9E00F4BA77 /* FontCollectionView.swift */,
+				97DFC5AA2874949400D2E845 /* FontCollectionItemPreviewType.swift */,
 				FBD5DC162869E8810031EFA3 /* FontCollectionItemRowView */,
 				97DFC5A92874944B00D2E845 /* FontCollectionItemPreview */,
 			);

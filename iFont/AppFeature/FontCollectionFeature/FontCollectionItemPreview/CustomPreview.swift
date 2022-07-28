@@ -12,27 +12,32 @@ import ComposableArchitecture
 struct CustomPreview: View {
     @State var fontSize: Double = 32
     let fonts: [Font]
+    let fontSizes = [9,10,11,12,14,18,24,36,48,64,72,96,144,288].sorted()
     
     var body: some View {
         VStack(spacing: 10) {
             HStack {
                 Spacer()
-                Picker("Size:", selection: Binding<Int>(
-                    get: { Int(fontSize) },
-                    set: { fontSize = Double($0) }
-                )) {
-                    ForEach(12...288, id: \.self) {
-                        Text("\($0)").tag($0)
-                    }
-                }
-                .frame(width: 95, height: 30)
+                CompactPicker(
+                    label: "Size:",
+                    selection: Binding<Int>(
+                        get: { Int(fontSize) },
+                        set: { fontSize = Double($0) }
+                    ),
+                    data: fontSizes
+                )
+                .frame(width: 120, height: 30)
             }
+            .zIndex(1)
             HStack {
-                ScrollView {
+                List {
                     ForEach(fonts) { font in
-                        FontCustomPreview(font: font, fontSize: fontSize)
-                            .padding(.leading)
-                            .padding(.bottom, 30)
+                        HStack {
+                            Spacer()
+                            FontCustomPreview (font: font, fontSize: fontSize)
+                            Spacer()
+                        }
+                        .padding(.bottom, 30)
                     }
                 }
                 VSlider(value: $fontSize, in: 12 ... 288)
