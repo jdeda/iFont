@@ -10,6 +10,7 @@ import ComposableArchitecture
 
 struct RepertoirePreview: View {
     let fonts: [Font]
+    var fontSize: Double = 32
     
     var body: some View {
         Text("FontRepertoirePreviewView")

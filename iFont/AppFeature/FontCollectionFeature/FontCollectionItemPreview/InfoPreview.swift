@@ -28,6 +28,8 @@ struct ItemTypeInfoPreview_Previews: PreviewProvider {
     }
 }
 
+
+// MARK: This is what we had before changing the switch statement to just a list. This is more convoluted.
 //struct InfoPreview: View {
 //    var item: FontCollectionItem
 //

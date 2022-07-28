@@ -8,21 +8,45 @@
 import SwiftUI
 import ComposableArchitecture
 
+
 struct CustomPreview: View {
+    @State var fontSize: Double = 32
     let fonts: [Font]
     
     var body: some View {
-        ScrollView {
-            ForEach(fonts) { font in
-                FontCustomPreview(font: font)
-                    .padding(.leading)
-                    .padding(.bottom, 30)
+        VStack(spacing: 10) {
+            HStack {
+                Spacer()
+                Picker("Size:", selection: Binding<Int>(
+                    get: { Int(fontSize) },
+                    set: { fontSize = Double($0) }
+                )) {
+                    ForEach(12...288, id: \.self) {
+                        Text("\($0)").tag($0)
+                    }
+                }
+                .frame(width: 95, height: 30)
             }
+            HStack {
+                ScrollView {
+                    ForEach(fonts) { font in
+                        FontCustomPreview(font: font, fontSize: fontSize)
+                            .padding(.leading)
+                            .padding(.bottom, 30)
+                    }
+                }
+                VSlider(value: $fontSize, in: 12 ... 288)
+                    .frame(minWidth: 25, maxWidth: 25, maxHeight: .infinity)
+                    .padding(.horizontal, 10)
+            }
+            .padding(.bottom, 15)
         }
+        .padding()
     }
     
     private struct FontCustomPreview: View {
         let font: Font
+        var fontSize: Double = 32
         
         var body: some View {
             VStack {
@@ -33,7 +57,7 @@ struct CustomPreview: View {
                 HStack {
                     Text(String.quickBrownFox)
                         .fixedSize(horizontal: false, vertical: true)
-                        .font(.custom(font.name, size: 32))
+                        .font(.custom(font.name, size: fontSize))
                     Spacer()
                 }
             }
@@ -41,12 +65,50 @@ struct CustomPreview: View {
     }
 }
 
-struct ItemTypeCustomPreview_Previews: PreviewProvider {
-    static var previews: some View {
-        CustomPreview(fonts: mock_fonts)
-    }
-}
+// MARK: This is what we had before the slider and picker.
+//struct CustomPreview: View {
+//    let fonts: [Font]
+//    var fontSize: Double = 32
+//
+//    var body: some View {
+//        ScrollView {
+//            ForEach(fonts) { font in
+//                FontCustomPreview(font: font, fontSize: fontSize)
+//                    .padding(.leading)
+//                    .padding(.bottom, 30)
+//            }
+//        }
+//    }
+//
+//    private struct FontCustomPreview: View {
+//        let font: Font
+//        var fontSize: Double = 32
+//
+//        var body: some View {
+//            VStack {
+//                Text("\(font.attributes[.full] ?? font.name)")
+//                    .font(.title)
+//                    .foregroundColor(.gray)
+//                    .padding(5)
+//                HStack {
+//                    Text(String.quickBrownFox)
+//                        .fixedSize(horizontal: false, vertical: true)
+//                        .font(.custom(font.name, size: fontSize))
+//                    Spacer()
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//struct ItemTypeCustomPreview_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CustomPreview(fonts: mock_fonts)
+//    }
+//}
 
+
+// MARK: This is what we had before changing the switch statement to just a list. This is more convoluted.
 //struct CustomPreview: View {
 //    var item: FontCollectionItem
 //

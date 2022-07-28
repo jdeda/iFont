@@ -26,3 +26,5 @@ let mock_fonts = (1...10).map { int in
         attributes: mock_font_attributes
     )
 }
+
+let mock_family = FontFamily(name: "Cheese", fonts: mock_fonts)
