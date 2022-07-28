@@ -1,5 +1,5 @@
 //
-//  CustomPicker.swift
+//  CompactPicker.swift
 //  iFont
 //
 //  Created by Jesse Deda on 7/27/22.
@@ -8,14 +8,19 @@
 import SwiftUI
 
 
-struct CustomPicker: View {
-    var label: String = ""
+struct CompactPicker: View {
+    var label: String
+    
     @Binding var selection: Int
     @State var data: [Int]
-    @State var expanded: Bool = true
+    @State var expanded: Bool = false
+    
     @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
-        VStack(spacing: 0) {
+        HStack(spacing: 0) {
+            Text("\(label)    ")
+                .frame(width: 40)
             HStack {
                 TextField("", text: .init(
                     get: { String(selection) },
@@ -45,9 +50,11 @@ struct CustomPicker: View {
             .cornerRadius(6)
             .overlay(
                 RoundedRectangle(cornerRadius: 6)
-                    .stroke(.secondary, lineWidth: 0.5)
+                    .stroke(.secondary, lineWidth: 1)
                     .foregroundColor(Color(NSColor.gray))
             )
+            Text("") // This is a spacer
+                .frame(width: 40)
         }
         .overlay(
             VStack {
@@ -79,13 +86,13 @@ struct CustomPicker: View {
 }
 
 
-struct CustomPicker_Previews: PreviewProvider {
+struct CompactPicker_Previews: PreviewProvider {
     
     struct Helper: View {
         @State var selection: Int = 0
         @State var data = Array<Int>(1...10)
         var body: some View {
-            CustomPicker(label: "Size:", selection: $selection, data: data)
+            CompactPicker(label: "Size:", selection: $selection, data: data)
         }
     }
     static var previews: some View {

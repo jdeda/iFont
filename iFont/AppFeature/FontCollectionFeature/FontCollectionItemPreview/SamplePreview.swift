@@ -17,24 +17,16 @@ struct SamplePreview: View {
         VStack(spacing: 10) {
             HStack {
                 Spacer()
-                CustomPicker(
+                CompactPicker(
+                    label: "Size:",
                     selection: Binding<Int>(
                         get: { Int(fontSize) },
                         set: { fontSize = Double($0) }
-                    )
-                    ,data: fontSizes
+                    ),
+                    data: fontSizes
                 )
-                .frame(width: 95, height: 30)
-
-//                Picker("Size:", selection: Binding<Int>(
-//                    get: { Int(fontSize) },
-//                    set: { fontSize = Double($0) }
-//                )) {
-//                    ForEach(12...288, id: \.self) {
-//                        Text("\($0)").tag($0)
-//                    }
-//                }
-//                .frame(width: 95, height: 30)
+                .frame(width: 120, height: 30) // TODO: You have created a space issue...
+                .border(Color.red)
             }
             HStack {
                 List {
@@ -78,6 +70,12 @@ struct SamplePreview: View {
             }
             .font(swiftUIFont)
         }
+    }
+}
+
+struct SamplePreview_Previews: PreviewProvider {
+    static var previews: some View {
+        SamplePreview(fonts: mock_fonts)
     }
 }
 
