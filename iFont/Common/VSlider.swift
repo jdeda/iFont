@@ -129,6 +129,5 @@ struct VSlider_Previews: PreviewProvider {
     static var previews: some View {
         VSlider(value: .constant(20), in: 12 ... 288)
             .frame(minWidth: 20, maxWidth: 30, maxHeight: .infinity)
-            // .padding()
     }
 }

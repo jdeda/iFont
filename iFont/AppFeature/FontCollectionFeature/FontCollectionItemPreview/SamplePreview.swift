@@ -11,7 +11,7 @@ import ComposableArchitecture
 struct SamplePreview: View {
     @State var fontSize: Double = 32
     let fonts: [Font]
-    let fontSizes = [9,10,11,12,14,18,24,36,48,64, 72, 96, 144, 288].sorted()
+    let fontSizes = [9,10,11,12,14,18,24,36,48,64,72,96,144,288].sorted()
     
     var body: some View {
         VStack(spacing: 10) {

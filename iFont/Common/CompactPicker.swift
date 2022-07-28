@@ -67,7 +67,6 @@ struct CompactPicker: View {
                         .padding(.horizontal, 7)
                     }
                     .listStyle(PlainListStyle())
-//                    .listStyle(SidebarListStyle())
                     .cornerRadius(8)
                     // .scrollContentBackground(Color(NSColor.windowBackground))
                     // XCode14b3...  // MARK: Light, dark
@@ -75,15 +74,14 @@ struct CompactPicker: View {
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(.secondary, lineWidth: 1)
-//                            .foregroundColor(Color(NSColor.gray)) // MARK: Light, dark
                             .cornerRadius(8)
                     )
                     .padding(.top, 20)
                     .padding(Edge.Set.horizontal, -10)
                     
                 }
-            }, alignment: .topTrailing
-            
+            }
+            , alignment: .topTrailing
         )
     }
 }
