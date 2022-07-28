@@ -40,7 +40,7 @@ struct CompactPicker: View {
                             .frame(width: 16, height: 16)
                             .foregroundColor(.accentColor)
                         Image(systemName: "chevron.down")
-                            .font(.system(size: 9, weight: .heavy))
+                            .font(.system(size: 8, weight: .heavy))
                     }
                 }
                 .buttonStyle(.plain)
@@ -53,8 +53,6 @@ struct CompactPicker: View {
                     .stroke(.secondary, lineWidth: 1)
                     .foregroundColor(Color(NSColor.gray))
             )
-            Text("") // This is a spacer
-                .frame(width: 40)
         }
         .overlay(
             VStack {
@@ -66,21 +64,22 @@ struct CompactPicker: View {
                                 .padding(.horizontal,1)
                             }
                     }
-                    
+                    .cornerRadius(8)
                     // .scrollContentBackground(Color(NSColor.windowBackground))
                     // XCode14b3...  // MARK: Light, dark
-                    .frame(width: 65, height: 125)
+                    .frame(width: 75, height: 125)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(.secondary, lineWidth: 1)
-                            .background(Color.clear)
-                            .foregroundColor(Color(NSColor.gray)) // MARK: Light, dark
+//                            .foregroundColor(Color(NSColor.gray)) // MARK: Light, dark
                             .cornerRadius(8)
-
                     )
                     .padding(.top, 20)
+                    .padding(Edge.Set.horizontal, -10)
+                    
                 }
-            }, alignment: .top
+            }, alignment: .topTrailing
+            
         )
     }
 }
@@ -90,7 +89,7 @@ struct CompactPicker_Previews: PreviewProvider {
     
     struct Helper: View {
         @State var selection: Int = 0
-        @State var data = Array<Int>(1...10)
+        @State var data = [9,72,144,288].sorted()
         var body: some View {
             CompactPicker(label: "Size:", selection: $selection, data: data)
         }

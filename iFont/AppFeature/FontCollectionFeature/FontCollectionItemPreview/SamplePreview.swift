@@ -11,7 +11,7 @@ import ComposableArchitecture
 struct SamplePreview: View {
     @State var fontSize: Double = 32
     let fonts: [Font]
-    let fontSizes = [9,10,11,12,14,18,24,36,48,64, 72, 96, 144, 288]
+    let fontSizes = [9,10,11,12,14,18,24,36,48,64, 72, 96, 144, 288].sorted()
     
     var body: some View {
         VStack(spacing: 10) {
@@ -25,9 +25,9 @@ struct SamplePreview: View {
                     ),
                     data: fontSizes
                 )
-                .frame(width: 120, height: 30) // TODO: You have created a space issue...
-                .border(Color.red)
+                .frame(width: 120, height: 30)
             }
+            .zIndex(1)
             HStack {
                 List {
                     ForEach(fonts) { font in
