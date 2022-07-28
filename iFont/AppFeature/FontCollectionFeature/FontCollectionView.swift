@@ -1,79 +1,47 @@
 import SwiftUI
 import ComposableArchitecture
 
-extension ItemPreviewType {
-    var image: Image {
-        switch self {
-        case .sample:
-            return Image(systemName: "text.aligncenter")
-
-        case .repertoire:
-            return Image(systemName: "square.grid.2x2")
-            
-        case .custom:
-            return Image(systemName: "character.cursor.ibeam")
-            
-        case .info:
-            return Image(systemName: "info.circle")
-        }
-    }
-}
-
 struct FontCollectionView: View {
     let store: Store<FontCollectionState, FontCollectionAction>
     
     var body: some View {
-        Logger.log("")
-
-        return WithViewStore(self.store) { viewStore in
+        WithViewStore(self.store) { viewStore in
             NavigationView {
+                // The First Column
                 VStack(spacing: 0) {
-                    List(selection: viewStore.binding(
-                        get: \.selectedItem,
-                        send: FontCollectionAction.selectedItem
-                    )) {
+                    // TODO: Jdeda
+                    // - Animate expansions
+                    // - There are duplicate fonts?
+                    List(selection: viewStore.binding(\.$selectedItemID)) {
                         ForEach(viewStore.items) { item in
-                            ItemTypeRowView(store: store, itemType: item)
-                                .tag(item)
+                            FontCollectionItemRowView(store: store, itemType: item)
+                                .tag(item.id)
                         }
                     }
                     Divider()
                     Text("Font count: \(viewStore.collection.fonts.count)")
                         .padding(5)
                 }
-                .frame(minWidth: 220, idealWidth: 280, maxWidth: 380)
-//                .toolbar {
-//                    ToolbarItem {
-//                        Button(action: {
-//                            viewStore.send(.sidebarExpandCollapse)
-//                        }, label: {
-//                            Image(systemName: "sidebar.left")
-//                        })
-//                        .help("Will show/hide the sidebar view") // TODO: Jdeda make conditional
-//                    }
-//                }
                 
-                VStack {
-                    switch viewStore.selectedItem {
-                    case let .some(item):
-                        ItemTypePreview(store: store, selection: viewStore.selectedPreview, item: item)
-                    case .none:
-                        Text("No fonts selected")
-                    }
-                }
-                .toolbar {
-                    Picker("Detail View", selection: viewStore.binding(
-                        get: \.selectedPreview,
-                        send: FontCollectionAction.selectedPreviewType)
-                    ) {
-                        ForEach(ItemPreviewType.allCases, id: \.self) { $0.image }
-                    }
-                    .pickerStyle(.segmented)
+                switch viewStore.selectedItem {
+                case let .some(item):
+                    FontCollectionItemPreview(selection: viewStore.selectedPreview, item: item)
+                case .none:
+                    Text("No fonts selected")
                 }
             }
-//            .onAppear {
-//                viewStore.send(FontCollectionAction.onAppear)
-//            }
+            .navigationTitle(viewStore.state.collection.name)
+            .navigationSubtitle("\(viewStore.collection.fonts.count) fonts")
+            .toolbar {
+                Picker("Detail View", selection: viewStore.binding(
+                    get: \.selectedPreview,
+                    send: FontCollectionAction.selectedPreviewType)
+                ) {
+                    ForEach(FontCollectionItemPreviewType.allCases, id: \.self) { $0.image }
+                }
+                .pickerStyle(.segmented)
+            }
+            .background(Color.init(NSColor.controlBackgroundColor))
         }
     }
 }

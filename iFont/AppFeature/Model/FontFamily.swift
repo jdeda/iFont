@@ -8,7 +8,7 @@
 import Foundation
 import CoreText
 
-struct FontFamily: Equatable, Hashable {
+struct FontFamily: Equatable, Hashable, Codable {
     let name: String
     var fonts: [Font]
 }
@@ -33,11 +33,23 @@ extension FontFamily {
             let face = String(fontName[offset..<end])
             let newFace = face.replacingOccurrences(of: "-", with: " ")
             
-            // TODO: Space between words
+            // TODO: kdeda
+            // Space between words
             // Replace Hyphens with spaces
             map[font.name] = newFace
             return newFace
         }
         return map
+    }
+    
+    func fontsSorted(by sortFunc:(_ lhs: Font, _ rhs: Font) -> Bool) -> FontFamily {
+        var newFamily = self
+        
+        newFamily.fonts = self.fonts.sorted(by: sortFunc)
+        return newFamily
+    }
+    
+    var fontsSortedByName: FontFamily {
+        fontsSorted(by: { $0.name < $1.name })
     }
 }

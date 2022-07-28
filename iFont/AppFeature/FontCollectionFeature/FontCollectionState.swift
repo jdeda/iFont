@@ -3,49 +3,27 @@ import ComposableArchitecture
 import AppKit
 
 struct FontCollectionState: Equatable {
-    
-    // Basically this is what is going on.
     var collection: FontCollection
-    var items: [ItemType]
-    var selectedItem: ItemType? = nil
-    var selectedPreview: ItemPreviewType = .sample
-    var selectedExpansions = Set<ItemType.ID>()
+    
+    var items: [FontCollectionItem] // Derived from self.collection
+    @BindableState var selectedItemID: FontCollectionItem.ID?
+    var selectedItem: FontCollectionItem?
+    
+    // var selectedItem: ItemType? = UserDefaults.standard.getCodable(forKey: "selectedItem")
+    // wip
+    var selectedExpansions = Set<FontCollectionItem.ID>()
+    var selectedPreview: FontCollectionItemPreviewType = .sample
     
     init(collection: FontCollection) {
         self.collection = collection
-        self.items = self.collection.fontFamilies
-            .sorted(by: { $0.name < $1.name })
-            .map(\.itemType)
+        self.items = self.collection.fontFamilies.map(\.itemType)
     }
-    //    // FIXME: jdeda
-    //    // When in production
-    //    // these are some fonts in the project for quick turn around debug/test
-    //    // in production we would use the real machine font paths
-    ////    var fontPathURL = URL(fileURLWithPath: "/Users/kdeda/Library/Fonts")
-    ////    var fontPathURL = URL(fileURLWithPath: "/System/Library/Fonts")
-    //    var fontPathURL = Bundle.main.resourceURL!.appendingPathComponent("Fonts")
-    //
-    //    var fonts = [Font]()
-    //    var familyExpansionState = Set<ItemType.ID>()
-    //    var selectedItem: ItemType? = nil
-    //
-    //    /// derived
-    //    var fontFamilies = [FontFamily]()
-    //    /// derived
-    //    var items = [ItemType]()
-    //
-    //    var detailSelection: ItemPreviewType = .sample
 }
 
-enum FontCollectionAction: Equatable {
-//    case onAppear
-    //    case fetchFonts
-    //    case fetchFontsResult(Result<[Font], Never>)
-    //    case sidebar
-    //    case sidebarExpandCollapse
-    case selectedItem(ItemType?)
+enum FontCollectionAction: BindableAction, Equatable {
+    case binding(BindingAction<FontCollectionState>)
     case toggleExpand(FontFamily)
-    case selectedPreviewType(ItemPreviewType)
+    case selectedPreviewType(FontCollectionItemPreviewType)
 }
 
 struct FontCollectionEnvironment {
@@ -57,47 +35,34 @@ extension FontCollectionState {
     static let reducer = Reducer<FontCollectionState, FontCollectionAction, FontCollectionEnvironment>.combine(
         Reducer { state, action, environment in
             switch action {
-//            case .onAppear:
-//                state.items = state.collection.fontFamilies.reduce(into: [ItemType](), { partial, family in
-//                    partial.append(family.itemType)
-//                })
-//                return .none
-                //
-                //            case .fetchFonts:
-                //                return environment
-                //                    .fontClient
-                //                    .fetchFonts(state.fontPathURL)
-                //                    .receive(on: environment.mainQueue)
-                //                    .catchToEffect()
-                //                    .map(FontCollectionAction.fetchFontsResult)
-                //
-                //            case let .fetchFontsResult(.success(newFonts)):
-                //                Logger.log("received: \(newFonts.count)")
-                //                state.fonts.append(contentsOf: newFonts)
-                //                state.fontFamilies = state.fonts
-                //                    .groupedByFamily()
-                //                    .sorted(by: { $0.name.caseInsensitiveCompare($1.name) == .orderedAscending })
-                //
-                //                state.items = state.fontFamilies.reduce(into: [ItemType](), { partialResult, nextItem in
-                //                    partialResult.append(nextItem.itemType)
-                //                    // if family is expanded, add its children to display
-                //                    if state.familyExpansionState.contains(nextItem.id) {
-                //                        partialResult.append(contentsOf: nextItem.fonts.map(\.itemType))
-                //                    }
-                //                })
-                //                return .none
-                //
-                //            case .sidebar:
-                //                return .none
-                //
-                //                // display SelectedFont for each font in this fam
-            case let .selectedItem(selectedItemType):
-                state.selectedItem = selectedItemType
-                if let selectedItem = selectedItemType {
-                    Logger.log("selectedItemType: \(selectedItemType)")
+            case .binding(\.$selectedItemID):
+                // TODO: jdeda - review!
+                // make it sticky
+                // UserDefaults.standard.setCodable(forKey: "selectedItem", value: selectedItem)
+                // wip
+                
+                if let index = state.items.firstIndex(where: { $0.id == state.selectedItemID }) {
+                    let itemType = state.items[index]
+                    
+                    state.selectedItem = itemType
+                    Logger.log("selectedItemType: \(itemType)")
+                    switch itemType {
+                    case .font: ()
+                    case let .fontFamily(fontFamily):
+                        state.items[index] = fontFamily.fontsSortedByName.itemType
+                    }
+                } else {
+                    state.selectedItem = nil
                 }
                 return .none
                 
+            case .binding:
+                return .none
+                
+                // TODO: jdeda
+                // There is a bug where expanding a family causes that family fonts to merge into another family
+                // (perhaps the one selected before it) and the family dissapears (the one that was supposed to be expanded).
+                // Upon unexpanding the family that merged the other family, there are duplicates left.
             case let .toggleExpand(family):
                 if state.selectedExpansions.contains(family.id) {
                     state.selectedExpansions.remove(family.id)
@@ -105,50 +70,46 @@ extension FontCollectionState {
                     state.selectedExpansions.insert(family.id)
                 }
                 
-                state.items = state.collection.fontFamilies.reduce(into: [ItemType](), { partialResult, nextItem in
-                    partialResult.append(nextItem.itemType)
-                    // if family is expanded, add its children to display
-                    if state.selectedExpansions.contains(nextItem.id) {
-                        partialResult.append(contentsOf: nextItem.fonts.map(\.itemType))
+                state.items = state.collection.fontFamilies.reduce(into: [FontCollectionItem](), { partialResult, fontFamily in
+                    partialResult.append(fontFamily.itemType)
+                    
+                    // If family is expanded, add its children to display.
+                    if state.selectedExpansions.contains(fontFamily.id) {
+                        partialResult.append(contentsOf: fontFamily.fontsSortedByName.fonts.map(\.itemType))
                     }
                 })
                 
                 return .none
-                
-                //            case .sidebarExpandCollapse:
-                //                NSApp.keyWindow?
-                //                    .firstResponder?
-                //                    .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
-                //                return .none
                 
             case let .selectedPreviewType(selectedPreview):
                 state.selectedPreview = selectedPreview
                 return .none
             }
         }
+            .binding()
     )
-    // .debug()
 }
 
 extension FontCollectionState {
     static let liveState =  FontCollectionState(collection: .init())
     static let mockState = FontCollectionState(collection: .init(
         type: .library(URL(fileURLWithPath: NSTemporaryDirectory())),
-        fonts: [Font(
-            url: URL(fileURLWithPath: NSTemporaryDirectory()),
-            name: "KohinoorBangla",
-            familyName: "KohinoorBangla")]
+        fonts: (0...10).map {
+            .init(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "Chicken \($0)",
+                familyName: "Cheese \($0)"
+            )
+        },
+        fontFamilies: (0...10).map {
+            .init(
+                url: URL(fileURLWithPath: NSTemporaryDirectory()),
+                name: "Chicken \($0)",
+                familyName: "Cheese"
+            )
+        }.groupedByFamily(),
+        name: "Sushi Combo Fonts"
     ))
-    //    static let mockState = .init(collection:
-    //            .init(
-    //    )
-    //    static let mockState = FontCollectionState(
-    //        fontPathURL: URL(fileURLWithPath: "/Users/kdeda/Library/Fonts"),
-    //        fonts: [Font(
-    //            url: URL.init(fileURLWithPath: NSTemporaryDirectory()),
-    //            name: "KohinoorBangla",
-    //            familyName: "KohinoorBangla")]
-    //    )
 }
 
 extension FontCollectionState {

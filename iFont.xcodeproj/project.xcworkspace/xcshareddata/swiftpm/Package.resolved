@@ -10,12 +10,39 @@
       }
     },
     {
+      "identity" : "idd-log4-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kdeda/idd-log4-swift.git",
+      "state" : {
+        "revision" : "1aeafa7addd497ec27651927dca5f518687eb2f2",
+        "version" : "1.1.3"
+      }
+    },
+    {
+      "identity" : "idd-swift-commons",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kdeda/idd-swift-commons.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "bdac824fc353c1c52bf10c4bc4eb3715a5430528"
+      }
+    },
+    {
+      "identity" : "idd-zstd-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kdeda/idd-zstd-swift.git",
+      "state" : {
+        "revision" : "5b464a6ca332091f32636fff00b5c335d9c1e8a1",
+        "version" : "1.1.0"
+      }
+    },
+    {
       "identity" : "swift-case-paths",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-case-paths",
       "state" : {
-        "revision" : "b4a872984463070c71e2e97e5c02c73a07d0fe36",
-        "version" : "0.9.0"
+        "revision" : "ce9c0d897db8a840c39de64caaa9b60119cf4be8",
+        "version" : "0.8.1"
       }
     },
     {
@@ -32,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-composable-architecture.git",
       "state" : {
-        "revision" : "db890996189ca27da9e56f4cc82a70057819429a",
-        "version" : "0.36.0"
+        "revision" : "2828dc44f6e3f81d84bcaba72c1ab1c0121d66f6",
+        "version" : "0.34.0"
       }
     },
     {
@@ -41,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-custom-dump",
       "state" : {
-        "revision" : "21ec1d717c07cea5a026979cb0471dd95c7087e7",
-        "version" : "0.5.0"
+        "revision" : "c4f78db9b90ca57b7b6abc2223e235242739ea3c",
+        "version" : "0.4.0"
       }
     },
     {
@@ -50,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-identified-collections",
       "state" : {
-        "revision" : "2d6b7ffcc67afd9077fac5e5a29bcd6d39b71076",
-        "version" : "0.4.0"
+        "revision" : "680bf440178a78a627b1c2c64c0855f6523ad5b9",
+        "version" : "0.3.2"
       }
     },
     {

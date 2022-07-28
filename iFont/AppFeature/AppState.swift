@@ -7,39 +7,49 @@
 
 import AppKit
 import ComposableArchitecture
+import Log4swift
+import SwiftCommons
 
 // Single Source of Truth (SSOT) for the App.
 struct AppState: Equatable {
-        
+    
     // FIXME: jdeda
     // When in production, make sure all these paths are in
     var fontDirectories: Set<URL> = [
         .init(fileURLWithPath: "/System/Library/Fonts"),
-//        .init(fileURLWithPath: "/Library/Fonts"),
-//        .init(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Fonts"),
+        //        .init(fileURLWithPath: "/Library/Fonts"),
+        //        .init(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Fonts"),
         Bundle.main.resourceURL!.appendingPathComponent("Fonts")
     ]
     
     var fonts: [Font] = []
     
-    var selectedCollection: FontCollection? = nil // TODO: Combine these?
+    // TODO: Jdeda
+    // Combine these?
+    // This does not support saving expansions and or selections
+    // in other FontCollection selections...i.e. if you switch
+    // from "Computer" to anything else, then you lose the selection
+    // and expansions you had in "Computer".
+    var selectedCollection: FontCollection? = nil
     var selectedCollectionState: FontCollectionState? = nil
-
+    
     var librarySection: [FontCollection] = [
-        .init(type: .allFontsLibrary, fonts: []),
-        .init(type: .computerLibrary, fonts: []),
-        .init(type: .standardUserLibrary, fonts: [])
+        .init(type: .allFontsLibrary, fonts: [], name: "All Fonts"),
+        .init(type: .computerLibrary, fonts: [], name: "Computer"),
+        .init(type: .standardUserLibrary, fonts: [], name: "User"),
     ]
     
     var smartSection: [FontCollection] = [
-        .init(type: .smart, fonts: []),
-        .init(type: .smart, fonts: []),
+        .init(type: .smart, fonts: [], name: "English"),
+        .init(type: .smart, fonts: [], name: "Fixed Width")
     ]
     
     var normalSection: [FontCollection] = [
-        .init(type: .basic, fonts: []),
-        .init(type: .basic, fonts: []),
-        .init(type: .basic, fonts: [])
+        .init(type: .basic, fonts: [], name: "Fun"),
+        .init(type: .basic, fonts: [], name: "Modern"),
+        .init(type: .basic, fonts: [], name: "PDF"),
+        .init(type: .basic, fonts: [], name: "Traditional"),
+        .init(type: .basic, fonts: [], name: "Web")
     ]
 }
 
@@ -72,7 +82,7 @@ extension AppState {
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
-                state.selectedCollection = .init(type: .allFontsLibrary, fonts: [])
+                // state.selectedCollection = UserDefaults.standard.getCodable(forKey: "selectedCollection")
                 return Effect(value: .fetchFonts)
                 
             case .fetchFonts:
@@ -88,36 +98,48 @@ extension AppState {
                 return foo
                 
             case let .fetchFontsResult(.success(newFonts)):
-                let startTime = Date()
-
-                defer {
-                    let elapsed = startTime.timeIntervalSinceNow * -1000
-                    let elapsedString = String(format: "%0.3f", elapsed)
-                    Logger.log("completed in: \(elapsedString) ms")
-                }
-                Logger.log("received: \(newFonts.count)")
-                state.fonts.append(contentsOf: newFonts)
-                let oldSelection = state.selectedCollection
-
-                state.librarySection = state.librarySection.map({ fontCollection in
-                    let collectionType = fontCollection.type
-                    let fonts = fontCollection.fonts
-                    let newFonts_ = newFonts.filter(collectionType.matchingFonts)
-                    
-                    return FontCollection(type: collectionType, fonts: fonts + newFonts_)
-                })
                 
-                if let oldSelection = oldSelection {
-                    // preserve it ...
-                    let updated = state.librarySection.first(where: { $0.type == oldSelection.type })
+                // Debug.
+                let startTime = Date()
+                defer { Log4swift[Self.self].debug("completed in: \(startTime.elapsedTime) ms") }
+                Log4swift[Self.self].debug("received: \(newFonts.count)")
+                
+                // Add new fonts and update libraries.
+                state.fonts.append(contentsOf: newFonts)
+                state.librarySection = state.librarySection.map {
+                    .init(type: $0.type, fonts: $0.fonts + newFonts.filter($0.type.matchingFonts), name: $0.name)
+                }
+                
+                // TODO: jdeda
+                // UserDefaults should only save selection when program ends...it is very slow.
+                if let selectedCollection = state.selectedCollection { // Preserve it ...
+                    let updated = state.librarySection.first(where: { $0.type == selectedCollection.type })
                     return Effect(value: .madeSelection(updated))
                 }
                 return .none
                 
+            // TODO: jdeda
+            // If the user clicks the library in the UI, this runs twice.
+            // if the user uses the keyboard, this runs once.
             case let .madeSelection(newSelection):
+                
+                // Debug.
+                let startTime = Date()
+                print("\nstarted action: .madeSelection")
+                defer { print("completed in: \(startTime.elapsedTime) ms\n") }
+                
+                // TODO: jdeda - review!
+                // Make the selection sticky
+                // 1) write it to the UserDefaults.standard
+                // 2) when the app starts, the state inits, you will than read this value from the UserDefaults.standard
+                
+                // UserDefaults.standard.setCodable(forKey: "selectedCollection", value: newSelection)
+                
+                // Set new selection.
                 state.selectedCollection = newSelection
-                if let unwrapped = newSelection {
-                    state.selectedCollectionState = .init(collection: unwrapped)
+                if var fontCollection = newSelection {
+                    fontCollection.fontFamilies = fontCollection.fonts.groupedByFamily()
+                    state.selectedCollectionState = .init(collection: fontCollection)
                 }
                 else {
                     state.selectedCollectionState = nil

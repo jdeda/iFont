@@ -8,67 +8,14 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct FontCollectionSection: View {
-    private func labeledImage(_ fontCollection: FontCollection) -> some View {
-        HStack {
-            Image(systemName: fontCollection.type.imageSystemName)
-                .foregroundColor(fontCollection.type.accentColor)
-                .frame(width: 20, height: 20)
-            Text(fontCollection.type.labelString)
-            Text("\(fontCollection.fonts.count)")
-                .bold()
-        }
-    }
-    
-    var collection: [FontCollection]
-    var header: String
-    
-    var body: some View {
-        Section {
-            ForEach(collection) {
-                labeledImage($0)
-                    .tag($0)
-            }
-        } header: {
-            Text(header)
-        }
-    }
-}
-
-struct FontCollectionsSideBarView: View {
-    let store: Store<AppState, AppAction>
-    
-    var body: some View {
-        WithViewStore(self.store) { viewStore in
-            List(selection: viewStore.binding(
-                get: \.selectedCollection,
-                send: AppAction.madeSelection
-            )) {
-                FontCollectionSection(collection: viewStore.librarySection, header: "Library")
-                FontCollectionSection(collection: viewStore.smartSection, header: "Smart Collections")
-                FontCollectionSection(collection: viewStore.normalSection, header: "Collections")
-            }
-        }
-    }
-}
-
 struct AppView: View {
     let store: Store<AppState, AppAction>
-    
+
     var body: some View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
-                FontCollectionsSideBarView(store: store)
-                    .toolbar {
-                        ToolbarItem(placement: .primaryAction) {
-                            Button(action: {
-                                viewStore.send(.sidebarToggle)
-                            }, label: {
-                                Image(systemName: "sidebar.left")
-                            })
-                            .help("Will show/hide the sidebar view") // TODO: Jdeda make conditional
-                        }
-                    }
+                SidebarView(store: store)
+
                 IfLetStore(
                     store.scope(
                         state: \.selectedCollectionState,
@@ -77,19 +24,66 @@ struct AppView: View {
                     then: FontCollectionView.init(store:),
                     else: { Text("No collection selected") }
                 )
-                
+
                 .onAppear {
-                    // TODO: This is bad...
-                    // App should load fonts only on start up and never again!
+                    // TODO: kdeda
+                    // When you hide/unhide the app we get here...
+                    // App should load fonts only on start up and or if asked!
                     viewStore.send(AppAction.onAppear)
                 }
             }
         }
+        .frame(minWidth: 800, minHeight: 600)
     }
 }
 
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
         AppView(store: AppState.mockStore)
+    }
+}
+
+// TODO: jdeda
+// This view's logic isn't very clear:
+// - we should have a ForEach here but we don't
+// - there are tags hidden in these extra views which is unsettling
+// - seems to fit the purview of navigation links, something to think about.
+fileprivate struct SidebarView: View {
+    let store: Store<AppState, AppAction>
+
+    var body: some View {
+        WithViewStore(self.store) { viewStore in
+            List(selection: viewStore.binding(
+                get: \.selectedCollection,
+                send: AppAction.madeSelection
+            )) {
+                fontCollectionsSection(header: "Libraries", viewStore.librarySection)
+                fontCollectionsSection(header: "Smart Collections", viewStore.smartSection)
+                fontCollectionsSection(header: "Collections", viewStore.normalSection)
+            }
+            .toolbar {
+                    Button(action: {
+                        viewStore.send(.sidebarToggle)
+                    }, label: {
+                        Image(systemName: "sidebar.left")
+                    })
+            }
+        }
+    }
+
+    private func fontCollectionsSection(header: String, _ collections: [FontCollection]) -> some View {
+        Section(header) {
+            ForEach(collections) { collection in
+                HStack {
+                    Image(systemName: collection.type.imageSystemName)
+                        .foregroundColor(collection.type.accentColor)
+                        .frame(width: 20, height: 20)
+                    Text(collection.name)
+                    Text("\(collection.fonts.count)")
+                        .bold()
+                }
+                    .tag(collection)
+            }
+        }
     }
 }

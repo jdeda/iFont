@@ -8,11 +8,11 @@
 import AppKit
 import CoreText
 
-struct Font: Equatable, Hashable {
+struct Font: Equatable, Hashable, Codable {
     var url: URL
     var name: String
     var familyName: String
-    var attributes = [FontAttribute: String]()
+    var attributes: [FontAttributeKey: String] = [:]
 }
 
 extension Font: Identifiable {
@@ -21,19 +21,25 @@ extension Font: Identifiable {
     }
 }
 
+// TODO: jdeda
+// This is extremely slow.
 extension Array where Element == Font {
     func groupedByFamily() -> [FontFamily] {
         let foo = self
             .reduce(into: [String: [Font]]()) { partial, font in
                 partial[font.familyName, default: []].append(font)
             }
-            .map { FontFamily.init(name: $0.0, fonts: $0.1) }
+            .map { FontFamily(name: $0.0, fonts: $0.1) }
+            .sorted(by: { $0.name < $1.name })
         return foo
     }
 }
 
 extension Font {
-    var fontAttributes: [String: String] {
+    // For more look into
+    // CTFont.h
+    // CTFontDescriptor.h
+    var fetchFontAttributes: [FontAttributeKey: String] {
         let ctFont = CTFontCreateWithName(self.name as CFString, 12.0, nil)
         // this does not fail because it will return a substitute font
         // ie: Helvetica
@@ -41,18 +47,15 @@ extension Font {
         guard (ctFont as NSFont).fontName == self.name
         else {
             Logger.log("error: 'could not create the proper font: \(self.name)'")
-            return [String: String]()
+            return [FontAttributeKey: String]()
         }
         
         // TODO: kdeda
         // extract as much as possible info from the NSFont
-        return FontAttribute.allCases.reduce(into: [String: String](), { partialResult, nextItem in
-            let index = nextItem.rawValue.index(nextItem.rawValue.startIndex, offsetBy: 1)
-            let key = String(nextItem.rawValue.suffix(from: index)).replacingOccurrences(of: "Key", with: "")
-            
-            if let value = CTFontCopyName(ctFont, key as CFString) as String? {
-                Logger.log("\(key): \(value)")
-                partialResult[key] = value
+        return FontAttributeKey.allCases.reduce(into: [FontAttributeKey: String](), { partialResult, nextItem in
+            if let value = CTFontCopyName(ctFont, nextItem.key) as String? {
+                Logger.log("\(nextItem.title): \(value)")
+                partialResult[nextItem] = value
             }
         })
     }

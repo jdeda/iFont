@@ -84,3 +84,16 @@ extension String {
 extension String {
     static let quickBrownFox = "The quick brown fox jumps over the lazy dog and runs away."
 }
+
+
+extension String {
+    func accumulatingStrings() -> [String] {
+        var accumulated: [String] = []
+        for i in 0..<self.count {
+            let A = self.startIndex
+            let B = self.index(self.startIndex, offsetBy: i)
+            accumulated.append(String(self[A...B]))
+        }
+        return accumulated
+    }
+}
