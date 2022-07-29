@@ -62,7 +62,7 @@ struct CustomPreview: View {
                 HStack {
                     Text(String.quickBrownFox)
                         .fixedSize(horizontal: false, vertical: true)
-                        .font(.custom(font.name, size: fontSize))
+                        .font(SwiftUI.Font(font.ctFont(fontSize)))
                     Spacer()
                 }
             }

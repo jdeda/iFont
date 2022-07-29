@@ -17,6 +17,7 @@ struct FontClient {
     var fetchFonts: (_ directory: URL) -> Effect<[Font], Never>
 //    var fetchAttribute: (_ fontURL: URL, _ attributeKey: FontAttributeKey) -> Effect<String, Never>
 //    var fetchCTFont: (_ fontURL: URL) -> Effect<CTFont, Never>
+//      var fetchCTFontDescriptor: (_ fontURL: URL) -> Effect<CTFontDescriptor, Never>
 }
 
 extension FontClient {
@@ -44,6 +45,8 @@ struct FontClientHelper {
     }
     
     // Multiple font families can belong to a file.......
+    // TODO: Ignore font files that start with ".".
+    // TODO: Ignore "extra" families.
     static func makeFonts(_ url: URL) -> [Font] {
         // add -debug.makeFonts YES on the argument line to see more crap
 //        let debug = UserDefaults.standard.bool(forKey: "debug.makeFonts")
@@ -61,6 +64,9 @@ struct FontClientHelper {
             .compactMap { fontDescriptor -> NSFont? in
                 let nsFontDescriptor = fontDescriptor as NSFontDescriptor
                 let font = NSFont(descriptor: nsFontDescriptor, size: 12)
+                
+                if ((nsFontDescriptor.object(forKey: .name) as? String) ?? "uknown").hasPrefix(".") { return nil }
+                if ((nsFontDescriptor.object(forKey: .family) as? String) ?? "uknown").hasPrefix(".") { return nil }
                 
                 if debug {
                     if let _ = font {

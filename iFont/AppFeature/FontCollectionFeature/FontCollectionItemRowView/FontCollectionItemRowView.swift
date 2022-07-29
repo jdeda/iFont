@@ -38,6 +38,8 @@ fileprivate struct FontRowView: View {
     
     var body: some View {
         Text("\(font.fontStyle ?? font.name)")
+            .lineLimit(1)
+            .truncationMode(.tail)
             .font(.system(size: 12))
             .padding(.leading, 30)
     }
@@ -61,6 +63,8 @@ fileprivate struct FontFamilyRowView: View {
                     viewStore.send(FontCollectionAction.toggleExpand(fontFamily))
                 }
                 Text(fontFamily.name)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
                     .font(.system(size: 12))
                 Spacer()
             }

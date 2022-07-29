@@ -52,9 +52,6 @@ struct SamplePreview: View {
         let font: Font
         var fontSize: Double = 32
         
-        private var swiftUIFont: SwiftUI.Font {
-            SwiftUI.Font.custom(font.name, size: fontSize)
-        }
         
         var body: some View {
             VStack(alignment: .center) {
@@ -68,7 +65,7 @@ struct SamplePreview: View {
                 Text(String.alphabet.uppercased().splitInHalf().right)
                 Text(String.digits)
             }
-            .font(swiftUIFont)
+            .font(SwiftUI.Font(font.ctFont(fontSize)))
         }
     }
 }
