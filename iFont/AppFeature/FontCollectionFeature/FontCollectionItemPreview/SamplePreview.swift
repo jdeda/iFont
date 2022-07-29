@@ -58,7 +58,7 @@ struct SamplePreview: View {
         
         var body: some View {
             VStack(alignment: .center) {
-                Text(font.name)
+                Text(font.fontFullName ?? font.name)
                     .font(.title)
                     .foregroundColor(.gray)
                     .padding(5)

@@ -55,7 +55,7 @@ struct CustomPreview: View {
         
         var body: some View {
             VStack {
-                Text("\(font.attributes[.full] ?? font.name)")
+                Text(font.fontFullName ?? font.name)
                     .font(.title)
                     .foregroundColor(.gray)
                     .padding(5)
