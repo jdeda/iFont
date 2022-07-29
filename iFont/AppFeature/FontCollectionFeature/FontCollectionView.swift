@@ -16,6 +16,8 @@ struct FontCollectionView: View {
                         ForEach(viewStore.items) { item in
                             FontCollectionItemRowView(store: store, itemType: item)
                                 .tag(item.id)
+//                                .frame(height: 15)
+
                         }
                     }
                     Divider()

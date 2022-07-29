@@ -28,10 +28,7 @@ struct ItemTypeRowView_Previews: PreviewProvider {
     static var previews: some View {
         FontCollectionItemRowView(
             store: FontCollectionState.mockStore,
-            itemType: FontCollectionItem.fontFamily(FontFamily(
-                name: "cheese",
-                fonts: mock_fonts
-            ))
+            itemType: .fontFamily(mock_family)
         )
     }
 }
@@ -40,10 +37,9 @@ fileprivate struct FontRowView: View {
     let font: Font
     
     var body: some View {
-        Text("\(font.fontStyle ?? "")")
+        Text("\(font.fontStyle ?? font.name)")
+            .font(.system(size: 12))
             .padding(.leading, 30)
-//        Text("\(font.attributes[.style] ?? font.name)")
-//            .padding(.leading, 30)
     }
 }
 
@@ -53,18 +49,19 @@ fileprivate struct FontFamilyRowView: View {
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
-            HStack {
+            HStack(spacing: 4) {
                 Image(systemName: viewStore.selectedExpansions.contains(fontFamily.id)
                       ? "chevron.down"
                       : "chevron.right")
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 20, height: 20)
+                .font(.system(size: 9, weight: .bold))
+                .foregroundColor(.secondary)
                 .contentShape(Rectangle())
                 .onTapGesture {
                     Logger.log("toggleExpansion: \(fontFamily.name)")
                     viewStore.send(FontCollectionAction.toggleExpand(fontFamily))
                 }
                 Text(fontFamily.name)
+                    .font(.system(size: 12))
                 Spacer()
             }
         }

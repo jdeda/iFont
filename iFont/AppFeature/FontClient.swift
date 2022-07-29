@@ -15,6 +15,8 @@ struct FontClient {
     struct FetchFontsID: Hashable {}
     
     var fetchFonts: (_ directory: URL) -> Effect<[Font], Never>
+//    var fetchAttribute: (_ fontURL: URL, _ attributeKey: FontAttributeKey) -> Effect<String, Never>
+//    var fetchCTFont: (_ fontURL: URL) -> Effect<CTFont, Never>
 }
 
 extension FontClient {
@@ -41,14 +43,19 @@ struct FontClientHelper {
         return fileType.contains("font")
     }
     
+    // Multiple font families can belong to a file.......
     static func makeFonts(_ url: URL) -> [Font] {
         // add -debug.makeFonts YES on the argument line to see more crap
-        let debug = UserDefaults.standard.bool(forKey: "debug.makeFonts")
-        
+//        let debug = UserDefaults.standard.bool(forKey: "debug.makeFonts")
+        let debug = true
         guard let array = CTFontManagerCreateFontDescriptorsFromURL(url as CFURL)
         else { return [] }
         guard let fontDescriptors = array as? [CTFontDescriptor]
         else { return [] }
+        
+        if debug {
+            Logger.log("Found \(fontDescriptors.count) descriptors for \(url.absoluteString)")
+        }
         
         let nsFonts = fontDescriptors
             .compactMap { fontDescriptor -> NSFont? in
@@ -56,9 +63,13 @@ struct FontClientHelper {
                 let font = NSFont(descriptor: nsFontDescriptor, size: 12)
                 
                 if debug {
-                    let name = (nsFontDescriptor.object(forKey: .name) as? String) ?? "uknown"
-                    Logger.log("found: \(name)")
-                    Logger.log("found: \(nsFontDescriptor.fontAttributes)")
+                    if let _ = font {
+                        let name = (nsFontDescriptor.object(forKey: .name) as? String) ?? "uknown"
+                        Logger.log("found: \(name)")
+                    }
+                    else {
+                        Logger.log("NOT found: \(url)")
+                    }
                 }
                 return font
             }
@@ -88,20 +99,7 @@ struct FontClientHelper {
         
         let fonts = nsFonts
             .map { nsFont -> Font in
-                // TODO: kdeda
-                // Gettting attributes here is bogging the system...
-//                let attributes = FontAttributeKey.allCases.reduce(into: [FontAttributeKey: String](), { partial, key in
-//                    if let value = CTFontCopyName(nsFont, key.key as CFString) {
-//                        partial[key] = value as String
-//                    }
-//                })
-//                return Font(
-//                    url: url,
-//                    name: nsFont.fontName,
-//                    familyName: nsFont.familyName ?? "None",
-//                    attributes: attributes
-//                )
-                return Font(
+                Font(
                     url: url,
                     name: nsFont.fontName,
                     familyName: nsFont.familyName ?? "None",
@@ -109,12 +107,12 @@ struct FontClientHelper {
                 )
             }
         
-        if debug {
-            Logger.log("found: \(fonts.count) fonts for: \(url.path)")
-            fonts.forEach {
-                Logger.log("here: \($0.name)")
-            }
-        }
+//        if debug {
+//            Logger.log("found: \(fonts.count) fonts for: \(url.path)")
+//            fonts.forEach {
+//                Logger.log("here: \($0.name)")
+//            }
+//        }
 
         
         //        let manager = NSLayoutManager.init()
