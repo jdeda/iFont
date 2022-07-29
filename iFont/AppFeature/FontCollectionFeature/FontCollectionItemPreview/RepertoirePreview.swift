@@ -28,7 +28,7 @@ struct RepertoirePreview: View {
                 .frame(width: 120, height: 30)
             }
             .zIndex(1)
-            HStack {
+            HStack {  // TODO: This will be probably be a lazy grid.
                 List {
                     ForEach(fonts) { font in
                         HStack {

@@ -41,7 +41,6 @@ struct FontCollectionView: View {
                 }
                 .pickerStyle(.segmented)
             }
-            .background(Color.init(NSColor.controlBackgroundColor))
         }
     }
 }
