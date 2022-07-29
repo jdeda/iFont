@@ -17,12 +17,8 @@ struct FontCollectionView: View {
                             FontCollectionItemRowView(store: store, itemType: item)
                                 .tag(item.id)
 //                                .frame(height: 15)
-
                         }
                     }
-                    Divider()
-                    Text("Font count: \(viewStore.collection.fonts.count)")
-                        .padding(5)
                 }
                 
                 switch viewStore.selectedItem {

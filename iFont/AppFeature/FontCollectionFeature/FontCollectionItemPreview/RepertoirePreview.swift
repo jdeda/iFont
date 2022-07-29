@@ -29,7 +29,7 @@ struct RepertoirePreview: View {
             }
             .zIndex(1)
             HStack {  // TODO: This will be probably be a lazy grid.
-                List {
+                ScrollView {
                     ForEach(fonts) { font in
                         HStack {
                             Spacer()

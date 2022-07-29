@@ -41,7 +41,7 @@ fileprivate struct FontRowView: View {
             .lineLimit(1)
             .truncationMode(.tail)
             .font(.system(size: 12))
-            .padding(.leading, 30)
+            .padding(.leading, 15)
     }
 }
 

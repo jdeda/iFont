@@ -29,7 +29,7 @@ struct SamplePreview: View {
             }
             .zIndex(1)
             HStack {
-                List {
+                ScrollView {
                     ForEach(fonts) { font in
                         HStack {
                             Spacer()

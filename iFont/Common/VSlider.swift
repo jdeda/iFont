@@ -13,7 +13,7 @@ struct VSlider<V: BinaryFloatingPoint>: View {
     var step: V.Stride? = nil
     var onEditingChanged: (Bool) -> Void = { _ in }
 
-    private let drawRadius: CGFloat = 13
+    private let drawRadius: CGFloat = 10
     private let dragRadius: CGFloat = 25
     private let lineWidth: CGFloat = 4.5
 
