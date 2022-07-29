@@ -13,10 +13,10 @@ import Foundation
 /// They can be created empty and the user can add/remove fonts from it
 /// They canbe created on application start up, for example the Computer Collection
 struct FontCollection: Equatable, Hashable, Codable {
-    let id = UUID()
     var type: FontCollectionType = .unknown
     var fonts: [Font]
     var fontFamilies: [FontFamily]
+    /// names must be unique
     var name: String
     
     init(
@@ -32,7 +32,11 @@ struct FontCollection: Equatable, Hashable, Codable {
     }
 }
 
-extension FontCollection: Identifiable {}
+extension FontCollection: Identifiable {
+    var id: String {
+        return name
+    }
+}
 
 //extension FontCollection {
 //    // We will append any font found into here

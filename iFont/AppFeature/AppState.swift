@@ -32,6 +32,12 @@ struct AppState: Equatable {
     // and expansions you had in "Computer".
     var selectedCollection: FontCollection? = nil
     var selectedCollectionState: FontCollectionState? = nil
+    @UserDefaultsValue (
+        key: "AppState.persistentSelectedCollectionID",
+        defaultValue: ""
+    )
+    var persistentSelectedCollectionID: String
+
     
     var librarySection: [FontCollection] = [
         .init(type: .allFontsLibrary, fonts: [], name: "All Fonts"),
@@ -101,8 +107,7 @@ extension AppState {
                 
                 // Debug.
                 let startTime = Date()
-                defer { Log4swift[Self.self].debug("completed in: \(startTime.elapsedTime) ms") }
-                Log4swift[Self.self].debug("received: \(newFonts.count)")
+                defer { Log4swift[Self.self].debug("fetchFontsResult received: \(newFonts.count) in: \(startTime.elapsedTime) ms") }
                 
                 // Add new fonts and update libraries.
                 state.fonts.append(contentsOf: newFonts)
@@ -110,11 +115,19 @@ extension AppState {
                     .init(type: $0.type, fonts: $0.fonts + newFonts.filter($0.type.matchingFonts), name: $0.name)
                 }
                 
-                // TODO: jdeda
-                // UserDefaults should only save selection when program ends...it is very slow.
+                if state.selectedCollection == .none {
+                    // select one from before ...
+                    state.selectedCollection = state.librarySection.first { $0.id == state.persistentSelectedCollectionID }
+                }
                 if let selectedCollection = state.selectedCollection { // Preserve it ...
+                    struct MadeSelectionID: Hashable {}
                     let updated = state.librarySection.first(where: { $0.type == selectedCollection.type })
+                    // TODO: jdeda
+                    // UserDefaults should only save selection when program ends...it is very slow.
+                    // this needs to be capped ....
+                    // debounce for 0.5 seconds
                     return Effect(value: .madeSelection(updated))
+                        .debounce(id: MadeSelectionID(), for: 0.25, scheduler: environment.mainQueue)
                 }
                 return .none
                 
@@ -125,8 +138,8 @@ extension AppState {
                 
                 // Debug.
                 let startTime = Date()
-                print("\nstarted action: .madeSelection")
-                defer { print("completed in: \(startTime.elapsedTime) ms\n") }
+                Log4swift[Self.self].debug("started action: .madeSelection")
+                defer { Log4swift[Self.self].debug("madeSelection completed in: \(startTime.elapsedTime) ms\n") }
                 
                 // TODO: jdeda - review!
                 // Make the selection sticky
@@ -137,6 +150,8 @@ extension AppState {
                 
                 // Set new selection.
                 state.selectedCollection = newSelection
+                state.persistentSelectedCollectionID = newSelection?.id ?? ""
+                
                 if var fontCollection = newSelection {
                     fontCollection.fontFamilies = fontCollection.fonts.groupedByFamily()
                     state.selectedCollectionState = .init(collection: fontCollection)
