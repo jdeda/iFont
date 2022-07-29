@@ -65,7 +65,7 @@ struct SamplePreview: View {
                 Text(String.alphabet.uppercased().splitInHalf().right)
                 Text(String.digits)
             }
-            .font(SwiftUI.Font(font.ctFont(fontSize)))
+            .font(.init(font: font, size: fontSize))
         }
     }
 }
