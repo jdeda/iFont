@@ -22,21 +22,19 @@ struct AppState: Equatable {
         Bundle.main.resourceURL!.appendingPathComponent("Fonts")
     ]
 
+    // TODO: jdeda
+    // These are never used anywhere...
     var fonts: [Font] = []
 
     // TODO: Jdeda
-    // Combine these?
-    // This does not support saving expansions and or selections
-    // in other FontCollection selections...i.e. if you switch
-    // from "Computer" to anything else, then you lose the selection
-    // and expansions you had in "Computer".
-//    var selectedCollection: FontCollection? = nil
-    var selectedCollectionState: FontCollectionState? = nil
+    // Combine these? Also, maybe better to have an array
+    // so the app doesn't have to recompute the state?
+    var selectedCollectionState: FontCollectionState?
     @UserDefaultsValue (
         key: "AppState.persistentSelectedCollectionID",
         defaultValue: ""
     )
-    var persistentSelectedCollectionID: FontCollection.ID?
+    var selectedCollectionID: FontCollection.ID?
 
     var collections: [FontCollection] = [
             .init(type: .allFontsLibrary, fonts: [], name: "All Fonts"),
@@ -50,78 +48,17 @@ struct AppState: Equatable {
             .init(type: .basic, fonts: [], name: "Traditional"),
             .init(type: .basic, fonts: [], name: "Web")
     ]
+    
+    var sidebar: SidebarState = .init(collections: [])
 }
-
-
-//// Single Source of Truth (SSOT) for the App.
-//struct AppState: Equatable {
-//
-//    // FIXME: jdeda
-//    // When in production, make sure all these paths are in
-//    var fontDirectories: Set<URL> = [
-//        .init(fileURLWithPath: "/System/Library/Fonts"),
-//        //        .init(fileURLWithPath: "/Library/Fonts"),
-//        //        .init(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Fonts"),
-//        Bundle.main.resourceURL!.appendingPathComponent("Fonts")
-//    ]
-//
-//    var fonts: [Font] = []
-//
-//    // TODO: Jdeda
-//    // Combine these?
-//    // This does not support saving expansions and or selections
-//    // in other FontCollection selections...i.e. if you switch
-//    // from "Computer" to anything else, then you lose the selection
-//    // and expansions you had in "Computer".
-//    var selectedCollection: FontCollection? = nil
-//    var selectedCollectionState: FontCollectionState? = nil
-//    @UserDefaultsValue (
-//        key: "AppState.persistentSelectedCollectionID",
-//        defaultValue: ""
-//    )
-//    var persistentSelectedCollectionID: String
-//
-//    var collections: [FontCollection] = [
-//            .init(type: .allFontsLibrary, fonts: [], name: "All Fonts"),
-//            .init(type: .computerLibrary, fonts: [], name: "Computer"),
-//            .init(type: .standardUserLibrary, fonts: [], name: "User"),
-//            .init(type: .smart, fonts: [], name: "English"),
-//            .init(type: .smart, fonts: [], name: "Fixed Width"),
-//            .init(type: .basic, fonts: [], name: "Fun"),
-//            .init(type: .basic, fonts: [], name: "Modern"),
-//            .init(type: .basic, fonts: [], name: "PDF"),
-//            .init(type: .basic, fonts: [], name: "Traditional"),
-//            .init(type: .basic, fonts: [], name: "Web")
-//
-//    ]
-//
-//    var librarySection: [FontCollection] = [
-//        .init(type: .allFontsLibrary, fonts: [], name: "All Fonts"),
-//        .init(type: .computerLibrary, fonts: [], name: "Computer"),
-//        .init(type: .standardUserLibrary, fonts: [], name: "User"),
-//    ]
-//
-//    var smartSection: [FontCollection] = [
-//        .init(type: .smart, fonts: [], name: "English"),
-//        .init(type: .smart, fonts: [], name: "Fixed Width")
-//    ]
-//
-//    var normalSection: [FontCollection] = [
-//        .init(type: .basic, fonts: [], name: "Fun"),
-//        .init(type: .basic, fonts: [], name: "Modern"),
-//        .init(type: .basic, fonts: [], name: "PDF"),
-//        .init(type: .basic, fonts: [], name: "Traditional"),
-//        .init(type: .basic, fonts: [], name: "Web")
-//    ]
-//}
 
 enum AppAction: Equatable {
     case onAppear
     case fetchFonts
     case fetchFontsResult(Result<[Font], Never>)
-    case madeSelection(FontCollection.ID?)
     case fontCollection(FontCollectionAction)
-    case sidebarToggle
+    case sidebar(SidebarAction)
+    case sidebarSelection(FontCollection.ID?)
 }
 
 struct AppEnvironment {
@@ -131,6 +68,11 @@ struct AppEnvironment {
 
 extension AppState {
     static let reducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
+        SidebarState.reducer.pullback(
+            state: \.sidebar,
+            action: /AppAction.sidebar,
+            environment: { _ in .init() }
+        ),
         FontCollectionState.reducer.optional().pullback(
             state: \.selectedCollectionState,
             action: /AppAction.fontCollection,
@@ -144,7 +86,6 @@ extension AppState {
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
-                // state.selectedCollection = UserDefaults.standard.getCodable(forKey: "selectedCollection")
                 return Effect(value: .fetchFonts)
                 
             case .fetchFonts:
@@ -161,14 +102,11 @@ extension AppState {
                 
             case let .fetchFontsResult(.success(newFonts)):
                 
-                // Debug.
                 let startTime = Date()
                 defer { Log4swift[Self.self].debug("fetchFontsResult received: \(newFonts.count) in: \(startTime.elapsedTime) ms") }
                 
-                // Add new fonts and update libraries.
                 state.fonts.append(contentsOf: newFonts)
 
-                // Update libraries within collections.
                 state.collections = state.collections.map {
                     if $0.type.isLibrary {
                         return .init(
@@ -181,54 +119,36 @@ extension AppState {
                         return $0
                     }
                 }
-                
-                // Update selection ..
-                if let selectedCollection = (state.collections.first { $0.id == state.persistentSelectedCollectionID }) {
-                    struct MadeSelectionID: Hashable {}
-                    return Effect(value: .madeSelection(selectedCollection.id))
-                        .debounce(id: MadeSelectionID(), for: 0.1, scheduler: environment.mainQueue)
-                }
-                
+            
+                state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
                 return .none
-                
-                // TODO: jdeda
-                // If the user clicks the library in the UI, this runs twice.
-                // if the user uses the keyboard, this runs once.
-                case let .madeSelection(newSelection):
-                    
-                    // Debug.
-                    let startTime = Date()
-                    Log4swift[Self.self].debug("started action: .madeSelection")
-                    defer { Log4swift[Self.self].debug("madeSelection completed in: \(startTime.elapsedTime) ms\n") }
-                    
-                    // Set new selection.
-                    state.persistentSelectedCollectionID = newSelection ?? ""
-                
-                    // Derive FontCollectionState from newSelection.
-                    if var fontCollectionID = newSelection {
-                        if let index = (state.collections.firstIndex { $0.id == fontCollectionID }) {
-                            state.collections[index].fontFamilies = state.collections[index].fonts.groupedByFamily()
-                            state.selectedCollectionState = .init(collection: state.collections[index])
-                        }
-                        else {
-                            // TODO: jdeda
-                            // Handle this better at some point please, app should not nuke itself.
-                            fatalError("Something went horribly wrong...")
-                        }
-                    }
-                    else {
-                        state.selectedCollectionState = nil
-                    }
-                
-                    return .none
                 
             case let .fontCollection(fontCollectionAction):
                 return .none
                 
-            case .sidebarToggle:
-                NSApp.keyWindow?
-                    .firstResponder?
-                    .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
+            case let .sidebar(sidebarAction):
+                switch sidebarAction {
+                case .binding(\.$selectedCollection):
+                    struct SidebarSelectionID: Hashable {}
+                    return Effect(value: .sidebarSelection(state.sidebar.selectedCollection))
+                        .debounce(id: SidebarSelectionID(), for: 0.1, scheduler: environment.mainQueue)
+                case .binding:
+                    return .none
+                }
+                
+            case let .sidebarSelection(newSelectionID):
+                
+                let startTime = Date()
+                Log4swift[Self.self].debug("started action: .madeSelection")
+                defer { Log4swift[Self.self].debug("madeSelection completed in: \(startTime.elapsedTime) ms\n") }
+                   
+                guard var newSelection = state.collections.first(where: { $0.id == newSelectionID})
+                else { return .none }
+                newSelection.fontFamilies = newSelection.fonts.groupedByFamily()
+                
+                state.selectedCollectionID = newSelectionID
+                state.selectedCollectionState = .init(collection: newSelection)
+                
                 return .none
             }
         }

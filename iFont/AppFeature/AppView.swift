@@ -14,13 +14,10 @@ struct AppView: View {
     var body: some View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
-                SidebarView(
-                    selection: viewStore.binding(
-                        get: \.persistentSelectedCollectionID,
-                        send: AppAction.madeSelection
-                    ),
-                    collections: viewStore.state.collections
-                )
+                SidebarView(store: store.scope(
+                    state: \.sidebar,
+                    action: AppAction.sidebar
+                ))
                 
                 IfLetStore(
                     store.scope(
@@ -30,6 +27,12 @@ struct AppView: View {
                     then: FontCollectionView.init(store:),
                     else: { Text("No collection selected") }
                 )
+                
+                //            case .sidebarToggle:
+                //                NSApp.keyWindow?
+                //                    .firstResponder?
+                //                    .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
+                //                return .none
                 
                 .onAppear {
                     // TODO: kdeda
@@ -46,45 +49,6 @@ struct AppView: View {
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
         AppView(store: AppState.mockStore)
-    }
-}
-
-fileprivate struct SidebarView: View {
-    @Binding var selection: FontCollection.ID?
-    let collections: [FontCollection]
-   
-    var body: some View {
-        List(selection: $selection) {
-            FontCollectionsSection(header: "Libraries", collections.filter { $0.type.isLibrary })
-            FontCollectionsSection(header: "Smart Collections", collections.filter { $0.type.isSmart })
-            FontCollectionsSection(header: "Collections", collections.filter { $0.type.isBasic })
-        }
-    }
-    
-    private struct FontCollectionsSection: View {
-        let header: String
-        let collection: [FontCollection]
-        
-        init(header: String, _ collection: [FontCollection]) {
-            self.header = header
-            self.collection = collection
-        }
-        
-        var body: some View {
-            Section(header) {
-                ForEach(collection) { collection in
-                    HStack {
-                        Image(systemName: collection.type.imageSystemName)
-                            .foregroundColor(collection.type.accentColor)
-                            .frame(width: 20, height: 20)
-                        Text(collection.name)
-                        Text("\(collection.fonts.count)")
-                            .bold()
-                    }
-                    .tag(collection.name)
-                }
-            }
-        }
     }
 }
 
