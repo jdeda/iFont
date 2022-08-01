@@ -66,7 +66,27 @@ extension FontCollectionType {
             return false
         }
     }
+}
 
+extension FontCollectionType {
+    
+    var isLibrary: Bool {
+        if self == .allFontsLibrary || self == .computerLibrary || self == .standardUserLibrary {
+            return true
+        }
+        else if case .library(_) = self {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    var isSmart: Bool {
+        self == .smart
+    }
+    var isBasic: Bool {
+        self == .basic
+    }
 }
 
 //enum FontCollectionType: Equatable, Hashable {
