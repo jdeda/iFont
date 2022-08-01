@@ -22,13 +22,10 @@ struct AppState: Equatable {
         Bundle.main.resourceURL!.appendingPathComponent("Fonts")
     ]
 
-    // TODO: jdeda
-    // These are never used anywhere...
-    var fonts: [Font] = []
-
     // TODO: Jdeda
     // Combine these? Also, maybe better to have an array
-    // so the app doesn't have to recompute the state?
+    // so the app doesn't have to recompute the state
+    // and you keep selections, etc.
     var selectedCollectionState: FontCollectionState?
     @UserDefaultsValue (
         key: "AppState.persistentSelectedCollectionID",
@@ -104,8 +101,6 @@ extension AppState {
                 let startTime = Date()
                 defer { Log4swift[Self.self].debug("fetchFontsResult received: \(newFonts.count) in: \(startTime.elapsedTime) ms") }
                 
-                state.fonts.append(contentsOf: newFonts)
-
                 state.collections = state.collections.map {
                     if $0.type.isLibrary {
                         return .init(
@@ -153,15 +148,10 @@ extension AppState {
         }
     )
 }
-
 extension AppState {
-    static let liveState = AppState(fonts: [Font]())
+    static let liveState = AppState()
     static let mockState = AppState(
-        fontDirectories: [URL(fileURLWithPath: "/Users/kdeda/Library/Fonts")],
-        fonts: [Font(
-            url: URL(fileURLWithPath: NSTemporaryDirectory()),
-            name: "KohinoorBangla",
-            familyName: "KohinoorBangla")]
+        fontDirectories: [URL(fileURLWithPath: "/Users/kdeda/Library/Fonts")]
     )
 }
 
