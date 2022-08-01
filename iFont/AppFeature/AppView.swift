@@ -28,12 +28,6 @@ struct AppView: View {
                     else: { Text("No collection selected") }
                 )
                 
-                //            case .sidebarToggle:
-                //                NSApp.keyWindow?
-                //                    .firstResponder?
-                //                    .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
-                //                return .none
-                
                 .onAppear {
                     // TODO: kdeda
                     // When you hide/unhide the app we get here...

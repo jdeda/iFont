@@ -5,7 +5,7 @@
 //  Created by Jesse Deda on 8/1/22.
 //
 
-import Foundation
+import SwiftUI
 import ComposableArchitecture
 
 struct SidebarState: Equatable {
@@ -15,6 +15,7 @@ struct SidebarState: Equatable {
 
 enum SidebarAction: BindableAction, Equatable {
     case binding(BindingAction<SidebarState>)
+    case sidebarToggle
 }
 
 struct SidebarEnvironment { }
@@ -24,6 +25,12 @@ extension SidebarState {
         Reducer { state, action, environment in
             switch action {
             case .binding:
+                return .none
+                
+            case .sidebarToggle:
+                NSApp.keyWindow?
+                    .firstResponder?
+                    .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
                 return .none
             }
         }

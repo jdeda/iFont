@@ -18,6 +18,13 @@ struct SidebarView: View {
                 FontCollectionsSection(header: "Smart Collections", viewStore.collections.filter { $0.type.isSmart })
                 FontCollectionsSection(header: "Collections", viewStore.collections.filter { $0.type.isBasic })
             }
+            .toolbar {
+                    Button(action: {
+                        viewStore.send(.sidebarToggle)
+                    }, label: {
+                        Image(systemName: "sidebar.left")
+                    })
+            }
         }
     }
     

@@ -56,9 +56,9 @@ enum AppAction: Equatable {
     case onAppear
     case fetchFonts
     case fetchFontsResult(Result<[Font], Never>)
-    case fontCollection(FontCollectionAction)
     case sidebar(SidebarAction)
     case sidebarSelection(FontCollection.ID?)
+    case fontCollection(FontCollectionAction)
 }
 
 struct AppEnvironment {
@@ -101,7 +101,6 @@ extension AppState {
                 return foo
                 
             case let .fetchFontsResult(.success(newFonts)):
-                
                 let startTime = Date()
                 defer { Log4swift[Self.self].debug("fetchFontsResult received: \(newFonts.count) in: \(startTime.elapsedTime) ms") }
                 
@@ -126,19 +125,14 @@ extension AppState {
                 return Effect(value: .sidebarSelection(state.sidebar.selectedCollection))
                     .debounce(id: SidebarSelectionID(), for: 0.1, scheduler: environment.mainQueue)
                 
-            case let .fontCollection(fontCollectionAction):
-                return .none
                 
+            case .sidebar(.binding(\.$selectedCollection)):
+                return Effect(value: .sidebarSelection(state.sidebar.selectedCollection))
+
             case let .sidebar(sidebarAction):
-                switch sidebarAction {
-                case .binding(\.$selectedCollection):
-                    return Effect(value: .sidebarSelection(state.sidebar.selectedCollection))
-                case .binding:
                     return .none
-                }
                 
             case let .sidebarSelection(newSelectionID):
-                
                 let startTime = Date()
                 Log4swift[Self.self].debug("started action: .madeSelection")
                 defer { Log4swift[Self.self].debug("madeSelection completed in: \(startTime.elapsedTime) ms\n") }
@@ -151,7 +145,11 @@ extension AppState {
                 state.selectedCollectionState = .init(collection: newSelection)
                 
                 return .none
+                
+            case let .fontCollection(fontCollectionAction):
+                return .none
             }
+            
         }
     )
 }
