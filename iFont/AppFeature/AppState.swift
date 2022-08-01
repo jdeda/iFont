@@ -121,7 +121,10 @@ extension AppState {
                 }
             
                 state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
-                return .none
+                
+                struct SidebarSelectionID: Hashable {}
+                return Effect(value: .sidebarSelection(state.sidebar.selectedCollection))
+                    .debounce(id: SidebarSelectionID(), for: 0.1, scheduler: environment.mainQueue)
                 
             case let .fontCollection(fontCollectionAction):
                 return .none
@@ -129,9 +132,7 @@ extension AppState {
             case let .sidebar(sidebarAction):
                 switch sidebarAction {
                 case .binding(\.$selectedCollection):
-                    struct SidebarSelectionID: Hashable {}
                     return Effect(value: .sidebarSelection(state.sidebar.selectedCollection))
-                        .debounce(id: SidebarSelectionID(), for: 0.1, scheduler: environment.mainQueue)
                 case .binding:
                     return .none
                 }
