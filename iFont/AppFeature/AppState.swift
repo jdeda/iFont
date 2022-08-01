@@ -123,7 +123,7 @@ extension AppState {
                 
                 struct SidebarSelectionID: Hashable {}
                 return Effect(value: .sidebarSelection(state.sidebar.selectedCollection))
-                    .debounce(id: SidebarSelectionID(), for: 0.1, scheduler: environment.mainQueue)
+                    .debounce(id: SidebarSelectionID(), for: 0.05, scheduler: environment.mainQueue)
                 
                 
             case .sidebar(.binding(\.$selectedCollection)):
