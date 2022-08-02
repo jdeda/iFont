@@ -8,6 +8,12 @@
 import SwiftUI
 import ComposableArchitecture
 
+//struct FontCollectionSidebarItem {
+//    let fontCollectionName: String
+//    let fontCollectionType: FontCollectionType
+//    let fontCollectionFontCount: Int
+//}
+
 struct SidebarView: View {
     let store: Store<SidebarState, SidebarAction>
    
@@ -24,6 +30,9 @@ struct SidebarView: View {
                     }, label: {
                         Image(systemName: "sidebar.left")
                     })
+            }
+            .contextMenu {
+                SidebarContextMenu()
             }
         }
     }

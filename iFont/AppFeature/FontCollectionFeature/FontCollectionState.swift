@@ -92,7 +92,7 @@ extension FontCollectionState {
 }
 
 extension FontCollectionState {
-    static let liveState =  FontCollectionState(collection: .init())
+    static let liveState =  FontCollectionState(collection: .init(type: FontCollectionType.allFontsLibrary))
     static let mockState = FontCollectionState(collection: .init(
         type: .library(URL(fileURLWithPath: NSTemporaryDirectory())),
         fonts: (0...10).map {
