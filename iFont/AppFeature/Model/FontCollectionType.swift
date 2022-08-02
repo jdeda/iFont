@@ -89,6 +89,25 @@ extension FontCollectionType {
     }
 }
 
+extension FontCollectionType {
+    var canRenameOrDelete: Bool {
+        switch self {
+        case .allFontsLibrary:
+            return false
+        case .computerLibrary:
+            return false
+        case .standardUserLibrary:
+            return false
+        case .library(_):
+            return true
+        case .smart:
+            return true
+        case .basic:
+            return true
+        }
+    }
+}
+
 //enum FontCollectionType: Equatable, Hashable {
 //
 //    enum Library: Equatable, Hashable {
@@ -101,10 +120,3 @@ extension FontCollectionType {
 //    case smart
 //    case normal
 //}
-
-// TODO: jdeda
-// Define more rules to CollectionType depending on self
-// can it be renamed ?
-// can it be removed ?
-// can it be modified ?
-// etc

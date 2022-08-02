@@ -15,7 +15,12 @@ struct SidebarState: Equatable {
 
 enum SidebarAction: BindableAction, Equatable {
     case binding(BindingAction<SidebarState>)
-    case sidebarToggle
+    case toggleHideSidebar
+    case tappedRenameButton
+    case tappedDeleteButton
+    case tappedAddLibraryButton
+    case tappedAddSmartCollectionButton
+    case tappedAddCollectionButton
 }
 
 struct SidebarEnvironment { }
@@ -27,10 +32,21 @@ extension SidebarState {
             case .binding:
                 return .none
                 
-            case .sidebarToggle:
+            case .toggleHideSidebar:
                 NSApp.keyWindow?
                     .firstResponder?
                     .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
+                return .none
+                
+            case .tappedRenameButton:
+                return .none
+            case .tappedDeleteButton:
+                return .none
+            case .tappedAddLibraryButton:
+                return .none
+            case .tappedAddSmartCollectionButton:
+                return .none
+            case .tappedAddCollectionButton:
                 return .none
             }
         }
