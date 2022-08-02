@@ -18,7 +18,6 @@
 		977F8F412885DCA100EE2893 /* UserDefaults+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977F8F402885DCA100EE2893 /* UserDefaults+Extensions.swift */; };
 		97D0E26528414F9E00F4BA77 /* FontCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26428414F9E00F4BA77 /* FontCollectionView.swift */; };
 		97D0E26728414FA400F4BA77 /* FontCollectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26628414FA400F4BA77 /* FontCollectionState.swift */; };
-		97D4F9BF2899A97400D28F59 /* SidebarContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D4F9BE2899A97400D28F59 /* SidebarContextMenu.swift */; };
 		97DFC5AB2874949400D2E845 /* FontCollectionItemPreviewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DFC5AA2874949400D2E845 /* FontCollectionItemPreviewType.swift */; };
 		97DFC5AF28749CEC00D2E845 /* FontCollectionItemPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DFC5AE28749CEC00D2E845 /* FontCollectionItemPreview.swift */; };
 		97DFC5B32874A08700D2E845 /* InfoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DFC5B22874A08700D2E845 /* InfoPreview.swift */; };
@@ -59,7 +58,6 @@
 		977F8F402885DCA100EE2893 /* UserDefaults+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extensions.swift"; sourceTree = "<group>"; };
 		97D0E26428414F9E00F4BA77 /* FontCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontCollectionView.swift; sourceTree = "<group>"; };
 		97D0E26628414FA400F4BA77 /* FontCollectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontCollectionState.swift; sourceTree = "<group>"; };
-		97D4F9BE2899A97400D28F59 /* SidebarContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarContextMenu.swift; sourceTree = "<group>"; };
 		97DFC5AA2874949400D2E845 /* FontCollectionItemPreviewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontCollectionItemPreviewType.swift; sourceTree = "<group>"; };
 		97DFC5AE28749CEC00D2E845 /* FontCollectionItemPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontCollectionItemPreview.swift; sourceTree = "<group>"; };
 		97DFC5B22874A08700D2E845 /* InfoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPreview.swift; sourceTree = "<group>"; };
@@ -104,7 +102,6 @@
 			children = (
 				970C12192899CF3B00107E3D /* SidebarRowState.swift */,
 				970C12172899CF3400107E3D /* SidebarRowView.swift */,
-				97D4F9BE2899A97400D28F59 /* SidebarContextMenu.swift */,
 			);
 			path = SidebarRowFeature;
 			sourceTree = "<group>";
@@ -323,7 +320,6 @@
 				97DFC5B32874A08700D2E845 /* InfoPreview.swift in Sources */,
 				97D0E26728414FA400F4BA77 /* FontCollectionState.swift in Sources */,
 				97D0E26528414F9E00F4BA77 /* FontCollectionView.swift in Sources */,
-				97D4F9BF2899A97400D28F59 /* SidebarContextMenu.swift in Sources */,
 				97EDF8692891A74700AD9055 /* CompactPicker.swift in Sources */,
 				97DFC5B92874A0B700D2E845 /* SamplePreview.swift in Sources */,
 				FB5B2E252874CAE100BE7F8E /* AppState.swift in Sources */,

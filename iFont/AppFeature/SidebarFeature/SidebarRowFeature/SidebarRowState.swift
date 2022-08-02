@@ -6,3 +6,16 @@
 //
 
 import Foundation
+
+struct SidebarRowState: Equatable, Identifiable {
+    var id: String { collection.name }
+    var collection: FontCollection
+}
+
+enum SidebarRowAction: Equatable {
+    case newLibrary
+    case newSmartCollection
+    case newBasicCollection
+    case rename
+    case delete
+}

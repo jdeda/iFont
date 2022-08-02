@@ -10,17 +10,22 @@ import ComposableArchitecture
 
 struct SidebarState: Equatable {
     @BindableState var selectedCollection: FontCollection.ID?
-    var collections: [FontCollection]
+    var libraryCollections: IdentifiedArrayOf<SidebarRowState>
+    var smartCollections: IdentifiedArrayOf<SidebarRowState>
+    var basicCollections: IdentifiedArrayOf<SidebarRowState>
+    
+    init(selectedCollection: FontCollection.ID? = nil, collections: [FontCollection] = []) {
+        self.selectedCollection = selectedCollection
+        self.libraryCollections = .init(uniqueElements: collections.filter(\.type.isLibrary).map(SidebarRowState.init))
+        self.smartCollections   = .init(uniqueElements: collections.filter(\.type.isSmart).map(SidebarRowState.init))
+        self.basicCollections   = .init(uniqueElements:collections.filter(\.type.isBasic).map(SidebarRowState.init))
+    }
 }
 
 enum SidebarAction: BindableAction, Equatable {
     case binding(BindingAction<SidebarState>)
     case toggleHideSidebar
-    case tappedRenameButton
-    case tappedDeleteButton
-    case tappedAddLibraryButton
-    case tappedAddSmartCollectionButton
-    case tappedAddCollectionButton
+    case row(id: SidebarRowState.ID, action: SidebarRowAction)
 }
 
 struct SidebarEnvironment { }
@@ -38,15 +43,7 @@ extension SidebarState {
                     .tryToPerform(#selector(NSSplitViewController.toggleSidebar), with: nil)
                 return .none
                 
-            case .tappedRenameButton:
-                return .none
-            case .tappedDeleteButton:
-                return .none
-            case .tappedAddLibraryButton:
-                return .none
-            case .tappedAddSmartCollectionButton:
-                return .none
-            case .tappedAddCollectionButton:
+            case let .row(id, action):
                 return .none
             }
         }

@@ -46,7 +46,7 @@ struct AppState: Equatable {
             .init(type: .basic, fonts: [], name: "Web")
     ]
     
-    var sidebar: SidebarState = .init(collections: [])
+    var sidebar: SidebarState = .init()
 }
 
 enum AppAction: Equatable {
