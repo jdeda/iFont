@@ -32,6 +32,21 @@ struct SidebarEnvironment { }
 
 extension SidebarState {
     static let reducer = Reducer<SidebarState, SidebarAction, SidebarEnvironment>.combine(
+        SidebarRowState.reducer.forEach(
+            state: \.libraryCollections,
+            action: /SidebarAction.row(id:action:),
+            environment: { _ in .init()}
+        ),
+        SidebarRowState.reducer.forEach(
+            state: \.smartCollections,
+            action: /SidebarAction.row(id:action:),
+            environment: { _ in .init()}
+        ),
+        SidebarRowState.reducer.forEach(
+            state: \.basicCollections,
+            action: /SidebarAction.row(id:action:),
+            environment: { _ in .init()}
+        ),
         Reducer { state, action, environment in
             switch action {
             case .binding:

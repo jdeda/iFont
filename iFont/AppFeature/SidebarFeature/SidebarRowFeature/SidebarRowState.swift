@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ComposableArchitecture
 
 struct SidebarRowState: Equatable, Identifiable {
     var id: String { collection.name }
@@ -18,4 +19,38 @@ enum SidebarRowAction: Equatable {
     case newBasicCollection
     case rename
     case delete
+}
+
+struct SidebarRowEnvironment { }
+
+extension SidebarRowState {
+    static let reducer = Reducer<SidebarRowState, SidebarRowAction, SidebarRowEnvironment>.combine(
+        Reducer { state, action, environment in
+            switch action {
+            case .newLibrary:
+                return .none
+            case .newSmartCollection:
+                return .none
+            case .newBasicCollection:
+                return .none
+            case .rename:
+                return .none
+            case .delete:
+                return .none
+            }
+        }
+    )
+}
+
+extension SidebarRowState {
+    static let mockStore = Store(
+        initialState: SidebarRowState(collection: .init(
+            type: .basic,
+            fonts: mock_fonts,
+            fontFamilies: mock_fonts.groupedByFamily(),
+            name: "Mock Fonts"
+        )),
+        reducer: SidebarRowState.reducer,
+        environment: SidebarRowEnvironment()
+    )
 }

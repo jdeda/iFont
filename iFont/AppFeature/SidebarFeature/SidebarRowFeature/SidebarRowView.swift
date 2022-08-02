@@ -62,8 +62,8 @@ struct SidebarRowView: View {
     }
 }
 
-//struct SidebarRowView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SidebarRowView(store: SidebarRowState.mockStore)
-//    }
-//}
+struct SidebarRowView_Previews: PreviewProvider {
+    static var previews: some View {
+        SidebarRowView(store: SidebarRowState.mockStore)
+    }
+}
