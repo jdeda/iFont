@@ -14,8 +14,8 @@ struct SidebarRowState: Equatable, Identifiable {
 }
 
 enum SidebarRowAction: Equatable {
-    case newLibrary
-    case newSmartCollection
+    case newLibrary(directory: URL)
+    case newSmartCollection(filter: SmartCollectionFilter, baseID: FontCollection.ID)
     case newBasicCollection
     case rename
     case delete
@@ -27,7 +27,7 @@ extension SidebarRowState {
     static let reducer = Reducer<SidebarRowState, SidebarRowAction, SidebarRowEnvironment>.combine(
         Reducer { state, action, environment in
             switch action {
-            case .newLibrary:
+            case let .newLibrary(directory: URL):
                 return .none
             case .newSmartCollection:
                 return .none

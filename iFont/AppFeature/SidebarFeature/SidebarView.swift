@@ -42,6 +42,9 @@ import ComposableArchitecture
  2. list needs a tag....well we can't do this in our ForEachStore because we don't have tag data handy...
  the childStore can't give us anything...so basically we'd have to put a tag within the view we init by the childstore
  
+ Attempt A: N-forEach
+    - this does not work. we scope n times and forEach on a reducer n times...
+ 
  */
 struct SidebarView: View {
     let store: Store<SidebarState, SidebarAction>
@@ -53,7 +56,7 @@ struct SidebarView: View {
                     ForEachStore(
                         store.scope(
                             state: \.libraryCollections,
-                            action: SidebarAction.row
+                            action: SidebarAction.libraryCollectionRow
                         ),  content: SidebarRowView.init(store:)
                     )
                 }
@@ -61,7 +64,7 @@ struct SidebarView: View {
                     ForEachStore(
                         store.scope(
                             state: \.smartCollections,
-                            action: SidebarAction.row
+                            action: SidebarAction.smartCollectionRow
                         ),  content: SidebarRowView.init(store:)
                     )
                 }
@@ -69,7 +72,7 @@ struct SidebarView: View {
                     ForEachStore(
                         store.scope(
                             state: \.basicCollections,
-                            action: SidebarAction.row
+                            action: SidebarAction.basicCollectionRow
                         ),  content: SidebarRowView.init(store:)
                     )
                 }

@@ -21,22 +21,32 @@ struct SidebarRowView: View {
                 Text("\(viewStore.collection.fonts.count)")
                     .bold()
             }
+            
             .tag(viewStore.collection.id)
             .contextMenu {
                 Button {
-                     viewStore.send(.newLibrary)
+                    let panel = NSOpenPanel()
+                    panel.canChooseFiles = false
+                    panel.canChooseDirectories = true
+                    panel.allowsMultipleSelection = false
+                    let reponse = panel.runModal()
+                    if reponse == NSApplication.ModalResponse.OK {
+                        if let url = panel.url {
+                            viewStore.send(.newLibrary(directory: url))
+                        }
+                    }
                 } label: {
                     Text("New Library")
+                }
+                Button {
+//                     viewStore.send(.newSmartCollection)
+                } label: {
+                    Text("New Smart Collection")
                 }
                 Button {
                     viewStore.send(.newBasicCollection)
                 } label: {
                     Text("New Collection")
-                }
-                Button {
-                     viewStore.send(.newSmartCollection)
-                } label: {
-                    Text("New Smart Collection")
                 }
 
                 Divider()

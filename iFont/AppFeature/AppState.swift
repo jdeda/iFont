@@ -11,8 +11,7 @@ import Log4swift
 import SwiftCommons
 
 // Single Source of Truth (SSOT) for the App.
-struct AppState: Equatable {
-
+struct AppState: Equatable {    
     // FIXME: jdeda
     // When in production, make sure all these paths are in
     var fontDirectories: Set<URL> = [
@@ -21,7 +20,7 @@ struct AppState: Equatable {
         //        .init(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Fonts"),
         Bundle.main.resourceURL!.appendingPathComponent("Fonts")
     ]
-
+    
     // TODO: Jdeda
     // Combine these? Also, maybe better to have an array
     // so the app doesn't have to recompute the state
@@ -32,18 +31,18 @@ struct AppState: Equatable {
         defaultValue: ""
     )
     var selectedCollectionID: FontCollection.ID?
-
+    
     var collections: [FontCollection] = [
-            .init(type: .allFontsLibrary, fonts: [], name: "All Fonts"),
-            .init(type: .computerLibrary, fonts: [], name: "Computer"),
-            .init(type: .standardUserLibrary, fonts: [], name: "User"),
-            .init(type: .smart, fonts: [], name: "English"),
-            .init(type: .smart, fonts: [], name: "Fixed Width"),
-            .init(type: .basic, fonts: [], name: "Fun"),
-            .init(type: .basic, fonts: [], name: "Modern"),
-            .init(type: .basic, fonts: [], name: "PDF"),
-            .init(type: .basic, fonts: [], name: "Traditional"),
-            .init(type: .basic, fonts: [], name: "Web")
+        .init(type: .allFontsLibrary, fonts: [], name: "All Fonts"),
+        .init(type: .computerLibrary, fonts: [], name: "Computer"),
+        .init(type: .standardUserLibrary, fonts: [], name: "User"),
+        .init(type: .smart, fonts: [], name: "English"),
+        .init(type: .smart, fonts: [], name: "Fixed Width"),
+        .init(type: .basic, fonts: [], name: "Fun"),
+        .init(type: .basic, fonts: [], name: "Modern"),
+        .init(type: .basic, fonts: [], name: "PDF"),
+        .init(type: .basic, fonts: [], name: "Traditional"),
+        .init(type: .basic, fonts: [], name: "Web")
     ]
     
     var sidebar: SidebarState = .init()
@@ -51,7 +50,9 @@ struct AppState: Equatable {
 
 enum AppAction: Equatable {
     case onAppear
-    case fetchFonts
+    case fetchAllFonts
+    case fetchAllFontsResult(Result<[Font], Never>)
+    case fetchFonts(URL)
     case fetchFontsResult(Result<[Font], Never>)
     case sidebar(SidebarAction)
     case sidebarSelection(FontCollection.ID?)
@@ -83,9 +84,9 @@ extension AppState {
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
-                return Effect(value: .fetchFonts)
+                return Effect(value: .fetchAllFonts)
                 
-            case .fetchFonts:
+            case .fetchAllFonts:
                 let foo = state.fontDirectories
                     .publisher
                     .flatMap {
@@ -93,11 +94,11 @@ extension AppState {
                     }
                     .receive(on: environment.mainQueue)
                     .catchToEffect()
-                    .map(AppAction.fetchFontsResult)
+                    .map(AppAction.fetchAllFontsResult)
                 
                 return foo
                 
-            case let .fetchFontsResult(.success(newFonts)):
+            case let .fetchAllFontsResult(.success(newFonts)):
                 let startTime = Date()
                 defer { Log4swift[Self.self].debug("fetchFontsResult received: \(newFonts.count) in: \(startTime.elapsedTime) ms") }
                 
@@ -113,7 +114,7 @@ extension AppState {
                         return $0
                     }
                 }
-            
+                
                 state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
                 
                 struct SidebarSelectionID: Hashable {}
@@ -123,28 +124,68 @@ extension AppState {
                 
             case .sidebar(.binding(\.$selectedCollection)):
                 return Effect(value: .sidebarSelection(state.sidebar.selectedCollection))
-
-            case let .sidebar(sidebarAction):
-                    return .none
                 
-            case let .sidebarSelection(newSelectionID):
-                let startTime = Date()
-                Log4swift[Self.self].debug("started action: .madeSelection")
-                defer { Log4swift[Self.self].debug("madeSelection completed in: \(startTime.elapsedTime) ms\n") }
-                   
-                guard var newSelection = state.collections.first(where: { $0.id == newSelectionID})
+            case let .sidebar(action):
+                guard let (rowID, rowAction) = (/SidebarAction.row).extract(from: action)
                 else { return .none }
-                newSelection.fontFamilies = newSelection.fonts.groupedByFamily()
                 
-                state.selectedCollectionID = newSelectionID
-                state.selectedCollectionState = .init(collection: newSelection)
+                guard let index = state.collections.firstIndex(where: { $0.id == rowID })
+                else { return .none }
                 
+                switch rowAction {
+                    case let .newLibrary(directory): // Popup menu.
+                        
+    //                    state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
+                        return .none
+                        
+                    case let .newSmartCollection(filter, baseID): // Popup menu.
+    //                    state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
+                        return .none
+                        
+                    case .newBasicCollection: // Create a new one
+                        state.collections.append(.init(type: .basic))
+                        state.selectedCollectionID = state.collections.last!.id
+                        state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
+                        return .none
+                        
+                    case .rename: // How?
+                        if !state.collections[index].type.canRenameOrDelete {
+                            // Do...
+                        }
+                        state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
+                        return .none
+                        
+                    case .delete: // Delete at index.
+                        if state.collections[index].type.canRenameOrDelete {
+                            state.collections.remove(at: index)
+                        }
+                        state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
+                        return .none
+                }
+            
+        case let .sidebarSelection(newSelectionID):
+            let startTime = Date()
+            Log4swift[Self.self].debug("started action: .madeSelection")
+            defer { Log4swift[Self.self].debug("madeSelection completed in: \(startTime.elapsedTime) ms\n") }
+            
+            guard var newSelection = state.collections.first(where: { $0.id == newSelectionID})
+            else { return .none }
+            newSelection.fontFamilies = newSelection.fonts.groupedByFamily()
+            
+            state.selectedCollectionID = newSelectionID
+            state.selectedCollectionState = .init(collection: newSelection)
+            
+            return .none
+            
+        case let .fontCollection(fontCollectionAction):
+            return .none
+                
+        case let.fetchFonts(directory):
                 return .none
                 
-            case let .fontCollection(fontCollectionAction):
+        case let .fetchFontsResult(.success(newFonts)):
                 return .none
             }
-            
         }
     )
 }
