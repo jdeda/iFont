@@ -46,7 +46,6 @@ struct AppState: Equatable {
     ]
     
     var sidebar: SidebarState = .init()
-    var newLibrary: FontCollection = .init(type: .basic, name: "Untitled")
     
     private func getDefaultName() -> String {
         var count = 1
@@ -75,8 +74,9 @@ enum AppAction: Equatable {
     case sidebarSelection(FontCollection.ID?)
     case fontCollection(FontCollectionAction)
     case createNewLibrary(URL)
-    case createNewLibraryFontsResult([Font])
+    case createNewLibraryFontsResult(libraryID: FontCollection.ID, fonts: [Font])
     case createNewLibraryCompleted
+    case deleteCollection(FontCollection.ID)
 }
 
 struct AppEnvironment {
@@ -102,6 +102,9 @@ extension AppState {
             }
         ),
         Reducer { state, action, environment in
+            
+            enum CreateFontCollectionID: Hashable {}
+            
             switch action {
             case .onAppear:
                 return Effect(value: .fetchAllFonts)
@@ -180,11 +183,7 @@ extension AppState {
                     return .none
                     
                 case .delete: // Delete at index.
-                    if state.collections[index].type.canRenameOrDelete {
-                        state.collections.remove(at: index)
-                    }
-                    state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
-                    return .none
+                    return Effect(value: .deleteCollection(rowID))
                 }
                 
             case let .sidebarSelection(newSelectionID):
@@ -205,49 +204,56 @@ extension AppState {
                 return .none
                 
             case let .createNewLibrary(directory):
-                state.newLibrary = .init(
-                    type: .library(directory),
-                    name: state.getDefaultName()
-                )
-                state.collections.append(state.newLibrary)
-                // state.newLibraryFetching = true
+                let name = state.getDefaultName()
+                state.collections.append(.init(type: .library(directory), name: name))
                 
                 let fetchFonts = environment.fontClient.fetchFonts(directory)
                     .receive(on: environment.mainQueue)
-                    .eraseToEffect(AppAction.createNewLibraryFontsResult)
-                let completed = Effect<AppAction, Never>(value: AppAction.createNewLibraryCompleted)
+                    .eraseToEffect {
+                        AppAction.createNewLibraryFontsResult(libraryID: name, fonts: $0)
+                    }
                 
-                return Effect.concatenate(fetchFonts, completed)
+                let fetchFontsCompletion = Effect<AppAction, Never>(value: AppAction.createNewLibraryCompleted)
+                
+                return Effect.concatenate(fetchFonts, fetchFontsCompletion)
+                    .cancellable(id: CreateFontCollectionID.self)
 
             case let .createNewLibraryFontsResult(libraryID, newFonts):
-                // if u open a directory w/ no file u will never get here
+                // If you open an empty directory you will never get here.
+                // Indexing here is dangerous.
                 
-                // Update all fonts and its dependencies!
-                // If somehow the name of the library changes while being updated...
-                // If someone added or removed the library while being updated...
-                // Then tactical nuke...
-                
-                // Update newLibrary.
-                state.newLibrary.fonts.append(contentsOf: newFonts)
-                
-                // Put newLibrary in all the collections.
-                let newLibraryIndex = state.collections.firstIndex(where: { $0.name == state.newLibrary.name })!
+                // Update the new library.
+                let newLibraryIndex = state.collections.firstIndex(where: { $0.id == libraryID })!
                 state.collections[newLibraryIndex].fonts.append(contentsOf: newFonts)
                 
-                // Update allFonts.
+                // Update the allFonts collection.
                 let allFontsIndex = state.collections.firstIndex(where: { $0.type == .allFontsLibrary })!
                 state.collections[allFontsIndex].fonts.append(contentsOf: newFonts)
-                
-                // Update sidebar.
-                state.sidebar = .init(selectedCollection: state.newLibrary.id, collections: state.collections)
 
+                state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
                 return .none
                 
             case .createNewLibraryCompleted:
-                // state.newLibraryFetching = false
                 return .none
 
-
+            case let .deleteCollection(collectionID):
+                // Indexing here is dangerous.
+                
+                // Delete collection with matchingID
+                let deletionIndex = state.collections.firstIndex(where: { $0.id == collectionID })!
+                if state.collections[deletionIndex].type.canRenameOrDelete {
+                    state.collections.remove(at: deletionIndex)
+                
+                    // Recompute allFonts collection.
+                    let allFontIndex = state.collections.firstIndex(where: { $0.type == .allFontsLibrary })!
+                    state.collections[allFontIndex].fonts = state.collections.reduce(into: []) { partial, collection in
+                        if collection.type.isLibrary && collection.type != .allFontsLibrary {
+                            partial.append(contentsOf: collection.fonts)
+                        }
+                    }
+                }
+                state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
+                return .cancel(id: CreateFontCollectionID.self)
             }
         }
     )

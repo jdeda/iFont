@@ -58,7 +58,7 @@ struct SidebarRowView: View {
                         Text("Rename \"\(viewStore.collection.name)\"")
                     }
                     Button {
-                         viewStore.send(.delete)
+                        viewStore.send(.delete)
                     } label: {
                         Text("Delete \"\(viewStore.collection.name)\"")
                     }
