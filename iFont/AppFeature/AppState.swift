@@ -161,7 +161,7 @@ extension AppState {
                 else { return .none }
                 
                 switch rowAction {
-                case let .newLibrary(directory): // Popup menu.
+                case let .newLibrary(directory):
                     return Effect(value: .createNewLibrary(directory))
                     
                 case let .newSmartCollection(filter, baseID): // Popup menu.
@@ -169,7 +169,6 @@ extension AppState {
                     return .none
                     
                 case .newBasicCollection: // Create a new one
-//                    return Effect(value: .createNewBasicCollection)
                     state.collections.append(.init(type: .basic, name: state.getDefaultName()))
                     state.selectedCollectionID = state.collections.last!.id
                     state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
@@ -182,7 +181,7 @@ extension AppState {
                     state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
                     return .none
                     
-                case .delete: // Delete at index.
+                case .delete:
                     return Effect(value: .deleteCollection(rowID))
                 }
                 
@@ -252,6 +251,7 @@ extension AppState {
                         }
                     }
                 }
+                
                 state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
                 return .cancel(id: CreateFontCollectionID.self)
             }

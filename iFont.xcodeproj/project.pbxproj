@@ -16,6 +16,10 @@
 		975B2D1928942F6000CB0DE4 /* SwiftUI+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B2D1828942F6000CB0DE4 /* SwiftUI+Extensions.swift */; };
 		975B7930284912DA0012C273 /* FontClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B792F284912DA0012C273 /* FontClient.swift */; };
 		977ACAB4289C023A001A6AA0 /* SmartCollectionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977ACAB3289C023A001A6AA0 /* SmartCollectionFilter.swift */; };
+		977ACAB6289DA72C001A6AA0 /* SmartCollectionFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977ACAB5289DA72C001A6AA0 /* SmartCollectionFilterView.swift */; };
+		977ACAB9289DBCA4001A6AA0 /* SmartCollectionFilterOptionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977ACAB8289DBCA4001A6AA0 /* SmartCollectionFilterOptionState.swift */; };
+		977ACABB289DBCB0001A6AA0 /* SmartCollectionFilterOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977ACABA289DBCB0001A6AA0 /* SmartCollectionFilterOptionView.swift */; };
+		977ACABD289DBD3C001A6AA0 /* SmartCollectionOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977ACABC289DBD3C001A6AA0 /* SmartCollectionOption.swift */; };
 		977F8F412885DCA100EE2893 /* UserDefaults+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977F8F402885DCA100EE2893 /* UserDefaults+Extensions.swift */; };
 		97D0E26528414F9E00F4BA77 /* FontCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26428414F9E00F4BA77 /* FontCollectionView.swift */; };
 		97D0E26728414FA400F4BA77 /* FontCollectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D0E26628414FA400F4BA77 /* FontCollectionState.swift */; };
@@ -57,6 +61,10 @@
 		975B2D1828942F6000CB0DE4 /* SwiftUI+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Extensions.swift"; sourceTree = "<group>"; };
 		975B792F284912DA0012C273 /* FontClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontClient.swift; sourceTree = "<group>"; };
 		977ACAB3289C023A001A6AA0 /* SmartCollectionFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollectionFilter.swift; sourceTree = "<group>"; };
+		977ACAB5289DA72C001A6AA0 /* SmartCollectionFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollectionFilterView.swift; sourceTree = "<group>"; };
+		977ACAB8289DBCA4001A6AA0 /* SmartCollectionFilterOptionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollectionFilterOptionState.swift; sourceTree = "<group>"; };
+		977ACABA289DBCB0001A6AA0 /* SmartCollectionFilterOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollectionFilterOptionView.swift; sourceTree = "<group>"; };
+		977ACABC289DBD3C001A6AA0 /* SmartCollectionOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollectionOption.swift; sourceTree = "<group>"; };
 		977F8F402885DCA100EE2893 /* UserDefaults+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extensions.swift"; sourceTree = "<group>"; };
 		97D0E26428414F9E00F4BA77 /* FontCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontCollectionView.swift; sourceTree = "<group>"; };
 		97D0E26628414FA400F4BA77 /* FontCollectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontCollectionState.swift; sourceTree = "<group>"; };
@@ -104,7 +112,7 @@
 			children = (
 				970C12192899CF3B00107E3D /* SidebarRowState.swift */,
 				970C12172899CF3400107E3D /* SidebarRowView.swift */,
-				977ACAB2289C022D001A6AA0 /* SmartCollectionFilter */,
+				977ACAB2289C022D001A6AA0 /* SmartCollectionFilterFeature */,
 			);
 			path = SidebarRowFeature;
 			sourceTree = "<group>";
@@ -147,12 +155,24 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		977ACAB2289C022D001A6AA0 /* SmartCollectionFilter */ = {
+		977ACAB2289C022D001A6AA0 /* SmartCollectionFilterFeature */ = {
 			isa = PBXGroup;
 			children = (
 				977ACAB3289C023A001A6AA0 /* SmartCollectionFilter.swift */,
+				977ACAB5289DA72C001A6AA0 /* SmartCollectionFilterView.swift */,
+				977ACAB7289DBC8F001A6AA0 /* SmartCollectionFilterOptionFeature */,
 			);
-			path = SmartCollectionFilter;
+			path = SmartCollectionFilterFeature;
+			sourceTree = "<group>";
+		};
+		977ACAB7289DBC8F001A6AA0 /* SmartCollectionFilterOptionFeature */ = {
+			isa = PBXGroup;
+			children = (
+				977ACAB8289DBCA4001A6AA0 /* SmartCollectionFilterOptionState.swift */,
+				977ACABA289DBCB0001A6AA0 /* SmartCollectionFilterOptionView.swift */,
+				977ACABC289DBD3C001A6AA0 /* SmartCollectionOption.swift */,
+			);
+			path = SmartCollectionFilterOptionFeature;
 			sourceTree = "<group>";
 		};
 		97D0E26328414F9100F4BA77 /* AppFeature */ = {
@@ -327,9 +347,11 @@
 				FB5B2E292874CC6500BE7F8E /* FontAttribute.swift in Sources */,
 				FB294A9E28577DB700C8F8D9 /* Logger.swift in Sources */,
 				97EC775828983111008CE33D /* SidebarState.swift in Sources */,
+				977ACAB6289DA72C001A6AA0 /* SmartCollectionFilterView.swift in Sources */,
 				FBD01F7D286F3B2C00857988 /* FontCollectionItemRowView.swift in Sources */,
 				97DFC5B32874A08700D2E845 /* InfoPreview.swift in Sources */,
 				97D0E26728414FA400F4BA77 /* FontCollectionState.swift in Sources */,
+				977ACABD289DBD3C001A6AA0 /* SmartCollectionOption.swift in Sources */,
 				97D0E26528414F9E00F4BA77 /* FontCollectionView.swift in Sources */,
 				97EDF8692891A74700AD9055 /* CompactPicker.swift in Sources */,
 				977ACAB4289C023A001A6AA0 /* SmartCollectionFilter.swift in Sources */,
@@ -346,6 +368,8 @@
 				970C12182899CF3400107E3D /* SidebarRowView.swift in Sources */,
 				FBAE323E28786DD7004DAEB4 /* FontCollectionType.swift in Sources */,
 				97EC775A28983118008CE33D /* SidebarView.swift in Sources */,
+				977ACABB289DBCB0001A6AA0 /* SmartCollectionFilterOptionView.swift in Sources */,
+				977ACAB9289DBCA4001A6AA0 /* SmartCollectionFilterOptionState.swift in Sources */,
 				97DFC5AB2874949400D2E845 /* FontCollectionItemPreviewType.swift in Sources */,
 				97EDF865289073F100AD9055 /* Font+Mock.swift in Sources */,
 				97DFC5B52874A09700D2E845 /* RepertoirePreview.swift in Sources */,
