@@ -46,17 +46,36 @@ struct AppState: Equatable {
     ]
     
     var sidebar: SidebarState = .init()
+    var newLibrary: FontCollection = .init(type: .basic, name: "Untitled")
+    
+    private func getDefaultName() -> String {
+        var count = 1
+        var name = "Untitled"
+        while true {
+            if collections.contains(where: { $0.name != name }) {
+                return name
+            }
+            else {
+                name = "Untitled \(count)"
+            }
+            count += 1
+        }
+    }
+    
+    private func validName(_ name: String) -> Bool {
+        collections.contains { $0.name == name }
+    }
 }
 
 enum AppAction: Equatable {
     case onAppear
     case fetchAllFonts
     case fetchAllFontsResult(Result<[Font], Never>)
-    case fetchFonts(URL)
-    case fetchFontsResult(Result<[Font], Never>)
     case sidebar(SidebarAction)
     case sidebarSelection(FontCollection.ID?)
     case fontCollection(FontCollectionAction)
+    case createNewLibrary(URL)
+    case createNewLibraryFontsResult([Font])
 }
 
 struct AppEnvironment {
@@ -93,8 +112,10 @@ extension AppState {
                         environment.fontClient.fetchFonts($0)
                     }
                     .receive(on: environment.mainQueue)
-                    .catchToEffect()
-                    .map(AppAction.fetchAllFontsResult)
+                    .catchToEffect(AppAction.fetchAllFontsResult)
+//                    .catchToEffect()
+//                    .map(AppAction.fetchAllFontsResult)
+                // rename handleNewFonts or fetchAllFontsCompletion
                 
                 return foo
                 
@@ -120,7 +141,10 @@ extension AppState {
                 struct SidebarSelectionID: Hashable {}
                 return Effect(value: .sidebarSelection(state.sidebar.selectedCollection))
                     .debounce(id: SidebarSelectionID(), for: 0.05, scheduler: environment.mainQueue)
-                
+
+            case let .fetchAllFontsResult(.failure(error)):
+                return .none
+
                 
             case .sidebar(.binding(\.$selectedCollection)):
                 return Effect(value: .sidebarSelection(state.sidebar.selectedCollection))
@@ -133,62 +157,89 @@ extension AppState {
                 else { return .none }
                 
                 switch rowAction {
-                    case let .newLibrary(directory): // Popup menu.
-                        
-    //                    state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
-                        return .none
-                        
-                    case let .newSmartCollection(filter, baseID): // Popup menu.
-    //                    state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
-                        return .none
-                        
-                    case .newBasicCollection: // Create a new one
-                        state.collections.append(.init(type: .basic))
-                        state.selectedCollectionID = state.collections.last!.id
-                        state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
-                        return .none
-                        
-                    case .rename: // How?
-                        if !state.collections[index].type.canRenameOrDelete {
-                            // Do...
-                        }
-                        state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
-                        return .none
-                        
-                    case .delete: // Delete at index.
-                        if state.collections[index].type.canRenameOrDelete {
-                            state.collections.remove(at: index)
-                        }
-                        state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
-                        return .none
+                case let .newLibrary(directory): // Popup menu.
+                    return Effect(value: .createNewLibrary(directory))
+                    
+                case let .newSmartCollection(filter, baseID): // Popup menu.
+//                    return Effect(value: .createNewSmartCollection(filter, baseID))
+                    return .none
+                    
+                case .newBasicCollection: // Create a new one
+//                    return Effect(value: .createNewBasicCollection)
+                    state.collections.append(.init(type: .basic, name: state.getDefaultName()))
+                    state.selectedCollectionID = state.collections.last!.id
+                    state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
+                    return .none
+                    
+                case .rename: // How?
+                    if !state.collections[index].type.canRenameOrDelete {
+                        // Do...
+                    }
+                    state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
+                    return .none
+                    
+                case .delete: // Delete at index.
+                    if state.collections[index].type.canRenameOrDelete {
+                        state.collections.remove(at: index)
+                    }
+                    state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
+                    return .none
                 }
-            
-        case let .sidebarSelection(newSelectionID):
-            let startTime = Date()
-            Log4swift[Self.self].debug("started action: .madeSelection")
-            defer { Log4swift[Self.self].debug("madeSelection completed in: \(startTime.elapsedTime) ms\n") }
-            
-            guard var newSelection = state.collections.first(where: { $0.id == newSelectionID})
-            else { return .none }
-            newSelection.fontFamilies = newSelection.fonts.groupedByFamily()
-            
-            state.selectedCollectionID = newSelectionID
-            state.selectedCollectionState = .init(collection: newSelection)
-            
-            return .none
-            
-        case let .fontCollection(fontCollectionAction):
-            return .none
                 
-        case let.fetchFonts(directory):
+            case let .sidebarSelection(newSelectionID):
+                let startTime = Date()
+                Log4swift[Self.self].debug("started action: .madeSelection")
+                defer { Log4swift[Self.self].debug("madeSelection completed in: \(startTime.elapsedTime) ms\n") }
+                
+                guard var newSelection = state.collections.first(where: { $0.id == newSelectionID})
+                else { return .none }
+                newSelection.fontFamilies = newSelection.fonts.groupedByFamily()
+                
+                state.selectedCollectionID = newSelectionID
+                state.selectedCollectionState = .init(collection: newSelection)
+                
                 return .none
                 
-        case let .fetchFontsResult(.success(newFonts)):
+            case let .fontCollection(fontCollectionAction):
+                return .none
+                
+            case let .createNewLibrary(directory):
+                state.newLibrary = .init(
+                    type: .library(directory),
+                    name: state.getDefaultName()
+                )
+                state.collections.append(state.newLibrary)
+                
+                return environment.fontClient.fetchFonts(directory)
+                    .receive(on: environment.mainQueue)
+                    .eraseToEffect(AppAction.createNewLibraryFontsResult)
+                                
+            case let .createNewLibraryFontsResult(newFonts):
+                // Update all fonts and its dependencies!
+                // If somehow the name of the library changes while being updated...
+                // If someone added or removed the library while being updated...
+                // Then tactical nuke...
+                
+                // Update newLibrary.
+                state.newLibrary.fonts.append(contentsOf: newFonts)
+                
+                // Put newLibrary in all the collections.
+                let newLibraryIndex = state.collections.firstIndex(where: { $0.name == state.newLibrary.name })!
+                state.collections[newLibraryIndex].fonts.append(contentsOf: newFonts)
+                
+                // Update allFonts.
+                let allFontsIndex = state.collections.firstIndex(where: { $0.type == .allFontsLibrary })!
+                state.collections[allFontsIndex].fonts.append(contentsOf: newFonts)
+                
+                // Update sidebar.
+                state.sidebar = .init(selectedCollection: state.newLibrary.id, collections: state.collections)
+
                 return .none
             }
         }
     )
 }
+
 extension AppState {
     static let liveState = AppState()
     static let mockState = AppState(

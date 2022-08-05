@@ -23,7 +23,7 @@ struct FontCollection: Equatable, Hashable, Codable {
         type: FontCollectionType,
         fonts: [Font] = [Font](),
         fontFamilies: [FontFamily] = [FontFamily](),
-        name: String = "Untitled"
+        name: String
     ) {
         self.type = type
         self.fonts = fonts
