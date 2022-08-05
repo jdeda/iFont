@@ -52,11 +52,11 @@ struct AppState: Equatable {
         var count = 1
         var name = "Untitled"
         while true {
-            if collections.contains(where: { $0.name != name }) {
-                return name
+            if collections.contains(where: { $0.name == name }) {
+                name = "Untitled \(count)"
             }
             else {
-                name = "Untitled \(count)"
+                return name
             }
             count += 1
         }
@@ -76,6 +76,7 @@ enum AppAction: Equatable {
     case fontCollection(FontCollectionAction)
     case createNewLibrary(URL)
     case createNewLibraryFontsResult([Font])
+    case createNewLibraryCompleted
 }
 
 struct AppEnvironment {
@@ -209,12 +210,18 @@ extension AppState {
                     name: state.getDefaultName()
                 )
                 state.collections.append(state.newLibrary)
+                // state.newLibraryFetching = true
                 
-                return environment.fontClient.fetchFonts(directory)
+                let fetchFonts = environment.fontClient.fetchFonts(directory)
                     .receive(on: environment.mainQueue)
                     .eraseToEffect(AppAction.createNewLibraryFontsResult)
-                                
-            case let .createNewLibraryFontsResult(newFonts):
+                let completed = Effect<AppAction, Never>(value: AppAction.createNewLibraryCompleted)
+                
+                return Effect.concatenate(fetchFonts, completed)
+
+            case let .createNewLibraryFontsResult(libraryID, newFonts):
+                // if u open a directory w/ no file u will never get here
+                
                 // Update all fonts and its dependencies!
                 // If somehow the name of the library changes while being updated...
                 // If someone added or removed the library while being updated...
@@ -235,6 +242,12 @@ extension AppState {
                 state.sidebar = .init(selectedCollection: state.newLibrary.id, collections: state.collections)
 
                 return .none
+                
+            case .createNewLibraryCompleted:
+                // state.newLibraryFetching = false
+                return .none
+
+
             }
         }
     )

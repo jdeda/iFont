@@ -165,10 +165,12 @@ extension URL {
             enumerator.forEach { element in
                 guard let url = element as? URL else { return }
                 passthrough.send(url)
+                Thread.sleep(forTimeInterval: 2.0)
             }
             if debug {
                 Logger.log("Completed Enumeration ...\n\n")
             }
+            Thread.sleep(forTimeInterval: 2.0)
             passthrough.send(completion: .finished)
         }
         
