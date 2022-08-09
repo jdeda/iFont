@@ -70,6 +70,7 @@ extension FontCollectionState {
                     state.selectedExpansions.insert(family.id)
                 }
                 
+                // TODO: FontAtttribute.full should be fetched here for each of the fonts.
                 state.items = state.collection.fontFamilies.reduce(into: [FontCollectionItem](), { partialResult, fontFamily in
                     partialResult.append(fontFamily.itemType)
                     
@@ -91,7 +92,7 @@ extension FontCollectionState {
 }
 
 extension FontCollectionState {
-    static let liveState =  FontCollectionState(collection: .init())
+    static let liveState =  FontCollectionState(collection: .init(type: FontCollectionType.allFontsLibrary, name: "All Fonts"))
     static let mockState = FontCollectionState(collection: .init(
         type: .library(URL(fileURLWithPath: NSTemporaryDirectory())),
         fonts: (0...10).map {

@@ -29,7 +29,7 @@ struct SamplePreview: View {
             }
             .zIndex(1)
             HStack {
-                List {
+                ScrollView {
                     ForEach(fonts) { font in
                         HStack {
                             Spacer()
@@ -52,13 +52,10 @@ struct SamplePreview: View {
         let font: Font
         var fontSize: Double = 32
         
-        private var swiftUIFont: SwiftUI.Font {
-            SwiftUI.Font.custom(font.name, size: fontSize)
-        }
         
         var body: some View {
             VStack(alignment: .center) {
-                Text(font.name)
+                Text(font.fontFullName ?? font.name)
                     .font(.title)
                     .foregroundColor(.gray)
                     .padding(5)
@@ -68,7 +65,7 @@ struct SamplePreview: View {
                 Text(String.alphabet.uppercased().splitInHalf().right)
                 Text(String.digits)
             }
-            .font(swiftUIFont)
+            .font(.init(font: font, size: fontSize))
         }
     }
 }

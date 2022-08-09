@@ -35,6 +35,22 @@ extension Array where Element == Font {
     }
 }
 
+// MARK: CTFontCreateWithName will default to TimesNewRoman if init fails.
+extension Font {
+    var fontStyle: String? {
+        let ctFont = CTFontCreateWithName(self.name as CFString, 12.0, nil)
+        guard (ctFont as NSFont).fontName == self.name
+        else { return nil }
+        return CTFontCopyName(ctFont, FontAttributeKey.style.key) as String?
+    }
+    
+    var fontFullName: String? {
+        let ctFont = CTFontCreateWithName(self.name as CFString, 12.0, nil)
+        guard (ctFont as NSFont).fontName == self.name
+        else { return nil }
+        return CTFontCopyName(ctFont, FontAttributeKey.full.key) as String?
+    }
+}
 extension Font {
     // For more look into
     // CTFont.h

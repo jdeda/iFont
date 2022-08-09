@@ -18,9 +18,6 @@ struct FontCollectionView: View {
                                 .tag(item.id)
                         }
                     }
-                    Divider()
-                    Text("Font count: \(viewStore.collection.fonts.count)")
-                        .padding(5)
                 }
                 
                 switch viewStore.selectedItem {
@@ -41,7 +38,6 @@ struct FontCollectionView: View {
                 }
                 .pickerStyle(.segmented)
             }
-            .background(Color.init(NSColor.controlBackgroundColor))
         }
     }
 }
