@@ -9,10 +9,9 @@ import ComposableArchitecture
 
 
 struct SmartCollectionFilterOptionState: Equatable, Identifiable {
-    var id: SmartCollectionFilterOption {
-        option // MARK: This could fail...what if two options are the same?
-    }
+    var id: SmartCollectionFilterOption { option } // MARK: What if two options are the same?
     var option: SmartCollectionFilterOption
+    var filter: SmartCollectionFilterOption.StringFilter
 }
 
 enum SmartCollectionFilterOptionAction: Equatable {

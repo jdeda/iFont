@@ -1,5 +1,5 @@
 //
-//  SmartCollectionFilter.swift
+//  SmartCollectionFilterState.swift
 //  iFont
 //
 //  Created by Jesse Deda on 8/4/22.
@@ -7,14 +7,9 @@
 
 import ComposableArchitecture
 
-struct SmartCollectionFilter: Equatable {
-    var options: IdentifiedArrayOf<SmartCollectionFilterOption> = []
-}
-
-
 struct SmartCollectionFilterState: Equatable {
     @BindableState var matchAllFilterParams: Bool = true
-    var options: [SmartCollectionFilterOptionState] = []
+    var options: IdentifiedArrayOf<SmartCollectionFilterOptionState> = []
 }
 
 enum SmartCollectionFilterAction: BindableAction, Equatable {
@@ -30,6 +25,11 @@ extension SmartCollectionFilterState {
         SmartCollectionFilterAction,
         SmartCollectionFilterEnvironment
     >.combine(
+        SmartCollectionFilterOptionState.reducer.forEach(
+            state: \.options,
+            action: /SmartCollectionFilterAction.option(id:action:),
+            environment: { _ in .init() }
+        ),
         Reducer { state, action, environment in
             switch action {
             case .binding:

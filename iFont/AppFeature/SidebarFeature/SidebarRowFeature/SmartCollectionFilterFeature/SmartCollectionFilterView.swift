@@ -21,22 +21,15 @@ struct SmartCollectionFilterView: View {
                         }
                     }
                     .frame(width: 100)
-                    Text("of the following are true")
                 }
-                ScrollView {
-                    ForEachStore(store.scope(
+                LazyVStack {
+                    ForEachStore(
+                        store.scope(
                             state: \.options,
                             action: SmartCollectionFilterAction.option
-                    )) { childStore in
-                            EmptyView()
-                    }
-//                    ForEachStore(
-//                        store.scope(
-//                            state: \.options,
-//                            action: SmartCollectionFilterAction.option
-//                        ),
-//                        content: SmartCollectionFilterOptionView(store:)
-//                    )
+                        ),
+                        content: SmartCollectionFilterOptionView.init(store:)
+                    )
                 }
             }
             .frame(width: 400)

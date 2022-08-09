@@ -15,7 +15,7 @@ struct SidebarRowState: Equatable, Identifiable {
 
 enum SidebarRowAction: Equatable {
     case newLibrary(directory: URL)
-    case newSmartCollection(filter: SmartCollectionFilter, baseID: FontCollection.ID)
+    case newSmartCollection(filter: SmartCollectionFilterState, baseID: FontCollection.ID)
     case newBasicCollection
     case rename
     case delete

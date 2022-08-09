@@ -15,7 +15,7 @@
 		973B895B28230F7C00A2AB72 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 973B895A28230F7C00A2AB72 /* ComposableArchitecture */; };
 		975B2D1928942F6000CB0DE4 /* SwiftUI+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B2D1828942F6000CB0DE4 /* SwiftUI+Extensions.swift */; };
 		975B7930284912DA0012C273 /* FontClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B792F284912DA0012C273 /* FontClient.swift */; };
-		977ACAB4289C023A001A6AA0 /* SmartCollectionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977ACAB3289C023A001A6AA0 /* SmartCollectionFilter.swift */; };
+		977ACAB4289C023A001A6AA0 /* SmartCollectionFilterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977ACAB3289C023A001A6AA0 /* SmartCollectionFilterState.swift */; };
 		977ACAB6289DA72C001A6AA0 /* SmartCollectionFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977ACAB5289DA72C001A6AA0 /* SmartCollectionFilterView.swift */; };
 		977ACAB9289DBCA4001A6AA0 /* SmartCollectionFilterOptionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977ACAB8289DBCA4001A6AA0 /* SmartCollectionFilterOptionState.swift */; };
 		977ACABB289DBCB0001A6AA0 /* SmartCollectionFilterOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977ACABA289DBCB0001A6AA0 /* SmartCollectionFilterOptionView.swift */; };
@@ -60,7 +60,7 @@
 		973B895128230DD800A2AB72 /* iFont.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iFont.entitlements; sourceTree = "<group>"; };
 		975B2D1828942F6000CB0DE4 /* SwiftUI+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Extensions.swift"; sourceTree = "<group>"; };
 		975B792F284912DA0012C273 /* FontClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontClient.swift; sourceTree = "<group>"; };
-		977ACAB3289C023A001A6AA0 /* SmartCollectionFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollectionFilter.swift; sourceTree = "<group>"; };
+		977ACAB3289C023A001A6AA0 /* SmartCollectionFilterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollectionFilterState.swift; sourceTree = "<group>"; };
 		977ACAB5289DA72C001A6AA0 /* SmartCollectionFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollectionFilterView.swift; sourceTree = "<group>"; };
 		977ACAB8289DBCA4001A6AA0 /* SmartCollectionFilterOptionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollectionFilterOptionState.swift; sourceTree = "<group>"; };
 		977ACABA289DBCB0001A6AA0 /* SmartCollectionFilterOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCollectionFilterOptionView.swift; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 		977ACAB2289C022D001A6AA0 /* SmartCollectionFilterFeature */ = {
 			isa = PBXGroup;
 			children = (
-				977ACAB3289C023A001A6AA0 /* SmartCollectionFilter.swift */,
+				977ACAB3289C023A001A6AA0 /* SmartCollectionFilterState.swift */,
 				977ACAB5289DA72C001A6AA0 /* SmartCollectionFilterView.swift */,
 				977ACAB7289DBC8F001A6AA0 /* SmartCollectionFilterOptionFeature */,
 			);
@@ -354,7 +354,7 @@
 				977ACABD289DBD3C001A6AA0 /* SmartCollectionOption.swift in Sources */,
 				97D0E26528414F9E00F4BA77 /* FontCollectionView.swift in Sources */,
 				97EDF8692891A74700AD9055 /* CompactPicker.swift in Sources */,
-				977ACAB4289C023A001A6AA0 /* SmartCollectionFilter.swift in Sources */,
+				977ACAB4289C023A001A6AA0 /* SmartCollectionFilterState.swift in Sources */,
 				97DFC5B92874A0B700D2E845 /* SamplePreview.swift in Sources */,
 				FB5B2E252874CAE100BE7F8E /* AppState.swift in Sources */,
 				973B894928230DD700A2AB72 /* Main.swift in Sources */,

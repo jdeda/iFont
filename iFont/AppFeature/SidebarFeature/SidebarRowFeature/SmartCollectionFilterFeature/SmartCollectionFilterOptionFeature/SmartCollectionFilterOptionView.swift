@@ -8,6 +8,35 @@
 import SwiftUI
 import ComposableArchitecture
 
+struct OptionPicker: View {
+    @Binding var selection: SmartCollectionFilterOption.StringFilter
+    let stringFilters: [SmartCollectionFilterOption.StringFilter]
+    
+    var body: some View {
+        HStack {
+            Picker("", selection: $selection) {
+                ForEach(stringFilters, id: \.self) {
+                    Text($0.string)
+                }
+            }
+        }
+    }
+}
+
+struct KindPicker: View {
+    @Binding var selection: SmartCollectionFilterOption.FontKind
+
+    var body: some View {
+        HStack {
+            Picker("", selection: $selection) {
+                ForEach(SmartCollectionFilterOption.StringFilter.allCases, id: \.self) {
+                    Text($0.string)
+                }
+            }
+        }
+    }
+}
+
 struct SmartCollectionFilterOptionView: View {
     let store: Store<
         SmartCollectionFilterOptionState,
@@ -15,7 +44,21 @@ struct SmartCollectionFilterOptionView: View {
     >
     var body: some View {
         WithViewStore(store) { viewStore in
-            Text("SmartCollectionFilterOptionView")
+            Group {
+                switch viewStore.option {
+                case let .kind(kind):
+                    EmptyView()
+                case let .style(style):
+                    EmptyView()
+                case let .styleName(string):
+                    EmptyView()
+                case let .familyName(string):
+                    EmptyView()
+                case let .postscriptName(string):
+                    EmptyView()
+                }
+            }
+            .frame(width: 400, height: 200)
         }
     }
 }
