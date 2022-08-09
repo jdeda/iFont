@@ -20,16 +20,6 @@ struct SidebarState: Equatable {
         self.smartCollections   = .init(uniqueElements: collections.filter(\.type.isSmart).map(SidebarRowState.init))
         self.basicCollections   = .init(uniqueElements: collections.filter(\.type.isBasic).map(SidebarRowState.init))
     }
-    
-//    private func validName(_ name: String) -> Bool {
-//        libraryCollections.contains(where: { $0.collection.name == name }) ||
-//        smartCollections.contains(where: { $0.collection.name == name }) ||
-//        basicCollections.contains(where: { $0.collection.name == name })
-//    }
-//
-//    private func validDirectory(_ url: URL) -> Bool {
-//        libraryCollections.map(\.collection.type)
-//    }
 }
 
 enum SidebarAction: BindableAction, Equatable {
@@ -72,15 +62,12 @@ extension SidebarState {
                 return .none
                 
             case let .libraryCollectionRow(id, action):
-//                return .none
                 return Effect(value: .row(id: id, action: action))
                 
             case let .smartCollectionRow(id, action):
-//                return .none
                 return Effect(value: .row(id: id, action: action))
                 
             case let.basicCollectionRow(id, action):
-//                return .none
                 return Effect(value: .row(id: id, action: action))
                 
             case let .row(id, action):

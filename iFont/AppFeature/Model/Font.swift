@@ -24,14 +24,22 @@ extension Font: Identifiable {
 // TODO: jdeda
 // This is extremely slow.
 extension Array where Element == Font {
+//    func groupedByFamily() -> [FontFamily] {
+//        let foo = self
+//            .reduce(into: [String: [Font]]()) { partial, font in
+//                partial[font.familyName, default: []].append(font)
+//            }
+//            .map { FontFamily(name: $0.0, fonts: $0.1) }
+//            .sorted(by: { $0.name < $1.name })
+//        return foo
+//    }
+
     func groupedByFamily() -> [FontFamily] {
-        let foo = self
-            .reduce(into: [String: [Font]]()) { partial, font in
-                partial[font.familyName, default: []].append(font)
-            }
-            .map { FontFamily(name: $0.0, fonts: $0.1) }
-            .sorted(by: { $0.name < $1.name })
-        return foo
+        self.reduce(into: [String:FontFamily]()) { partial, font in
+            partial[font.familyName, default: .init(name: font.familyName, fonts: [])].fonts.append(font)
+        }
+        .values
+        .sorted { $0.name < $1.name }
     }
 }
 

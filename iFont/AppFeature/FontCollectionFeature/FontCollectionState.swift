@@ -1,6 +1,7 @@
 import Foundation
 import ComposableArchitecture
 import AppKit
+import SwiftUI
 
 struct FontCollectionState: Equatable {
     var collection: FontCollection
