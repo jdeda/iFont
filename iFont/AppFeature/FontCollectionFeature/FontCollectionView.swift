@@ -7,11 +7,7 @@ struct FontCollectionView: View {
     var body: some View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
-                
-                // TODO: Jdeda
-                // - Animate expansions
-                // - There are duplicate fonts?
-                
+        
                 // The Item List.
                 List(selection: viewStore.binding(\.$selectedItemID)) {
                     ForEach(viewStore.items) { item in

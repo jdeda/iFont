@@ -18,7 +18,7 @@ struct Font: Equatable, Hashable, Codable {
 
 extension Font: Identifiable {
     var id: String {
-        name
+        url.absoluteString + name
     }
 }
 

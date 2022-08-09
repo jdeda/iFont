@@ -71,6 +71,10 @@ extension FontCollectionState {
                 }
                 
                 state.items = state.collection.fontFamilies.reduce(into: [FontCollectionItem](), { partialResult, fontFamily in
+                    
+                    if fontFamily.name == "AppleMyungjo" {
+                        print("OH NO")
+                    }
                     partialResult.append(fontFamily.itemType)
                     
                     // If family is expanded, add its children to display.
