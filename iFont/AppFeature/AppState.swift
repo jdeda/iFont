@@ -103,7 +103,7 @@ extension AppState {
         ),
         Reducer { state, action, environment in
             
-            enum CreateFontCollectionID: Hashable {}
+            struct CreateFontCollectionID: Hashable {}
             
             switch action {
             case .onAppear:
@@ -117,8 +117,8 @@ extension AppState {
                     }
                     .receive(on: environment.mainQueue)
                     .catchToEffect(AppAction.fetchAllFontsResult)
-//                    .catchToEffect()
-//                    .map(AppAction.fetchAllFontsResult)
+                //                    .catchToEffect()
+                //                    .map(AppAction.fetchAllFontsResult)
                 // rename handleNewFonts or fetchAllFontsCompletion
                 
                 return foo
@@ -145,10 +145,10 @@ extension AppState {
                 struct SidebarSelectionID: Hashable {}
                 return Effect(value: .sidebarSelection(state.sidebar.selectedCollection))
                     .debounce(id: SidebarSelectionID(), for: 0.05, scheduler: environment.mainQueue)
-
+                
             case let .fetchAllFontsResult(.failure(error)):
                 return .none
-
+                
                 
             case .sidebar(.binding(\.$selectedCollection)):
                 return Effect(value: .sidebarSelection(state.sidebar.selectedCollection))
@@ -165,7 +165,6 @@ extension AppState {
                     return Effect(value: .createNewLibrary(directory))
                     
                 case let .newSmartCollection: // Popup menu.
-//                    return Effect(value: .createNewSmartCollection(filter, baseID))
                     return .none
                     
                 case .newBasicCollection: // Create a new one
@@ -208,15 +207,17 @@ extension AppState {
                 
                 let fetchFonts = environment.fontClient.fetchFonts(directory)
                     .receive(on: environment.mainQueue)
-                    .eraseToEffect {
+                    .eraseToEffect()
+                    .map {
                         AppAction.createNewLibraryFontsResult(libraryID: name, fonts: $0)
                     }
                 
                 let fetchFontsCompletion = Effect<AppAction, Never>(value: AppAction.createNewLibraryCompleted)
                 
                 return Effect.concatenate(fetchFonts, fetchFontsCompletion)
-                    .cancellable(id: CreateFontCollectionID.self)
-
+                    .cancellable(id: CreateFontCollectionID())
+//                 TODO: CANCELLABLE BROKEN WTF
+                
             case let .createNewLibraryFontsResult(libraryID, newFonts):
                 // If you open an empty directory you will never get here.
                 // Indexing here is dangerous.
@@ -228,13 +229,13 @@ extension AppState {
                 // Update the allFonts collection.
                 let allFontsIndex = state.collections.firstIndex(where: { $0.type == .allFontsLibrary })!
                 state.collections[allFontsIndex].fonts.append(contentsOf: newFonts)
-
+                
                 state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
                 return .none
                 
             case .createNewLibraryCompleted:
                 return .none
-
+                
             case let .deleteCollection(collectionID):
                 // Indexing here is dangerous.
                 
@@ -242,7 +243,7 @@ extension AppState {
                 let deletionIndex = state.collections.firstIndex(where: { $0.id == collectionID })!
                 if state.collections[deletionIndex].type.canRenameOrDelete {
                     state.collections.remove(at: deletionIndex)
-                
+                    
                     // Recompute allFonts collection.
                     let allFontIndex = state.collections.firstIndex(where: { $0.type == .allFontsLibrary })!
                     state.collections[allFontIndex].fonts = state.collections.reduce(into: []) { partial, collection in
@@ -253,7 +254,7 @@ extension AppState {
                 }
                 
                 state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
-                return .cancel(id: CreateFontCollectionID.self)
+                return .cancel(id: CreateFontCollectionID())
             }
         }
     )
