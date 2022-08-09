@@ -19,6 +19,7 @@ struct FontCollectionView: View {
                             .tag(item.id)
                     }
                 }
+                .animation(.default, value: viewStore.selectedExpansions)
                 
                 // The Item Preview.
                 switch viewStore.selectedItem {
