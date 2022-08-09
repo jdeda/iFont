@@ -7,19 +7,20 @@ struct FontCollectionView: View {
     var body: some View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
-                // The First Column
-                VStack(spacing: 0) {
-                    // TODO: Jdeda
-                    // - Animate expansions
-                    // - There are duplicate fonts?
-                    List(selection: viewStore.binding(\.$selectedItemID)) {
-                        ForEach(viewStore.items) { item in
-                            FontCollectionItemRowView(store: store, itemType: item)
-                                .tag(item.id)
-                        }
+                
+                // TODO: Jdeda
+                // - Animate expansions
+                // - There are duplicate fonts?
+                
+                // The Item List.
+                List(selection: viewStore.binding(\.$selectedItemID)) {
+                    ForEach(viewStore.items) { item in
+                        FontCollectionItemRowView(store: store, itemType: item)
+                            .tag(item.id)
                     }
                 }
                 
+                // The Item Preview.
                 switch viewStore.selectedItem {
                 case let .some(item):
                     FontCollectionItemPreview(selection: viewStore.selectedPreview, item: item)
@@ -30,10 +31,7 @@ struct FontCollectionView: View {
             .navigationTitle(viewStore.state.collection.name)
             .navigationSubtitle("\(viewStore.collection.fonts.count) fonts")
             .toolbar {
-                Picker("Detail View", selection: viewStore.binding(
-                    get: \.selectedPreview,
-                    send: FontCollectionAction.selectedPreviewType)
-                ) {
+                Picker("Detail View", selection: viewStore.binding(\.$selectedPreview)) {
                     ForEach(FontCollectionItemPreviewType.allCases, id: \.self) { $0.image }
                 }
                 .pickerStyle(.segmented)

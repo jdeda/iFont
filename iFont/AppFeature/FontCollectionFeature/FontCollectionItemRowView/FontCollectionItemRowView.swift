@@ -56,6 +56,7 @@ fileprivate struct FontFamilyRowView: View {
                       ? "chevron.down"
                       : "chevron.right")
                 .font(.system(size: 9, weight: .bold))
+                .frame(width: 9, height: 9)
                 .foregroundColor(.secondary)
                 .contentShape(Rectangle())
                 .onTapGesture {
@@ -72,13 +73,13 @@ fileprivate struct FontFamilyRowView: View {
     }
 }
 
-fileprivate struct FontFamilyRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        FontFamilyRowView(
-            store: FontCollectionState.mockStore,
-            fontFamily: FontFamily(
-                name: "Chicken", fonts: mock_fonts
-            )
-        )
-    }
-}
+//fileprivate struct FontFamilyRowView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FontFamilyRowView(
+//            store: FontCollectionState.mockStore,
+//            fontFamily: FontFamily(
+//                name: "Chicken", fonts: mock_fonts
+//            )
+//        )
+//    }
+//}

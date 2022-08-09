@@ -10,10 +10,8 @@ struct FontCollectionState: Equatable {
     @BindableState var selectedItemID: FontCollectionItem.ID?
     var selectedItem: FontCollectionItem?
     
-    // var selectedItem: ItemType? = UserDefaults.standard.getCodable(forKey: "selectedItem")
-    // wip
     var selectedExpansions = Set<FontCollectionItem.ID>()
-    var selectedPreview: FontCollectionItemPreviewType = .sample
+    @BindableState var selectedPreview: FontCollectionItemPreviewType = .sample
     
     init(collection: FontCollection) {
         self.collection = collection
@@ -55,6 +53,7 @@ extension FontCollectionState {
                 } else {
                     state.selectedItem = nil
                 }
+                
                 return .none
                 
             case .binding:
@@ -71,7 +70,6 @@ extension FontCollectionState {
                     state.selectedExpansions.insert(family.id)
                 }
                 
-                // TODO: FontAtttribute.full should be fetched here for each of the fonts.
                 state.items = state.collection.fontFamilies.reduce(into: [FontCollectionItem](), { partialResult, fontFamily in
                     partialResult.append(fontFamily.itemType)
                     
