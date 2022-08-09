@@ -164,7 +164,7 @@ extension AppState {
                 case let .newLibrary(directory):
                     return Effect(value: .createNewLibrary(directory))
                     
-                case let .newSmartCollection(filter, baseID): // Popup menu.
+                case let .newSmartCollection: // Popup menu.
 //                    return Effect(value: .createNewSmartCollection(filter, baseID))
                     return .none
                     
