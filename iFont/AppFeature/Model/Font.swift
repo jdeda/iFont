@@ -7,6 +7,7 @@
 
 import AppKit
 import CoreText
+import Log4swift
 
 struct Font: Equatable, Hashable, Codable {
     var url: URL
@@ -35,7 +36,11 @@ extension Array where Element == Font {
 //    }
 
     func groupedByFamily() -> [FontFamily] {
-        self.reduce(into: [String:FontFamily]()) { partial, font in
+        let start = Date()
+        defer {
+            defer { Logger.log("Grouping took: \(start.elapsedTime) ms\n") }
+        }
+        return self.reduce(into: [String:FontFamily]()) { partial, font in
             partial[font.familyName, default: .init(name: font.familyName, fonts: [])].fonts.append(font)
         }
         .values

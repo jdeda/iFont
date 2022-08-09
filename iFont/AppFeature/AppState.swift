@@ -150,9 +150,12 @@ extension AppState {
                 return .none
                 
                 
+            // TODO: This executes twice everytime...why? Debounce hot fixes it but...this is a band-aid.
             case .sidebar(.binding(\.$selectedCollection)):
+                struct SidebarSelectionUpdateID: Hashable {}
                 return Effect(value: .sidebarSelection(state.sidebar.selectedCollection))
-                
+                    .debounce(id: SidebarSelectionUpdateID(), for: 0.05, scheduler: environment.mainQueue)
+
             case let .sidebar(action):
                 guard let (rowID, rowAction) = (/SidebarAction.row).extract(from: action)
                 else { return .none }
@@ -191,6 +194,7 @@ extension AppState {
                 
                 guard var newSelection = state.collections.first(where: { $0.id == newSelectionID})
                 else { return .none }
+
                 newSelection.fontFamilies = newSelection.fonts.groupedByFamily()
                 
                 state.selectedCollectionID = newSelectionID
@@ -216,7 +220,6 @@ extension AppState {
                 
                 return Effect.concatenate(fetchFonts, fetchFontsCompletion)
                     .cancellable(id: CreateFontCollectionID())
-//                 TODO: CANCELLABLE BROKEN WTF
                 
             case let .createNewLibraryFontsResult(libraryID, newFonts):
                 // If you open an empty directory you will never get here.
