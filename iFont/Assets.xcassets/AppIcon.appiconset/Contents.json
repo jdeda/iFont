@@ -1,51 +1,61 @@
 {
   "images" : [
     {
+      "filename" : "09c459d24cbc6ad8e91b6cfd9bc0ba2c_iFonts_16x16x32.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
+      "filename" : "09c459d24cbc6ad8e91b6cfd9bc0ba2c_iFonts_1024x1024x32-32.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
+      "filename" : "09c459d24cbc6ad8e91b6cfd9bc0ba2c_iFonts_32x32x32.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
+      "filename" : "09c459d24cbc6ad8e91b6cfd9bc0ba2c_iFonts_1024x1024x32-64.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
     },
     {
+      "filename" : "09c459d24cbc6ad8e91b6cfd9bc0ba2c_iFonts_1024x1024x32-128.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
+      "filename" : "09c459d24cbc6ad8e91b6cfd9bc0ba2c_iFonts_1024x1024x32-256.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
+      "filename" : "09c459d24cbc6ad8e91b6cfd9bc0ba2c_iFonts_256x256x32.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
+      "filename" : "09c459d24cbc6ad8e91b6cfd9bc0ba2c_iFonts_512x512x32-1.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
+      "filename" : "09c459d24cbc6ad8e91b6cfd9bc0ba2c_iFonts_512x512x32.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
+      "filename" : "09c459d24cbc6ad8e91b6cfd9bc0ba2c_iFonts_1024x1024x32-1.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
