@@ -69,12 +69,13 @@ struct SidebarView: View {
                     )
                 }
                 Section("Collections") {
-                    ForEachStore(
-                        store.scope(
+                    ForEachStore(store.scope(
                             state: \.basicCollections,
                             action: SidebarAction.basicCollectionRow
-                        ),  content: SidebarRowView.init(store:)
-                    )
+                    )) { childStore in
+                        SidebarRowView(store: childStore)
+//                            .onDrop
+                    }
                 }
             }
             .toolbar {

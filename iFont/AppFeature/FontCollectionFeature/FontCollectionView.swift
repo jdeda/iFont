@@ -1,6 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
-
+    
 struct FontCollectionView: View {
     let store: Store<FontCollectionState, FontCollectionAction>
     

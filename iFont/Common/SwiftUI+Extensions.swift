@@ -9,6 +9,8 @@ import SwiftUI
 
 extension SwiftUI.Font {
     init(font: Font, size: Double) {
-        self.init(CTFontCreateWithName(font.name as CFString, size, nil))
+        let ctFontDescriptor = font.descriptor as CTFontDescriptor
+        let ctFont = CTFontCreateWithFontDescriptor(ctFontDescriptor, size, nil)
+        self.init(ctFont)
     }
 }

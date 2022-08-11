@@ -55,7 +55,6 @@ private struct FontRepetoirePreview: View {
     
     var body: some View {
         Text("Font Repetoire View")
-        Text(font.fontFullName ?? font.name)
     }
 }
 

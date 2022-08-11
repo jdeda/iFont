@@ -18,8 +18,8 @@ struct SidebarRowView: View {
                     .foregroundColor(viewStore.collection.type.accentColor)
                     .frame(width: 20, height: 20)
                 Text(viewStore.collection.name)
-                Text("\(viewStore.collection.fonts.count)")
-                    .bold()
+//                Text("\(viewStore.collection.fonts.count)")
+//                    .bold()
             }
             
             .tag(viewStore.collection.id)

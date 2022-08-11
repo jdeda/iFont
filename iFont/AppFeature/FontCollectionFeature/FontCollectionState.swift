@@ -100,6 +100,7 @@ extension FontCollectionState {
         type: .library(URL(fileURLWithPath: NSTemporaryDirectory())),
         fonts: (0...10).map {
             .init(
+                descriptor: .init(),
                 url: URL(fileURLWithPath: NSTemporaryDirectory()),
                 name: "Chicken \($0)",
                 familyName: "Cheese \($0)"
@@ -107,6 +108,7 @@ extension FontCollectionState {
         },
         fontFamilies: (0...10).map {
             .init(
+                descriptor: .init(),
                 url: URL(fileURLWithPath: NSTemporaryDirectory()),
                 name: "Chicken \($0)",
                 familyName: "Cheese"
