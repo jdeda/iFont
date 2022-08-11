@@ -8,7 +8,7 @@
 import Foundation
 import CoreText
 
-struct FontFamily: Equatable, Hashable, Codable {
+struct FontFamily: Equatable, Hashable {
     let name: String
     var fonts: [Font]
 }

@@ -116,6 +116,7 @@ fileprivate struct FontInfoPreview: View {
 fileprivate struct FontInfoPreview_Previews: PreviewProvider {
     static var previews: some View {
         FontInfoPreview(font: Font(
+            descriptor: .init(),
             url: URL(fileURLWithPath: NSTemporaryDirectory()),
             name: "Chicken",
             familyName: "Cheese",
@@ -154,6 +155,7 @@ fileprivate struct FontAttributePreview_Previews: PreviewProvider {
     static var previews: some View {
         FontAttributePreview(
             Font(
+                descriptor: .init(),
                 url: URL(fileURLWithPath: NSTemporaryDirectory()),
                 name: "Chicken",
                 familyName: "Cheese",

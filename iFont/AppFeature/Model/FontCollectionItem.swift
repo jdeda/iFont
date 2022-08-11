@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum FontCollectionItem: Equatable, Hashable, Codable {
+enum FontCollectionItem: Equatable, Hashable {
     case font(Font)
     case fontFamily(FontFamily)
 }

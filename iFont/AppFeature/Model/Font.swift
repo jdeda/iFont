@@ -9,7 +9,9 @@ import AppKit
 import CoreText
 import Log4swift
 
-struct Font: Equatable, Hashable, Codable {
+
+struct Font: Equatable, Hashable {
+    var descriptor: NSFontDescriptor
     var url: URL
     var name: String
     var familyName: String

@@ -20,6 +20,7 @@ let mock_font_attributes: [FontAttributeKey: String] =  {
 
 let mock_fonts = (1...10).map { int in
     Font(
+        descriptor: .init(),
         url: URL(fileURLWithPath: NSTemporaryDirectory()),
         name: "Chicken \(int)",
         familyName: "Cheese",

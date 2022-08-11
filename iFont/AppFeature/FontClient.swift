@@ -106,6 +106,7 @@ struct FontClientHelper {
         let fonts = nsFonts
             .map { nsFont -> Font in
                 Font(
+                    descriptor: nsFont.fontDescriptor,
                     url: url,
                     name: nsFont.fontName,
                     familyName: nsFont.familyName ?? "None",
