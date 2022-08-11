@@ -1,5 +1,8 @@
-# iFont
+# 📖 iFont
 
-Dumb. 
+<img src="https://user-images.githubusercontent.com/76166399/184219090-19e8f70d-8653-4b84-aacf-ead38b40e100.png" alt="drawing" width="650"/>
 
-<img src="https://user-images.githubusercontent.com/76166399/184215976-672cd67d-b40b-42f2-a1f2-0b12a4fde7fb.png" alt="drawing" width="64"/>
+## Welcome to iFont!
+iFont is a Font Manager for macOS built via the SwiftUI framework. It simply allows a user to visualize fonts. The app is heavily predicated upon FontBook, a Font Manager program preinstalled on macOS.
+
+## Visualzing Fonts
