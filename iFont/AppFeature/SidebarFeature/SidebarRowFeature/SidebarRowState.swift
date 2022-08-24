@@ -19,6 +19,7 @@ enum SidebarRowAction: Equatable {
     case newBasicCollection
     case rename
     case delete
+    case renameInTextField(String)
 }
 
 struct SidebarRowEnvironment { }
@@ -36,6 +37,8 @@ extension SidebarRowState {
             case .rename:
                 return .none
             case .delete:
+                return .none
+            case let .renameInTextField(newName):
                 return .none
             }
         }

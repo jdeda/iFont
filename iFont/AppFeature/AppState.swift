@@ -185,6 +185,21 @@ extension AppState {
                     
                 case .delete:
                     return Effect(value: .deleteCollection(rowID))
+                    
+                    /**
+                     Renaming and its problems
+                     - must update sidebarRowState
+                     - this will be noticed in sidebarState
+                     - then update corresponding collection in appState
+                     - then update selection in appState (if necessary)
+                     - i think its intuitive for a collection's name  to be the id
+                     - but this will causes runtime problems
+                     - so maybe use UUID
+                     - but will run into runtime issues as well...what if we give the UUID...?
+                     */
+                case let .renameInTextField(newName):
+                    state.collections[index].name = newName
+                    return .none
                 }
                 
             case let .sidebarSelection(newSelectionID):
