@@ -28,7 +28,7 @@ struct AppState: Equatable {
     var selectedCollectionState: FontCollectionState?
     @UserDefaultsValue (
         key: "AppState.persistentSelectedCollectionID",
-        defaultValue: ""
+        defaultValue: UUID()
     )
     var selectedCollectionID: FontCollection.ID?
     
@@ -221,14 +221,14 @@ extension AppState {
                 return .none
                 
             case let .createNewLibrary(directory):
-                let name = state.getDefaultName()
-                state.collections.append(.init(type: .library(directory), name: name))
+                let newLibrary = FontCollection(type: .library(directory), name: state.getDefaultName())
+                state.collections.append(newLibrary)
                 
                 let fetchFonts = environment.fontClient.fetchFonts(directory)
                     .receive(on: environment.mainQueue)
                     .eraseToEffect()
                     .map {
-                        AppAction.createNewLibraryFontsResult(libraryID: name, fonts: $0)
+                        AppAction.createNewLibraryFontsResult(libraryID: newLibrary.id, fonts: $0)
                     }
                 
                 let fetchFontsCompletion = Effect<AppAction, Never>(value: AppAction.createNewLibraryCompleted)

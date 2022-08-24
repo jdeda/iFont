@@ -9,6 +9,10 @@ import SwiftUI
 import ComposableArchitecture
 
 struct SidebarState: Equatable {
+    // TODO: jdeda
+    // In reality, only the sidebar cares about an identifier for an ID
+    // may be better to create a type for this instead of
+    // adding an id to FontCollection
     @BindableState var selectedCollection: FontCollection.ID?
     var libraryCollections: IdentifiedArrayOf<SidebarRowState>
     var smartCollections: IdentifiedArrayOf<SidebarRowState>

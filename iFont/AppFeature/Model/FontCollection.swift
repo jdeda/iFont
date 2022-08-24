@@ -12,7 +12,8 @@ import Foundation
 /// Where do these fonts come from ?
 /// They can be created empty and the user can add/remove fonts from it
 /// They canbe created on application start up, for example the Computer Collection
-struct FontCollection: Equatable, Hashable {
+struct FontCollection: Equatable, Hashable, Identifiable {
+    let id = UUID()
     var type: FontCollectionType
     var fonts: [Font]
     var fontFamilies: [FontFamily]
@@ -20,11 +21,13 @@ struct FontCollection: Equatable, Hashable {
     var name: String
     
     init(
+//        id: UUID,
         type: FontCollectionType,
         fonts: [Font] = [Font](),
         fontFamilies: [FontFamily] = [FontFamily](),
         name: String
     ) {
+//        self.id = id
         self.type = type
         self.fonts = fonts
         self.fontFamilies = fontFamilies
@@ -32,11 +35,11 @@ struct FontCollection: Equatable, Hashable {
     }
 }
 
-extension FontCollection: Identifiable {
-    var id: String {
-        return name
-    }
-}
+//extension FontCollection: Identifiable {
+//    var id: String {
+//        return name
+//    }
+//}
 
 //extension FontCollection {
 //    // We will append any font found into here

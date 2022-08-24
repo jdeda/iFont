@@ -9,8 +9,14 @@ import Foundation
 import ComposableArchitecture
 
 struct SidebarRowState: Equatable, Identifiable {
-    var id: String { collection.name }
+    let id: UUID
+    //    var id: String { collection.name }
     var collection: FontCollection
+    
+    init(collection: FontCollection) {
+        self.id = collection.id
+        self.collection = collection
+    }
 }
 
 enum SidebarRowAction: Equatable {
@@ -47,12 +53,15 @@ extension SidebarRowState {
 
 extension SidebarRowState {
     static let mockStore = Store(
-        initialState: SidebarRowState(collection: .init(
-            type: .basic,
-            fonts: mock_fonts,
-            fontFamilies: mock_fonts.groupedByFamily(),
-            name: "Mock Fonts"
-        )),
+        initialState: SidebarRowState(
+//            id: UUID(),
+            collection: .init(
+                type: .basic,
+                fonts: mock_fonts,
+                fontFamilies: mock_fonts.groupedByFamily(),
+                name: "Mock Fonts"
+            )
+        ),
         reducer: SidebarRowState.reducer,
         environment: SidebarRowEnvironment()
     )
