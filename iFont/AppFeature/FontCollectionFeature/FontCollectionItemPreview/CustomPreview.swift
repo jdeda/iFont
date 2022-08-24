@@ -55,8 +55,6 @@ struct CustomPreview: View {
         let font: Font
         var fontSize: Double = 32
         @Binding var text: String
-
-//        @Binding var text: String = "The quick brown fox jumps over the lazy dog and runs away."
         
         var body: some View {
             VStack {
@@ -66,7 +64,6 @@ struct CustomPreview: View {
                     .padding(5)
                 HStack {
                     TextEditor.init(text: $text)
-//                        .fixedSize(horizontal: false, vertical: true)
                         .font(.init(font: font, size: fontSize))
                     Spacer()
                 }
