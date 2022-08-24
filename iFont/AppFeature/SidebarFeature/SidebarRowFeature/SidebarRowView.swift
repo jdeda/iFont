@@ -17,9 +17,17 @@ struct SidebarRowView: View {
                 Image(systemName: viewStore.collection.type.imageSystemName)
                     .foregroundColor(viewStore.collection.type.accentColor)
                     .frame(width: 20, height: 20)
-                Text(viewStore.collection.name)
-//                Text("\(viewStore.collection.fonts.count)")
-//                    .bold()
+                if viewStore.collection.type.canRenameOrDelete {
+                    TextField("", text: viewStore.binding(
+                        get: \.collection.name,
+                        send: SidebarRowAction.renameInTextField
+                    ))
+                }
+                else {
+                    Text(viewStore.collection.name)
+                }
+                //                Text("\(viewStore.collection.fonts.count)")
+                //                    .bold()
             }
             
             .tag(viewStore.collection.id)
@@ -39,7 +47,7 @@ struct SidebarRowView: View {
                     Text("New Library")
                 }
                 Button {
-//                     viewStore.send(.newSmartCollection)
+                    //                     viewStore.send(.newSmartCollection)
                 } label: {
                     Text("New Smart Collection")
                 }
@@ -48,15 +56,17 @@ struct SidebarRowView: View {
                 } label: {
                     Text("New Collection")
                 }
-
+                
                 Divider()
-
+                
                 if viewStore.collection.type.canRenameOrDelete {
-                    Button {
-                         viewStore.send(.rename)
-                    } label: {
-                        Text("Rename \"\(viewStore.collection.name)\"")
-                    }
+                    // TODO: Jdeda
+                    // Implement rename feature.
+                    //                    Button {
+                    //                         viewStore.send(.rename)
+                    //                    } label: {
+                    //                        Text("Rename \"\(viewStore.collection.name)\"")
+                    //                    }
                     Button {
                         viewStore.send(.delete)
                     } label: {

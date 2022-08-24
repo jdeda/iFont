@@ -29,7 +29,10 @@ struct FontCollectionView: View {
             .navigationSubtitle("\(viewStore.collection.fonts.count) fonts")
             .toolbar {
                 Picker("Detail View", selection: viewStore.binding(\.$selectedPreview)) {
-                    ForEach(FontCollectionItemPreviewType.allCases, id: \.self) { $0.image }
+                    // TODO: Jdeda
+                    // Finish Repetoire preview.
+                    ForEach(Array<FontCollectionItemPreviewType>([.sample, .custom, .info]), id: \.self) { $0.image }
+//                    ForEach(FontCollectionItemPreviewType.allCases, id: \.self) { $0.image }
                 }
                 .pickerStyle(.segmented)
             }
