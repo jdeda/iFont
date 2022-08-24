@@ -177,10 +177,10 @@ extension AppState {
                     return .none
                     
                 case .rename: // How?
-                    if !state.collections[index].type.canRenameOrDelete {
-                        // Do...
-                    }
-                    state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
+//                    if !state.collections[index].type.canRenameOrDelete {
+//                        // Do...
+//                    }
+//                    state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
                     return .none
                     
                 case .delete:
@@ -199,6 +199,7 @@ extension AppState {
                      */
                 case let .renameInTextField(newName):
                     state.collections[index].name = newName
+                    state.selectedCollectionState?.collection.name = newName
                     return .none
                 }
                 
@@ -271,7 +272,18 @@ extension AppState {
                     }
                 }
                 
+                // Update selection.
+                if state.selectedCollectionID == collectionID {
+                    state.selectedCollectionID = nil
+                    state.selectedCollectionState = nil
+                }
+                
+                // Update sidebar.
                 state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
+                
+                // Cancel effect that would be adding fonts to this specific collection.
+                // TODO: Jdeda
+                // This is currently canceling any font creation effect.
                 return .cancel(id: CreateFontCollectionID())
             }
         }
