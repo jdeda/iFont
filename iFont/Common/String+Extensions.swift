@@ -81,10 +81,6 @@ extension String {
     }
 }
 
-extension String {
-    static let quickBrownFox = "The quick brown fox jumps over the lazy dog and runs away."
-}
-
 
 extension String {
     func accumulatingStrings() -> [String] {
