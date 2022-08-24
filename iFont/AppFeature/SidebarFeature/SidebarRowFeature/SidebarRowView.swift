@@ -10,6 +10,8 @@ import ComposableArchitecture
 
 struct SidebarRowView: View {
     let store: Store<SidebarRowState, SidebarRowAction>
+    @FocusState private var usernameFieldIsFocused: Bool
+    
     
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -22,6 +24,7 @@ struct SidebarRowView: View {
                         get: \.collection.name,
                         send: SidebarRowAction.renameInTextField
                     ))
+                    .focused($usernameFieldIsFocused)
                 }
                 else {
                     Text(viewStore.collection.name)
@@ -62,11 +65,11 @@ struct SidebarRowView: View {
                 if viewStore.collection.type.canRenameOrDelete {
                     // TODO: Jdeda
                     // Implement rename feature.
-                    //                    Button {
-                    //                         viewStore.send(.rename)
-                    //                    } label: {
-                    //                        Text("Rename \"\(viewStore.collection.name)\"")
-                    //                    }
+                    Button {
+                        usernameFieldIsFocused = true
+                    } label: {
+                        Text("Rename \"\(viewStore.collection.name)\"")
+                    }
                     Button {
                         viewStore.send(.delete)
                     } label: {
