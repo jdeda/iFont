@@ -80,6 +80,7 @@ extension SidebarState {
         }
     )
         .binding()
+//        .debug()
 }
 
 extension SidebarState {

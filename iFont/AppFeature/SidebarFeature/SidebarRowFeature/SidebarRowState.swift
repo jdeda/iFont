@@ -45,10 +45,15 @@ extension SidebarRowState {
             case .delete:
                 return .none
             case let .renameInTextField(newName):
+                state.collection.name = newName
+                // TODO: Jdeda
+                // Must handle invalid renaming!
+                // i.e. have an alert!
                 return .none
             }
         }
     )
+//        .debug()
 }
 
 extension SidebarRowState {
