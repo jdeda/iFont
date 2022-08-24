@@ -11,11 +11,14 @@ import ComposableArchitecture
 struct SidebarRowState: Equatable, Identifiable {
     let id: UUID
     //    var id: String { collection.name }
-    var collection: FontCollection
+    var collection: FontCollection;
     
-    init(collection: FontCollection) {
+    var nonValidNames: Set<String>
+    
+    init(collection: FontCollection, nonValidNames: Set<String> = []) {
         self.id = collection.id
         self.collection = collection
+        self.nonValidNames = nonValidNames
     }
 }
 
@@ -46,14 +49,20 @@ extension SidebarRowState {
                 return .none
             case let .renameInTextField(newName):
                 state.collection.name = newName
+
                 // TODO: Jdeda
-                // Must handle invalid renaming!
-                // i.e. have an alert!
+                // This is not working...very weird behavior.
+//                if !state.nonValidNames.contains(newName) {
+//                    state.collection.name = newName
+//                }
+//                else {
+//                    state.collection.name = "\(state.collection.name)"
+//                }
                 return .none
             }
         }
     )
-//        .debug()
+        .debug()
 }
 
 extension SidebarRowState {

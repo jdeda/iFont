@@ -20,9 +20,24 @@ struct SidebarState: Equatable {
     
     init(selectedCollection: FontCollection.ID? = nil, collections: [FontCollection] = []) {
         self.selectedCollection = selectedCollection
-        self.libraryCollections = .init(uniqueElements: collections.filter(\.type.isLibrary).map(SidebarRowState.init))
-        self.smartCollections   = .init(uniqueElements: collections.filter(\.type.isSmart).map(SidebarRowState.init))
-        self.basicCollections   = .init(uniqueElements: collections.filter(\.type.isBasic).map(SidebarRowState.init))
+        
+        let names = Set(collections.map(\.name))
+
+        self.libraryCollections = .init(uniqueElements: collections.filter(\.type.isLibrary).map {
+            var nonValidNames = names
+            nonValidNames.remove($0.name)
+            return .init(collection: $0, nonValidNames: nonValidNames)
+        })
+        self.smartCollections = .init(uniqueElements: collections.filter(\.type.isSmart).map {
+            var nonValidNames = names
+            nonValidNames.remove($0.name)
+            return .init(collection: $0, nonValidNames: nonValidNames)
+        })
+        self.basicCollections = .init(uniqueElements: collections.filter(\.type.isBasic).map {
+            var nonValidNames = names
+            nonValidNames.remove($0.name)
+            return .init(collection: $0, nonValidNames: nonValidNames)
+        })
     }
 }
 
@@ -75,6 +90,29 @@ extension SidebarState {
                 return Effect(value: .row(id: id, action: action))
                 
             case let .row(id, action):
+                if let newName = (/SidebarRowAction.renameInTextField).extract(from: action) {
+                    let names = Set(
+                        state.libraryCollections.map(\.collection.name) +
+                        state.smartCollections.map(\.collection.name) +
+                        state.basicCollections.map(\.collection.name)
+                    )
+                    
+                    state.libraryCollections.forEach {
+                        var nonValidNames = names
+                        nonValidNames.remove($0.collection.name)
+                        state.libraryCollections[id: $0.id]!.nonValidNames = nonValidNames
+                    }
+                    state.smartCollections.forEach {
+                        var nonValidNames = names
+                        nonValidNames.remove($0.collection.name)
+                        state.smartCollections[id: $0.id]!.nonValidNames = nonValidNames
+                    }
+                    state.basicCollections.forEach {
+                        var nonValidNames = names
+                        nonValidNames.remove($0.collection.name)
+                        state.basicCollections[id: $0.id]!.nonValidNames = nonValidNames
+                    }
+                }
                 return .none
             }
         }
