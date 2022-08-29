@@ -13,7 +13,7 @@ struct FontCollectionView: View {
                     ForEach(viewStore.items) { item in
                         FontCollectionItemRowView(store: store, itemType: item)
                             .tag(item.id)
-//                            .onDrag { .init(object: yummers(item)) }
+                            .onDrag { .init(object: yummers(item)) }
                     }
                 }
                 .animation(.default, value: viewStore.selectedExpansions)

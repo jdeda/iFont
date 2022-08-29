@@ -9,6 +9,12 @@ import Foundation
 import CoreText
 import AppKit
 
+// We have reached a big problem. But we may be able to fix things.
+// We could some intermediary-version of FontCollectionItem, Font, and FontFamily.
+// We are simply getting destroyed by the NSFontDescriptor! FontDescriptors are NOT
+// codable. How could we extract it? We could simply use the URL and pluck the font wiith the matching
+// name from the arrray of font descriptors we get from the file.
+
 struct FontCodable: Codable {
         var url: URL
         var name: String
@@ -58,6 +64,7 @@ extension FontCollectionItemDnD: NSItemProviderReading {
 extension FontCollectionItemDnD: NSItemProviderWriting {
     static var writableTypeIdentifiersForItemProvider: [String] = [typeIdentifier]
 
+    
     /*
      Is this what is failling?
      */
@@ -65,12 +72,8 @@ extension FontCollectionItemDnD: NSItemProviderWriting {
         withTypeIdentifier typeIdentifier: String,
         forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void
     ) -> Progress? {
-        switch item {
-        case let .font(fontItem):
-            completionHandler("\(fontItem.name), \(fontItem.url)".data(using: .utf8), nil)
-        case let .fontFamily(familyItem):
-            completionHandler("\(familyItem.name), \(familyItem.fonts)".data(using: .utf8), nil)
-        }
+        let data = try! JSONEncoder.init().encode(self.item)
+        completionHandler(data, nil)
         let p = Progress(totalUnitCount: 1)
         p.completedUnitCount = 1
         return p
@@ -109,49 +112,34 @@ func fontCodableToFont(_ fontCodable: FontCodable) -> Font {
         familyName: font.familyName ?? "unknown"
     )
 }
-        
-///**
-// We have reached a big problem. But we may be able to fix things.
-// We could some intermediary-version of FontCollectionItem, Font, and FontFamily.
-// We are simply getting destroyed by the NSFontDescriptor! FontDescriptors are NOT
-// codable. How could we extract it? We could simply use the URL and pluck the font wiith the matching
-// name from the arrray of font descriptors we get from the file.
-//
-// So then can't we just use the URL and a name? (URL, String)
-// */
-//final class FontCollectionItemDnB: NSObject {
-//    public static let typeIdentifier = "dnd.fontCollectionItem"
-//
-//    let item: FontCollectionItem
-//
-//    init(_ item: FontCollectionItem) {
-//        self.item = item
-//    }
-//}
-//
-//extension FontCollectionItemDnB: Codable {
-//
-//}
-//
-//extension FontCollectionItemDnB: NSItemProviderReading {
-//
-//    static var readableTypeIdentifiersForItemProvider: [String] = [typeIdentifier]
-//
-//    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
-////        .init(try! JSONDecoder().decode(FontCollectionItem.self, from: data))
-//        .init(try! JSONDecoder().decode(Self.self, from: data))
-//    }
-//}
-//
-//extension FontCollectionItemDnB: NSItemProviderWriting {
-//    static var writableTypeIdentifiersForItemProvider: [String] = [typeIdentifier]
-//
-//    func loadData(
-//        withTypeIdentifier typeIdentifier: String,
-//        forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void
-//    ) -> Progress? {
-//        let p = Progress(totalUnitCount: 1)
-//        p.completedUnitCount = 1
-//        return p
-//    }
-//}
+
+
+// MARK: - GenericDrag and Drop Item.
+
+final class DragAndDropItem<T: Codable>: NSObject {
+    let typeIdentifier = "drag_and_drop_item" // is this the problem?
+    let item: T
+    
+    var readableTypeIdentifiersForItemProvider: [String] { [typeIdentifier] }
+    var writableTypeIdentifiersForItemProvider: [String] { [typeIdentifier] }
+
+    internal init(_ item: T) {
+        self.item = item
+    }
+    
+    func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
+        .init(try! JSONDecoder().decode(T.self, from: data))
+    }
+
+    
+    func loadData(
+        withTypeIdentifier typeIdentifier: String,
+        forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void
+    ) -> Progress? {
+        let data = try! JSONEncoder.init().encode(self.item)
+        completionHandler(data, nil)
+        let p = Progress(totalUnitCount: 1)
+        p.completedUnitCount = 1
+        return p
+    }
+}
