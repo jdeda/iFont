@@ -16,23 +16,23 @@ import AppKit
 // name from the arrray of font descriptors we get from the file.
 
 struct FontCodable: Codable {
-        var url: URL
-        var name: String
+    var url: URL
+    var name: String
     
-        init(_ font: Font) {
-            self.url = font.url
-            self.name = font.name
-        }
+    init(_ font: Font) {
+        self.url = font.url
+        self.name = font.name
+    }
 }
 
 struct FontFamilyCodable: Codable {
-        let name: String
-        var fonts: [FontCodable]
+    let name: String
+    var fonts: [FontCodable]
     
-        init(_ family: FontFamily) {
-            self.name = family.name
-            self.fonts = family.fonts.map(FontCodable.init)
-        }
+    init(_ family: FontFamily) {
+        self.name = family.name
+        self.fonts = family.fonts.map(FontCodable.init)
+    }
 }
 
 enum FontCollectionItemCodable: Codable {
@@ -42,7 +42,6 @@ enum FontCollectionItemCodable: Codable {
 
 final class FontCollectionItemDnD: NSObject {
     public static let typeIdentifier = "dnd.fontCollectionItem"
-
     let item: FontCollectionItemCodable
 
     internal init(_ item: FontCollectionItemCodable) {
@@ -80,12 +79,14 @@ extension FontCollectionItemDnD: NSItemProviderWriting {
     }
 }
 
-func yummers(_ item: FontCollectionItem) -> FontCollectionItemDnD {
-    switch item {
-    case let .font(font):
-        return .init(.font(.init(font)))
-    case let .fontFamily(family):
-        return .init(.fontFamily(.init(family)))
+extension FontCollectionItem {
+    func yummers() -> FontCollectionItemDnD {
+        switch self {
+        case let .font(font):
+            return .init(.font(.init(font)))
+        case let .fontFamily(family):
+            return .init(.fontFamily(.init(family)))
+        }
     }
 }
 

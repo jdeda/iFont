@@ -46,6 +46,10 @@ import ComposableArchitecture
  - this does not work. we scope n times and forEach on a reducer n times...
  
  */
+struct MyDelegate {
+    let viewStore: ViewStore<SidebarState, SidebarAction>
+}
+
 struct SidebarView: View {
     let store: Store<SidebarState, SidebarAction>
     
@@ -74,21 +78,27 @@ struct SidebarView: View {
                         action: SidebarAction.basicCollectionRow
                     )) { childStore in
                         SidebarRowView(store: childStore)
-                            .onDrop(of: [FontCollectionItemDnD.typeIdentifier], isTargeted: nil) { ips in
+                        // TODO: Please use a Delegate for more flexibility
+                        // 
+                            .onDrop(of: JSONItemProvider.readableTypeIdentifiersForItemProvider, isTargeted: nil) { ips in
 
-                                guard let ip = ips.first(where: {  $0.hasItemConformingToTypeIdentifier(FontCollectionItemDnD.typeIdentifier)
-                                })
-                                else { return false }
-
-                                ip.loadObject(ofClass: FontCollectionItemDnD.self) { reading, _ in
-                                    guard let item = reading as? FontCollectionItemDnD
-                                    else { return }
-                                    DispatchQueue.main.async {
-                                        viewStore.send(.recievedFontCollectionItemDrop(item))
-                                    }
-                                }
+                                Logger.log("yummers: '\(ips)'")
                                 return true
+
+//                                guard let ip = ips.first(where: {  $0.hasItemConformingToTypeIdentifier(FontCollectionItemDnD.typeIdentifier)
+//                                })
+//                                else { return false }
+//
+//                                ip.loadObject(ofClass: FontCollectionItemDnD.self) { reading, _ in
+//                                    guard let item = reading as? FontCollectionItemDnD
+//                                    else { return }
+//                                    DispatchQueue.main.async {
+//                                        viewStore.send(.recievedFontCollectionItemDrop(item))
+//                                    }
+//                                }
+//                                return true
                             }
+                            .border(Color.red)
                     }
                 }
                 .toolbar {

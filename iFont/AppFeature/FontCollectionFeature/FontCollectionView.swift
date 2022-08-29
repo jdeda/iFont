@@ -13,7 +13,18 @@ struct FontCollectionView: View {
                     ForEach(viewStore.items) { item in
                         FontCollectionItemRowView(store: store, itemType: item)
                             .tag(item.id)
-                            .onDrag { .init(object: yummers(item)) }
+                            .onDrag {
+                                let rv = NSItemProvider(object: item.jsonItemProvider())
+
+                                Logger.log("yummers: '\(rv)'")
+                                return rv
+
+                                // working version
+                                // let url = URL(fileURLWithPath: "/Users/kdeda/Development/third-parties/jesse/iFont/iFont.xcodeproj")
+                                // let rv = NSItemProvider.init(item: <#T##NSSecureCoding?#>, typeIdentifier: "public.jpeg")
+                                // Logger.log("yummers: '\(rv)'")
+                                // return rv
+                            }
                     }
                 }
                 .animation(.default, value: viewStore.selectedExpansions)
