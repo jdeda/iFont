@@ -48,6 +48,7 @@ enum SidebarAction: BindableAction, Equatable {
     case smartCollectionRow(id: SidebarRowState.ID, action: SidebarRowAction)
     case basicCollectionRow(id: SidebarRowState.ID, action: SidebarRowAction)
     case row(id: SidebarRowState.ID, action: SidebarRowAction)
+    case recievedFontCollectionItemDrop(FontCollectionItemDnD)
 }
 
 struct SidebarEnvironment { }
@@ -113,6 +114,10 @@ extension SidebarState {
                         state.basicCollections[id: $0.id]!.nonValidNames = nonValidNames
                     }
                 }
+                return .none
+                
+            case let .recievedFontCollectionItemDrop(item):
+                let found = unyummers(item)
                 return .none
             }
         }

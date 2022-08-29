@@ -43,7 +43,7 @@ import ComposableArchitecture
  the childStore can't give us anything...so basically we'd have to put a tag within the view we init by the childstore
  
  Attempt A: N-forEach
-    - this does not work. we scope n times and forEach on a reducer n times...
+ - this does not work. we scope n times and forEach on a reducer n times...
  
  */
 struct SidebarView: View {
@@ -70,27 +70,41 @@ struct SidebarView: View {
                 }
                 Section("Collections") {
                     ForEachStore(store.scope(
-                            state: \.basicCollections,
-                            action: SidebarAction.basicCollectionRow
+                        state: \.basicCollections,
+                        action: SidebarAction.basicCollectionRow
                     )) { childStore in
                         SidebarRowView(store: childStore)
-//                            .onDrop
+                            .onDrop(of: [FontCollectionItemDnD.typeIdentifier], isTargeted: nil) { ips in
+
+                                guard let ip = ips.first(where: {  $0.hasItemConformingToTypeIdentifier(FontCollectionItemDnD.typeIdentifier)
+                                })
+                                else { return false }
+
+                                ip.loadObject(ofClass: FontCollectionItemDnD.self) { reading, _ in
+                                    guard let item = reading as? FontCollectionItemDnD
+                                    else { return }
+                                    DispatchQueue.main.async {
+                                        viewStore.send(.recievedFontCollectionItemDrop(item))
+                                    }
+                                }
+                                return true
+                            }
                     }
                 }
-            }
-            .toolbar {
-                Button(action: {
-                    viewStore.send(.toggleHideSidebar)
-                }, label: {
-                    Image(systemName: "sidebar.left")
-                })
+                .toolbar {
+                    Button(action: {
+                        viewStore.send(.toggleHideSidebar)
+                    }, label: {
+                        Image(systemName: "sidebar.left")
+                    })
+                }
             }
         }
     }
 }
-
-struct SidebarView_Previews: PreviewProvider {
-    static var previews: some View {
-        SidebarView(store: SidebarState.mockStore)
+    
+    struct SidebarView_Previews: PreviewProvider {
+        static var previews: some View {
+            SidebarView(store: SidebarState.mockStore)
+        }
     }
-}

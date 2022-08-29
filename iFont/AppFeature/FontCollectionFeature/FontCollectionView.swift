@@ -1,18 +1,19 @@
 import SwiftUI
 import ComposableArchitecture
-    
+
 struct FontCollectionView: View {
     let store: Store<FontCollectionState, FontCollectionAction>
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
-        
+                
                 // The Item List.
                 List(selection: viewStore.binding(\.$selectedItemID)) {
                     ForEach(viewStore.items) { item in
                         FontCollectionItemRowView(store: store, itemType: item)
                             .tag(item.id)
+//                            .onDrag { .init(object: yummers(item)) }
                     }
                 }
                 .animation(.default, value: viewStore.selectedExpansions)
@@ -32,7 +33,7 @@ struct FontCollectionView: View {
                     // TODO: Jdeda
                     // Finish Repetoire preview.
                     ForEach(Array<FontCollectionItemPreviewType>([.sample, .custom, .info]), id: \.self) { $0.image }
-//                    ForEach(FontCollectionItemPreviewType.allCases, id: \.self) { $0.image }
+                    //                    ForEach(FontCollectionItemPreviewType.allCases, id: \.self) { $0.image }
                 }
                 .pickerStyle(.segmented)
             }
