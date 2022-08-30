@@ -41,7 +41,8 @@ enum FontCollectionItemCodable: Codable {
 }
 
 final class FontCollectionItemDnD: NSObject {
-    public static let typeIdentifier = "dnd.fontCollectionItem"
+//    public static let typeIdentifier = "dnd.fontCollectionItem" // this is a problem
+    public static let typeIdentifier = "public.item"
     let item: FontCollectionItemCodable
 
     internal init(_ item: FontCollectionItemCodable) {
@@ -56,7 +57,7 @@ extension FontCollectionItemDnD: NSItemProviderReading {
      Is this what is failling?
      */
     static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
-        .init(try! JSONDecoder().decode(FontCollectionItemCodable.self, from: data))
+        return .init(try! JSONDecoder().decode(FontCollectionItemCodable.self, from: data))
     }
 }
 
@@ -79,15 +80,13 @@ extension FontCollectionItemDnD: NSItemProviderWriting {
     }
 }
 
-extension FontCollectionItem {
-    func yummers() -> FontCollectionItemDnD {
-        switch self {
+func yummers(_ item: FontCollectionItem) -> FontCollectionItemDnD {
+        switch item {
         case let .font(font):
             return .init(.font(.init(font)))
         case let .fontFamily(family):
             return .init(.fontFamily(.init(family)))
         }
-    }
 }
 
 func unyummers(_ itemDnD: FontCollectionItemDnD) -> FontCollectionItem {
@@ -112,35 +111,4 @@ func fontCodableToFont(_ fontCodable: FontCodable) -> Font {
         name: fontCodable.name,
         familyName: font.familyName ?? "unknown"
     )
-}
-
-
-// MARK: - GenericDrag and Drop Item.
-
-final class DragAndDropItem<T: Codable>: NSObject {
-    let typeIdentifier = "drag_and_drop_item" // is this the problem?
-    let item: T
-    
-    var readableTypeIdentifiersForItemProvider: [String] { [typeIdentifier] }
-    var writableTypeIdentifiersForItemProvider: [String] { [typeIdentifier] }
-
-    internal init(_ item: T) {
-        self.item = item
-    }
-    
-    func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
-        .init(try! JSONDecoder().decode(T.self, from: data))
-    }
-
-    
-    func loadData(
-        withTypeIdentifier typeIdentifier: String,
-        forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void
-    ) -> Progress? {
-        let data = try! JSONEncoder.init().encode(self.item)
-        completionHandler(data, nil)
-        let p = Progress(totalUnitCount: 1)
-        p.completedUnitCount = 1
-        return p
-    }
 }

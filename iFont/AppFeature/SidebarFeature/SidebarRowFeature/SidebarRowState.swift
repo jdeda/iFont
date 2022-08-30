@@ -29,6 +29,7 @@ enum SidebarRowAction: Equatable {
     case rename
     case delete
     case renameInTextField(String)
+    case recievedFontCollectionItemDrop(FontCollectionItemDnD)
 }
 
 struct SidebarRowEnvironment { }
@@ -58,6 +59,8 @@ extension SidebarRowState {
 //                else {
 //                    state.collection.name = "\(state.collection.name)"
 //                }
+                return .none
+            case let .recievedFontCollectionItemDrop(drop):
                 return .none
             }
         }

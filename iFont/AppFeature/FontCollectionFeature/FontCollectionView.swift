@@ -13,18 +13,55 @@ struct FontCollectionView: View {
                     ForEach(viewStore.items) { item in
                         FontCollectionItemRowView(store: store, itemType: item)
                             .tag(item.id)
-                            .onDrag {
-                                let rv = NSItemProvider(object: item.jsonItemProvider())
-
-                                Logger.log("yummers: '\(rv)'")
-                                return rv
-
-                                // working version
-                                // let url = URL(fileURLWithPath: "/Users/kdeda/Development/third-parties/jesse/iFont/iFont.xcodeproj")
-                                // let rv = NSItemProvider.init(item: <#T##NSSecureCoding?#>, typeIdentifier: "public.jpeg")
-                                // Logger.log("yummers: '\(rv)'")
-                                // return rv
+                            .onDrag { .init(object: yummers(item)) }
+                            .contextMenu {
+                                
+                                // Allow deletion only collection type is basic.
+                                if viewStore.collection.type.isBasic {
+                                    Button {
+                                        viewStore.send(.delete(item))
+                                    } label: {
+                                        Text("Delete")
+                                    }
+                                }
+                                else {
+                                    Text("Delete")
+                                }
+                                
+                                Divider()
+                                
+                                
+                                // Allow panel only if item is a font.
+                                switch item {
+                                case let .font(font):
+                                    Button {
+                                        let panel = NSOpenPanel()
+                                        panel.directoryURL = font.url
+                                        panel.canChooseFiles = false
+                                        panel.canChooseDirectories = false
+                                        panel.allowsMultipleSelection = false
+                                    } label: {
+                                        Text("Show in finder")
+                                    }
+                                }
+                                case .fontFamily(family):
+                                    return Text("Show in finder")
                             }
+//                            .onDrag { .init(object: item.jsonItemProvider()) }
+//                            .onDrag {
+//
+//                                 Works.
+//                                let rv = NSItemProvider(object: item.jsonItemProvider())
+//
+//                                Logger.log("yummers: '\(rv)'")
+//                                return rv
+//
+//                                 working version
+//                                 let url = URL(fileURLWithPath: "/Users/kdeda/Development/third-parties/jesse/iFont/iFont.xcodeproj")
+//                                 let rv = NSItemProvider.init(item: NSSecureCoding?, typeIdentifier: "public.jpeg")
+//                                 Logger.log("yummers: '\(rv)'")
+//                                 return rv
+//                            }
                     }
                 }
                 .animation(.default, value: viewStore.selectedExpansions)

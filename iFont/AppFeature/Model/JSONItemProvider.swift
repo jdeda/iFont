@@ -16,11 +16,12 @@ final class JSONItemProvider: NSObject {
 }
 
 extension JSONItemProvider: NSItemProviderReading {
+    /**
+     These are really UTI Types.
+     For more information:  https://escapetech.eu/manuals/qdrop/uti.html#abstract
+     */
     static var readableTypeIdentifiersForItemProvider: [String] = ["public.file-url"]
 
-    /*
-     Is this what is failling?
-     */
     static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
         .init(json: data)
     }
@@ -29,10 +30,6 @@ extension JSONItemProvider: NSItemProviderReading {
 extension JSONItemProvider: NSItemProviderWriting {
     static var writableTypeIdentifiersForItemProvider: [String] = ["public.file-url"]
 
-    
-    /*
-     Is this what is failling?
-     */
     func loadData(
         withTypeIdentifier typeIdentifier: String,
         forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void

@@ -117,7 +117,7 @@ extension SidebarState {
                 return .none
                 
             case let .recievedFontCollectionItemDrop(item):
-                let found = unyummers(item)
+//                let found = unyummers(item)
                 return .none
             }
         }

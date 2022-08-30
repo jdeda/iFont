@@ -157,6 +157,14 @@ extension AppState {
                     .debounce(id: SidebarSelectionUpdateID(), for: 0.05, scheduler: environment.mainQueue)
 
             case let .sidebar(action):
+                
+//                /**
+//                 Must know which row...
+//                 */
+//                if let droppedItem = (/SidebarAction.recievedFontCollectionItemDrop).extract(from: action) {
+//                    return Effect(value: .processItemDrop(droppedItem))
+//                }
+
                 guard let (rowID, rowAction) = (/SidebarAction.row).extract(from: action)
                 else { return .none }
                 
@@ -193,6 +201,20 @@ extension AppState {
 
                     state.collections[index].name = newName
                     state.selectedCollectionState?.collection.name = newName
+                    return .none
+                    
+                case let .recievedFontCollectionItemDrop(drop):
+                    // dnd -> itemCodable -> fonts
+                    // check if selected state needs to be updated
+                    // tho tech this is impossible
+                    let item = unyummers(drop)
+                    switch item {
+                    case let .font(font):
+                        state.collections[index].fonts.append(font)
+                    case let .fontFamily(family):
+                        state.collections[index].fonts.append(contentsOf: family.fonts)
+                    }
+//                    state.collections[index].fonts.app
                     return .none
                 }
                 

@@ -34,6 +34,37 @@ struct SidebarRowView: View {
             }
             
             .tag(viewStore.collection.id)
+            .onDrop(
+                if: viewStore.collection.type.isBasic,
+                for: FontCollectionItemDnD.typeIdentifier,
+                perform: { ips in
+                    guard let ip = ips.first(where: {  $0.hasItemConformingToTypeIdentifier(FontCollectionItemDnD.typeIdentifier)
+                    })
+                    else { return false }
+
+                    ip.loadObject(ofClass: FontCollectionItemDnD.self) { reading, _ in
+                        guard let item = reading as? FontCollectionItemDnD
+                        else { return }
+                        DispatchQueue.main.async {
+                            viewStore.send(.recievedFontCollectionItemDrop(item))
+                        }
+                    }
+                    return true
+                })
+//            .onDrop(of: FontCollectionItemDnD.typeIdentifier) { ips in
+//                guard let ip = ips.first(where: {  $0.hasItemConformingToTypeIdentifier(FontCollectionItemDnD.typeIdentifier)
+//                })
+//                else { return false }
+//
+//                ip.loadObject(ofClass: FontCollectionItemDnD.self) { reading, _ in
+//                    guard let item = reading as? FontCollectionItemDnD
+//                    else { return }
+//                    DispatchQueue.main.async {
+//                        viewStore.send(.recievedFontCollectionItemDrop(item))
+//                    }
+//                }
+//                return true
+//            }
             .contextMenu {
                 Button {
                     let panel = NSOpenPanel()

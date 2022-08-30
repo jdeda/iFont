@@ -77,27 +77,18 @@ struct SidebarView: View {
                         state: \.basicCollections,
                         action: SidebarAction.basicCollectionRow
                     )) { childStore in
+                        // MARK: Is this is what is causing double writes
+                        // as seen when renaming an item from this collection?
+                        
                         SidebarRowView(store: childStore)
                         // TODO: Please use a Delegate for more flexibility
-                        // 
-                            .onDrop(of: JSONItemProvider.readableTypeIdentifiersForItemProvider, isTargeted: nil) { ips in
-
-                                Logger.log("yummers: '\(ips)'")
-                                return true
-
-//                                guard let ip = ips.first(where: {  $0.hasItemConformingToTypeIdentifier(FontCollectionItemDnD.typeIdentifier)
-//                                })
-//                                else { return false }
-//
-//                                ip.loadObject(ofClass: FontCollectionItemDnD.self) { reading, _ in
-//                                    guard let item = reading as? FontCollectionItemDnD
-//                                    else { return }
-//                                    DispatchQueue.main.async {
-//                                        viewStore.send(.recievedFontCollectionItemDrop(item))
-//                                    }
-//                                }
+//                            .onDrop(
+//                                of: JSONItemProvider.readableTypeIdentifiersForItemProvider,
+//                                isTargeted: nil
+//                            ) { ips in
+//                                Logger.log("yummers: '\(ips)'")
 //                                return true
-                            }
+//                            }
                             .border(Color.red)
                     }
                 }
