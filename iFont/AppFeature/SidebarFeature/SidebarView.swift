@@ -89,7 +89,6 @@ struct SidebarView: View {
 //                                Logger.log("yummers: '\(ips)'")
 //                                return true
 //                            }
-                            .border(Color.red)
                     }
                 }
                 .toolbar {

@@ -33,19 +33,15 @@ struct FontCollectionView: View {
                                 
                                 // Allow panel only if item is a font.
                                 switch item {
-                                case let .font(font):
-                                    Button {
-                                        let panel = NSOpenPanel()
-                                        panel.directoryURL = font.url
-                                        panel.canChooseFiles = false
-                                        panel.canChooseDirectories = false
-                                        panel.allowsMultipleSelection = false
-                                    } label: {
+                                    case let .font(font):
+                                        Button {
+                                            NSWorkspace.shared.activateFileViewerSelecting([font.url])
+                                        } label: {
+                                            Text("Show in finder")
+                                        }
+                                    case .fontFamily(_):
                                         Text("Show in finder")
-                                    }
                                 }
-                                case .fontFamily(family):
-                                    return Text("Show in finder")
                             }
 //                            .onDrag { .init(object: item.jsonItemProvider()) }
 //                            .onDrag {
@@ -78,10 +74,7 @@ struct FontCollectionView: View {
             .navigationSubtitle("\(viewStore.collection.fonts.count) fonts")
             .toolbar {
                 Picker("Detail View", selection: viewStore.binding(\.$selectedPreview)) {
-                    // TODO: Jdeda
-                    // Finish Repetoire preview.
-                    ForEach(Array<FontCollectionItemPreviewType>([.sample, .custom, .info]), id: \.self) { $0.image }
-                    //                    ForEach(FontCollectionItemPreviewType.allCases, id: \.self) { $0.image }
+                    ForEach(FontCollectionItemPreviewType.allCases, id: \.self) { $0.image }
                 }
                 .pickerStyle(.segmented)
             }

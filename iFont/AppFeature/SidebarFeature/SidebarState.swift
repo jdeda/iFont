@@ -114,6 +114,22 @@ extension SidebarState {
                         state.basicCollections[id: $0.id]!.nonValidNames = nonValidNames
                     }
                 }
+                if let _ = (/SidebarRowAction.delete).extract(from: action) {
+                    if state.libraryCollections.contains(where: { $0.id == id }) {
+                        state.libraryCollections[id: id] = nil
+                    }
+                    else if state.smartCollections.contains(where: { $0.id == id }) {
+                        state.libraryCollections[id: id] = nil;
+                    }
+                    else if state.basicCollections.contains(where: { $0.id == id }) {
+                        state.libraryCollections[id: id] = nil;
+                    }
+                    else {
+                        // Good job.
+                    }
+                        
+                }
+
                 return .none
                 
             case let .recievedFontCollectionItemDrop(item):

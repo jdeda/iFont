@@ -53,9 +53,6 @@ final class FontCollectionItemDnD: NSObject {
 extension FontCollectionItemDnD: NSItemProviderReading {
     static var readableTypeIdentifiersForItemProvider: [String] = [typeIdentifier]
 
-    /*
-     Is this what is failling?
-     */
     static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
         return .init(try! JSONDecoder().decode(FontCollectionItemCodable.self, from: data))
     }
