@@ -43,9 +43,13 @@ import ComposableArchitecture
  the childStore can't give us anything...so basically we'd have to put a tag within the view we init by the childstore
  
  Attempt A: N-forEach
-    - this does not work. we scope n times and forEach on a reducer n times...
+ - this does not work. we scope n times and forEach on a reducer n times...
  
  */
+struct MyDelegate {
+    let viewStore: ViewStore<SidebarState, SidebarAction>
+}
+
 struct SidebarView: View {
     let store: Store<SidebarState, SidebarAction>
     
@@ -70,27 +74,37 @@ struct SidebarView: View {
                 }
                 Section("Collections") {
                     ForEachStore(store.scope(
-                            state: \.basicCollections,
-                            action: SidebarAction.basicCollectionRow
+                        state: \.basicCollections,
+                        action: SidebarAction.basicCollectionRow
                     )) { childStore in
+                        // MARK: Is this is what is causing double writes
+                        // as seen when renaming an item from this collection?
+                        
                         SidebarRowView(store: childStore)
-//                            .onDrop
+                        // TODO: Please use a Delegate for more flexibility
+//                            .onDrop(
+//                                of: JSONItemProvider.readableTypeIdentifiersForItemProvider,
+//                                isTargeted: nil
+//                            ) { ips in
+//                                Logger.log("yummers: '\(ips)'")
+//                                return true
+//                            }
                     }
                 }
-            }
-            .toolbar {
-                Button(action: {
-                    viewStore.send(.toggleHideSidebar)
-                }, label: {
-                    Image(systemName: "sidebar.left")
-                })
+                .toolbar {
+                    Button(action: {
+                        viewStore.send(.toggleHideSidebar)
+                    }, label: {
+                        Image(systemName: "sidebar.left")
+                    })
+                }
             }
         }
     }
 }
-
-struct SidebarView_Previews: PreviewProvider {
-    static var previews: some View {
-        SidebarView(store: SidebarState.mockStore)
+    
+    struct SidebarView_Previews: PreviewProvider {
+        static var previews: some View {
+            SidebarView(store: SidebarState.mockStore)
+        }
     }
-}

@@ -28,7 +28,7 @@ struct AppState: Equatable {
     var selectedCollectionState: FontCollectionState?
     @UserDefaultsValue (
         key: "AppState.persistentSelectedCollectionID",
-        defaultValue: ""
+        defaultValue: UUID()
     )
     var selectedCollectionID: FontCollection.ID?
     
@@ -157,6 +157,14 @@ extension AppState {
                     .debounce(id: SidebarSelectionUpdateID(), for: 0.05, scheduler: environment.mainQueue)
 
             case let .sidebar(action):
+                
+//                /**
+//                 Must know which row...
+//                 */
+//                if let droppedItem = (/SidebarAction.recievedFontCollectionItemDrop).extract(from: action) {
+//                    return Effect(value: .processItemDrop(droppedItem))
+//                }
+
                 guard let (rowID, rowAction) = (/SidebarAction.row).extract(from: action)
                 else { return .none }
                 
@@ -177,14 +185,37 @@ extension AppState {
                     return .none
                     
                 case .rename: // How?
-                    if !state.collections[index].type.canRenameOrDelete {
-                        // Do...
-                    }
-                    state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
+//                    if !state.collections[index].type.canRenameOrDelete {
+//                        // Do...
+//                    }
+//                    state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
                     return .none
                     
                 case .delete:
                     return Effect(value: .deleteCollection(rowID))
+                
+                case let .renameInTextField(newName):
+                    // TODO: Jdeda
+                    // Must handle invalid renaming!
+                    // i.e. have an alert!
+
+                    state.collections[index].name = newName
+                    state.selectedCollectionState?.collection.name = newName
+                    return .none
+                    
+                case let .recievedFontCollectionItemDrop(drop):
+                    // dnd -> itemCodable -> fonts
+                    // check if selected state needs to be updated
+                    // tho tech this is impossible
+                    let item = unyummers(drop)
+                    switch item {
+                    case let .font(font):
+                        state.collections[index].fonts.append(font)
+                    case let .fontFamily(family):
+                        state.collections[index].fonts.append(contentsOf: family.fonts)
+                    }
+//                    state.collections[index].fonts.app
+                    return .none
                 }
                 
             case let .sidebarSelection(newSelectionID):
@@ -206,14 +237,14 @@ extension AppState {
                 return .none
                 
             case let .createNewLibrary(directory):
-                let name = state.getDefaultName()
-                state.collections.append(.init(type: .library(directory), name: name))
+                let newLibrary = FontCollection(type: .library(directory), name: state.getDefaultName())
+                state.collections.append(newLibrary)
                 
                 let fetchFonts = environment.fontClient.fetchFonts(directory)
                     .receive(on: environment.mainQueue)
                     .eraseToEffect()
                     .map {
-                        AppAction.createNewLibraryFontsResult(libraryID: name, fonts: $0)
+                        AppAction.createNewLibraryFontsResult(libraryID: newLibrary.id, fonts: $0)
                     }
                 
                 let fetchFontsCompletion = Effect<AppAction, Never>(value: AppAction.createNewLibraryCompleted)
@@ -256,7 +287,18 @@ extension AppState {
                     }
                 }
                 
+                // Update selection.
+                if state.selectedCollectionID == collectionID {
+                    state.selectedCollectionID = nil
+                    state.selectedCollectionState = nil
+                }
+                
+                // Update sidebar.
                 state.sidebar = .init(selectedCollection: state.selectedCollectionID, collections: state.collections)
+                
+                // Cancel effect that would be adding fonts to this specific collection.
+                // TODO: Jdeda
+                // This is currently canceling any font creation effect.
                 return .cancel(id: CreateFontCollectionID())
             }
         }

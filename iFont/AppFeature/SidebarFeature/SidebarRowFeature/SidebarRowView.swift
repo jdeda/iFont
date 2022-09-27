@@ -10,6 +10,8 @@ import ComposableArchitecture
 
 struct SidebarRowView: View {
     let store: Store<SidebarRowState, SidebarRowAction>
+    @FocusState private var usernameFieldIsFocused: Bool
+    
     
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -17,12 +19,52 @@ struct SidebarRowView: View {
                 Image(systemName: viewStore.collection.type.imageSystemName)
                     .foregroundColor(viewStore.collection.type.accentColor)
                     .frame(width: 20, height: 20)
-                Text(viewStore.collection.name)
-//                Text("\(viewStore.collection.fonts.count)")
-//                    .bold()
+                if viewStore.collection.type.canRenameOrDelete {
+                    TextField("", text: viewStore.binding(
+                        get: \.collection.name,
+                        send: SidebarRowAction.renameInTextField
+                    ))
+                    .focused($usernameFieldIsFocused)
+                }
+                else {
+                    Text(viewStore.collection.name)
+                }
+                //                Text("\(viewStore.collection.fonts.count)")
+                //                    .bold()
             }
             
             .tag(viewStore.collection.id)
+            .onDrop(
+                if: viewStore.collection.type.isBasic,
+                for: FontCollectionItemDnD.typeIdentifier,
+                perform: { ips in
+                    guard let ip = ips.first(where: {  $0.hasItemConformingToTypeIdentifier(FontCollectionItemDnD.typeIdentifier)
+                    })
+                    else { return false }
+
+                    ip.loadObject(ofClass: FontCollectionItemDnD.self) { reading, _ in
+                        guard let item = reading as? FontCollectionItemDnD
+                        else { return }
+                        DispatchQueue.main.async {
+                            viewStore.send(.recievedFontCollectionItemDrop(item))
+                        }
+                    }
+                    return true
+                })
+//            .onDrop(of: FontCollectionItemDnD.typeIdentifier) { ips in
+//                guard let ip = ips.first(where: {  $0.hasItemConformingToTypeIdentifier(FontCollectionItemDnD.typeIdentifier)
+//                })
+//                else { return false }
+//
+//                ip.loadObject(ofClass: FontCollectionItemDnD.self) { reading, _ in
+//                    guard let item = reading as? FontCollectionItemDnD
+//                    else { return }
+//                    DispatchQueue.main.async {
+//                        viewStore.send(.recievedFontCollectionItemDrop(item))
+//                    }
+//                }
+//                return true
+//            }
             .contextMenu {
                 Button {
                     let panel = NSOpenPanel()
@@ -39,7 +81,7 @@ struct SidebarRowView: View {
                     Text("New Library")
                 }
                 Button {
-//                     viewStore.send(.newSmartCollection)
+                    //                     viewStore.send(.newSmartCollection)
                 } label: {
                     Text("New Smart Collection")
                 }
@@ -48,12 +90,14 @@ struct SidebarRowView: View {
                 } label: {
                     Text("New Collection")
                 }
-
+                
                 Divider()
-
+                
                 if viewStore.collection.type.canRenameOrDelete {
+                    // TODO: Jdeda
+                    // Implement rename feature.
                     Button {
-                         viewStore.send(.rename)
+                        usernameFieldIsFocused = true
                     } label: {
                         Text("Rename \"\(viewStore.collection.name)\"")
                     }

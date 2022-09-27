@@ -9,7 +9,7 @@ import SwiftUI
 
 enum FontCollectionItemPreviewType: CaseIterable {
     case sample
-    case repertoire
+//    case repertoire
     case custom
     case info
 }
@@ -20,8 +20,8 @@ extension FontCollectionItemPreviewType {
         case .sample:
             return Image(systemName: "text.aligncenter")
 
-        case .repertoire:
-            return Image(systemName: "square.grid.2x2")
+//        case .repertoire:
+//            return Image(systemName: "square.grid.2x2")
             
         case .custom:
             return Image(systemName: "character.cursor.ibeam")

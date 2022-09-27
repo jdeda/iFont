@@ -9,8 +9,17 @@ import Foundation
 import ComposableArchitecture
 
 struct SidebarRowState: Equatable, Identifiable {
-    var id: String { collection.name }
-    var collection: FontCollection
+    let id: UUID
+    //    var id: String { collection.name }
+    var collection: FontCollection;
+    
+    var nonValidNames: Set<String>
+    
+    init(collection: FontCollection, nonValidNames: Set<String> = []) {
+        self.id = collection.id
+        self.collection = collection
+        self.nonValidNames = nonValidNames
+    }
 }
 
 enum SidebarRowAction: Equatable {
@@ -19,6 +28,8 @@ enum SidebarRowAction: Equatable {
     case newBasicCollection
     case rename
     case delete
+    case renameInTextField(String)
+    case recievedFontCollectionItemDrop(FontCollectionItemDnD)
 }
 
 struct SidebarRowEnvironment { }
@@ -37,19 +48,37 @@ extension SidebarRowState {
                 return .none
             case .delete:
                 return .none
+            case let .renameInTextField(newName):
+                state.collection.name = newName
+
+                // TODO: Jdeda
+                // This is not working...very weird behavior.
+//                if !state.nonValidNames.contains(newName) {
+//                    state.collection.name = newName
+//                }
+//                else {
+//                    state.collection.name = "\(state.collection.name)"
+//                }
+                return .none
+            case let .recievedFontCollectionItemDrop(drop):
+                return .none
             }
         }
     )
+        .debug()
 }
 
 extension SidebarRowState {
     static let mockStore = Store(
-        initialState: SidebarRowState(collection: .init(
-            type: .basic,
-            fonts: mock_fonts,
-            fontFamilies: mock_fonts.groupedByFamily(),
-            name: "Mock Fonts"
-        )),
+        initialState: SidebarRowState(
+//            id: UUID(),
+            collection: .init(
+                type: .basic,
+                fonts: mock_fonts,
+                fontFamilies: mock_fonts.groupedByFamily(),
+                name: "Mock Fonts"
+            )
+        ),
         reducer: SidebarRowState.reducer,
         environment: SidebarRowEnvironment()
     )

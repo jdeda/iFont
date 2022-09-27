@@ -30,8 +30,8 @@ struct FontCollectionItemPreview: View {
         switch selection {
         case .sample:
             SamplePreview(fonts: fonts)
-        case .repertoire:
-            RepertoirePreview(fonts: fonts)
+//        case .repertoire:
+//            RepertoirePreview(fonts: fonts)
         case .custom:
             CustomPreview(fonts: fonts)
         case .info:

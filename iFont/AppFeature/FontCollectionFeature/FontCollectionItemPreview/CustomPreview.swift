@@ -13,6 +13,8 @@ struct CustomPreview: View {
     @State var fontSize: Double = 32
     let fonts: [Font]
     let fontSizes = [9,10,11,12,14,18,24,36,48,64,72,96,144,288].sorted()
+    @State var text: String = "The quick brown fox jumps over the lazy dog and runs away."
+
     
     var body: some View {
         VStack(spacing: 10) {
@@ -34,7 +36,7 @@ struct CustomPreview: View {
                     ForEach(fonts) { font in
                         HStack {
                             Spacer()
-                            FontCustomPreview (font: font, fontSize: fontSize)
+                            FontCustomPreview (font: font, fontSize: fontSize, text: $text)
                             Spacer()
                         }
                         .padding(.bottom, 30)
@@ -52,6 +54,7 @@ struct CustomPreview: View {
     private struct FontCustomPreview: View {
         let font: Font
         var fontSize: Double = 32
+        @Binding var text: String
         
         var body: some View {
             VStack {
@@ -60,8 +63,7 @@ struct CustomPreview: View {
                     .foregroundColor(.gray)
                     .padding(5)
                 HStack {
-                    Text(String.quickBrownFox)
-                        .fixedSize(horizontal: false, vertical: true)
+                    TextEditor.init(text: $text)
                         .font(.init(font: font, size: fontSize))
                     Spacer()
                 }

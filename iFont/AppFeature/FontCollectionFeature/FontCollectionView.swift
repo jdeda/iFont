@@ -1,18 +1,63 @@
 import SwiftUI
 import ComposableArchitecture
-    
+
 struct FontCollectionView: View {
     let store: Store<FontCollectionState, FontCollectionAction>
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
-        
+                
                 // The Item List.
                 List(selection: viewStore.binding(\.$selectedItemID)) {
                     ForEach(viewStore.items) { item in
                         FontCollectionItemRowView(store: store, itemType: item)
                             .tag(item.id)
+                            .onDrag { .init(object: yummers(item)) }
+                            .contextMenu {
+                                
+                                // Allow deletion only collection type is basic.
+                                if viewStore.collection.type.isBasic {
+                                    Button {
+                                        viewStore.send(.delete(item))
+                                    } label: {
+                                        Text("Delete")
+                                    }
+                                }
+                                else {
+                                    Text("Delete")
+                                }
+                                
+                                Divider()
+                                
+                                
+                                // Allow panel only if item is a font.
+                                switch item {
+                                    case let .font(font):
+                                        Button {
+                                            NSWorkspace.shared.activateFileViewerSelecting([font.url])
+                                        } label: {
+                                            Text("Show in finder")
+                                        }
+                                    case .fontFamily(_):
+                                        Text("Show in finder")
+                                }
+                            }
+//                            .onDrag { .init(object: item.jsonItemProvider()) }
+//                            .onDrag {
+//
+//                                 Works.
+//                                let rv = NSItemProvider(object: item.jsonItemProvider())
+//
+//                                Logger.log("yummers: '\(rv)'")
+//                                return rv
+//
+//                                 working version
+//                                 let url = URL(fileURLWithPath: "/Users/kdeda/Development/third-parties/jesse/iFont/iFont.xcodeproj")
+//                                 let rv = NSItemProvider.init(item: NSSecureCoding?, typeIdentifier: "public.jpeg")
+//                                 Logger.log("yummers: '\(rv)'")
+//                                 return rv
+//                            }
                     }
                 }
                 .animation(.default, value: viewStore.selectedExpansions)

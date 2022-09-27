@@ -23,6 +23,7 @@ enum FontCollectionAction: BindableAction, Equatable {
     case binding(BindingAction<FontCollectionState>)
     case toggleExpand(FontFamily)
     case selectedPreviewType(FontCollectionItemPreviewType)
+    case delete(FontCollectionItem)
 }
 
 struct FontCollectionEnvironment {
@@ -88,6 +89,23 @@ extension FontCollectionState {
             case let .selectedPreviewType(selectedPreview):
                 state.selectedPreview = selectedPreview
                 return .none
+            
+            case let .delete(item):
+//                if let state.items.firstIndex(of: item) {
+//                    
+//                }
+//                else {
+//                    fatalError()
+//                }
+//                state.collection
+                // Delete from collection
+                // Delete from items.
+                // Delete from selectedItemID
+                // Delete from selectedItem
+                // Delete from expansions.
+                // Delete from selectedPreview.
+                return .none
+
             }
         }
             .binding()
