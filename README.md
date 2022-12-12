@@ -27,17 +27,17 @@ Drag and drop a font family or font to add to your own collections.
 
 <img src="https://github.com/jdeda/iFont/blob/main/imgs/mov_07.gif" alt="drawing" width="650"/>
 
-# Load Fonts
+## Load Fonts
 Create a new library by opening up Finder to open a folder containing fonts. 
 
 <img src="https://github.com/jdeda/iFont/blob/main/imgs/mov_08.gif" alt="drawing" width="650"/>
 
 <br>
 
-## Architecture & Design
+# Architecture & Design
 
 ## SwiftUI
-All views were built using SwiftUI.
+All views were built using SwiftUI. 
 
 ## TCA: State Managment
 
