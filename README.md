@@ -41,11 +41,9 @@ All views were built using SwiftUI.
 
 ## TCA: State Managment
 
-**Easy Composition of Views**
-Using PointFree's [TCA State Management](https://github.com/pointfreeco/swift-composable-architecture) provided the ability to easily manage composition and communication of views, enabling easy to understand propagation of effects from one node in the feature tree, to another, or perhaps, several other nodes in the tree.
+**Easy Composition of Views** - Using PointFree's [TCA State Management](https://github.com/pointfreeco/swift-composable-architecture) provided the ability to easily manage composition and communication of views, enabling easy to understand propagation of effects from one node in the feature tree, to another, or perhaps, several other nodes in the tree.
 
-**Handling Advanced Side Effects & Streaming Data**
-Apple's Combine library was instrumental in creating streams that read font files in the file system and emit Font objects. TCA's library incorporates Combine to model side effects and asynchronous work, and combining the two allowed very powerful features in the app. TCA allowed the ability to fire off these streams and cancel them in the event in-flight in the evnt they need to be interrupted due to other side effect (i.e. loading in a library, if we delete it while its loading data, cancel the stream).
+**Handling Advanced Side Effects & Streaming Data** - Apple's Combine library was instrumental in creating streams that read font files in the file system and emit Font objects. TCA's library incorporates Combine to model side effects and asynchronous work, and combining the two allowed very powerful features in the app. TCA allowed the ability to fire off these streams and cancel them in the event in-flight in the evnt they need to be interrupted due to other side effect (i.e. loading in a library, if we delete it while its loading data, cancel the stream).
 
 
 <br>
