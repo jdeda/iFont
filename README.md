@@ -5,10 +5,12 @@
 ## Welcome to iFont!
 iFont is a Font Manager for macOS built via the SwiftUI framework. It simply allows a user to manage and visualize fonts. The app is heavily predicated upon FontBook, a Font Manager program preinstalled on macOS.
 
-## Visualzing Fonts
 
+## SwiftUI + TCA
+- UI built with SwiftUI 
+- [TCA State Management](https://github.com/pointfreeco/swift-composable-architecture) 
 
-## Todos
-- Fix scrollbar lag
-- Fix font item list clicking (i.e. user cannot select certain items)
-- Fix list deletion
+## Bugs
+- List selection lag
+- List selection malfunction 
+- List deletion malfunction
